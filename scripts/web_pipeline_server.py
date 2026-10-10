@@ -6,7 +6,7 @@ from dataclasses import asdict
 from pathlib import Path
 from uuid import uuid4
 
-import mcp.types as types
+from mcp import types
 from mcp.server.lowlevel import Server
 from mcp.server.stdio import stdio_server
 
@@ -28,13 +28,14 @@ print(
 ROLE = os.environ.get("NETWORK_ROLE", "access_operator")
 
 role_level(ROLE)
-CONTEXT = Path(
-    os.environ.get("NETWORK_CONTEXT", str(ROOT / "data/contexts/campus-small-01.json"))
-)
+CONTEXT = Path(os.environ.get("NETWORK_CONTEXT", str(ROOT / "data/contexts/campus-small-01.json")))
 if not CONTEXT.is_absolute():
     CONTEXT = ROOT / CONTEXT
 CONTEXT = CONTEXT.resolve(strict=True)
-CONFIG = ROOT / "config/local.toml"
+CONFIG = Path(os.environ.get("NETWORK_CONFIG", str(ROOT / "config/local.toml")))
+if not CONFIG.is_absolute():
+    CONFIG = ROOT / CONFIG
+CONFIG = CONFIG.resolve(strict=True)
 
 # Operator selects this path before starting the server.
 # It is never taken from model tool arguments.
