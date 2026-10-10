@@ -1,0 +1,22 @@
+{
+  "cba": [
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_state",
+            "args": {
+              "device": "R1",
+              "interface": "GigabitEthernet0/0",
+              "enabled": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": "=== R1 ===\ninterface GigabitEthernet0/0\n shutdown\nexit\nend"
+}

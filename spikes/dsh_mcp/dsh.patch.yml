@@ -1,0 +1,61 @@
+# Spike overlay for dsh 0.2.0-rc.1, passed with `--patch dsh.patch.yml`.
+# Goal: the agent sees ONLY the tools of the MCP server "hello" (mcp__hello__*).
+# A row patch with only `disabled` keeps the row's name and config.
+
+# ── Built-in tools (docs/tool-catalog.md) ─────────────────────────────────────
+- id: tool-bash                  # bash (already off on win32; made explicit)
+  disabled: true
+- id: tool-pwsh                  # pwsh
+  disabled: true
+- id: tool-jobs                  # job_kill, job_list, job_output
+  disabled: true
+- id: tool-fs                    # read, read_image, write, edit
+  disabled: true
+- id: tool-fs-search             # glob, grep
+  disabled: true
+- id: tool-skill                 # skill
+  disabled: true
+- id: tool-goal                  # create_goal, get_goal, update_goal
+  disabled: true
+- id: tool-todo                  # todo_write
+  disabled: true
+- id: tool-subagent              # subagent, list_subagent_models
+  disabled: true
+- id: tool-subagent-fork         # subagent_fork
+  disabled: true
+- id: tool-subagent-control      # send_message, interrupt_agent
+  disabled: true
+- id: tool-subagent-list-agents  # list_agents
+  disabled: true
+- id: tool-workflow              # workflow
+  disabled: true
+- id: tool-web                   # web_search, web_fetch
+  disabled: true
+- id: mcp-resources              # list_mcp_resources, list_mcp_resource_templates, read_mcp_resource
+  disabled: true
+- id: plan-mode                  # exit_plan_mode
+  disabled: true
+
+# ── Context/privacy ───────────────────────────────────────────────────────────
+- id: session-log-deepseek       # stops uploading the session log to the DeepSeek API
+  disabled: true
+- id: agent-instructions         # stops loading $DSH_HOME/AGENTS.md and project AGENTS.md
+  disabled: true
+- id: plugin-package-inventory-deepseek  # stops the dsh_plugin_packages request field sent to DeepSeek
+  disabled: true
+- id: session-title-llm          # stops the extra LLM request that titles the session from the first prompt
+  disabled: true
+
+# ── MCP server "hello" over stdio ─────────────────────────────────────────────
+- insert:
+    - id: mcp-hello
+      name: '@deepseek-ai/dsh-mcp-client'
+      config:
+        transport: stdio
+        serverName: hello
+        command: 'D:/FPT/KLTN/Cisco-Harness-Agent/Cisco-Harness-Agent/spikes/dsh_mcp/.venv/Scripts/python.exe'
+        args: ['D:/FPT/KLTN/Cisco-Harness-Agent/Cisco-Harness-Agent/spikes/dsh_mcp/hello_server.py']
+        env: {}
+        cwd: 'D:/FPT/KLTN/Cisco-Harness-Agent/Cisco-Harness-Agent/spikes/dsh_mcp'
+        toolCallTimeoutMs: 60000
+        failOnStartupError: true

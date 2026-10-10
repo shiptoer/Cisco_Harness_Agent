@@ -1,0 +1,22 @@
+﻿{
+    "intent":  "Tạo VLAN 30 tên FINANCE trên SW2 và gán cổng GigabitEthernet1/1 của SW2 vào VLAN 30",
+    "context_sha256":  "0000000000000000000000000000000000000000000000000000000000000000",
+    "changes":  [
+                    {
+                        "args":  {
+                                     "vlan_id":  30,
+                                     "name":  "FINANCE",
+                                     "device":  "SW2"
+                                 },
+                        "tool":  "create_vlan"
+                    },
+                    {
+                        "args":  {
+                                     "vlan_id":  30,
+                                     "interface":  "GigabitEthernet1/1",
+                                     "device":  "SW2"
+                                 },
+                        "tool":  "set_access_vlan"
+                    }
+                ]
+}

@@ -1,0 +1,8 @@
+aaa new-model
+{# Chỉ render placeholder của ref, không bao giờ render key thật. Vị trí đặt key thật: chờ TV3 quyết định. #}
+{% if a.tacacs_key_ref %}
+! TACACS+ key: <SECRET:{{ a.tacacs_key_ref }}>
+{% endif %}
+aaa authentication login {{ a.list_name }} {{ a.methods | map(attribute="value") | join(" ") }}
+line vty 0 4
+ login authentication {{ a.list_name }}

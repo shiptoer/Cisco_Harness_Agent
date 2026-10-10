@@ -1,0 +1,33 @@
+{
+  "cba": [
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "add_acl_entry",
+            "args": {
+              "device": "SW1",
+              "acl_name": "SERVERS-PROTECT",
+              "seq": 60,
+              "action": "permit",
+              "protocol": "tcp",
+              "src": "10.10.20.0/24",
+              "dst": "host 10.10.50.20",
+              "dst_port": "eq 22"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": "=== SW1 ===\nip access-list extended SERVERS-PROTECT\n 60 permit tcp 10.10.20.0 0.0.0.255 host 10.10.50.20 eq 22\nexit\nend"
+}

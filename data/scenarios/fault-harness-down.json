@@ -1,0 +1,5 @@
+{
+  "simulate_server_down": true,
+  "cba": [],
+  "b0": "=== SW2 ===\nvlan 30\n name FINANCE\nexit\nend"
+}

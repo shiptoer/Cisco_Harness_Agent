@@ -1,0 +1,29 @@
+{
+  "cba": [
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "apply_acl",
+            "args": {
+              "device": "SW1",
+              "interface": "Vlan20",
+              "acl_name": "SERVERS-PROTECT",
+              "direction": "in"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": "=== SW1 ===\ninterface Vlan20\n ip access-group SERVERS-PROTECT in\nexit\nend"
+}

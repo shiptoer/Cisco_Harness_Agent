@@ -1,0 +1,58 @@
+# Bí mật — KHÔNG BAO GIỜ commit
+.env
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+
+# Dữ liệu sinh ra khi chạy
+cache/
+results/
+traces/
+*.jsonl
+!tests/**/*.jsonl
+
+# EVE-NG / lab
+lab/eve/*.qcow2
+lab/eve/*.unl.bak
+
+# IDE
+.vscode/
+.idea/
+.DS_Store
+
+# Spike dsh + MCP (spikes/dsh_mcp): home, toolchain, deps cục bộ
+spikes/dsh_mcp/.dsh_home/
+spikes/dsh_mcp/.tools/
+spikes/dsh_mcp/node_modules/
+
+# Cấu hình riêng từng máy + kết quả chạy
+config/local.toml
+config/dsh.base.patch.yml
+runs/
+/tools/
+
+# Local development and experiment outputs
+.env.*
+!.env.example
+.venv*/
+node_modules/
+.dsh/
+.claude/
+checkpoints/
+config/dsh.web*.yml
+*.bak
+pytest-windows*.txt
+pytest-windows*.xml
+spikes/dsh_mcp/logs/
+reports/
+
+# Historical dataset working copies
+data/imported_vlan_train/
+data/vlan_train*/

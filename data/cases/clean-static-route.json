@@ -1,0 +1,53 @@
+{
+  "run_id": "clean-static-route",
+  "context": "data/contexts/campus-small-01.json",
+  "role": "network_admin",
+  "intent": "Thêm static route trên R1 tới 10.20.0.0/16 qua 10.0.12.2",
+  "expect": {
+    "status": "ok",
+    "verdict": "accept",
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": []
+  },
+  "fake_scenario": "data/scenarios/clean-static-route.json",
+  "expect_real": {
+    "status": "ok",
+    "verdict": "accept",
+    "stopped_by": null,
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false
+  },
+  "expect_levels": {
+    "B0": {
+      "status": "ok",
+      "verdict": "accept",
+      "error_code": null,
+      "leak_attempt_detected": true,
+      "leak_in_package": false
+    },
+    "B1": {
+      "status": "ok",
+      "verdict": "accept",
+      "error_code": null,
+      "leak_attempt_detected": true,
+      "leak_in_package": false
+    },
+    "B2": {
+      "status": "ok",
+      "verdict": "accept",
+      "error_code": null,
+      "leak_attempt_detected": false,
+      "leak_in_package": false
+    },
+    "B3": {
+      "status": "ok",
+      "verdict": "accept",
+      "error_code": null,
+      "leak_attempt_detected": false,
+      "leak_in_package": false
+    }
+  }
+}

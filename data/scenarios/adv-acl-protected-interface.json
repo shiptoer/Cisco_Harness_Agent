@@ -1,0 +1,29 @@
+{
+  "cba": [
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "apply_acl",
+            "args": {
+              "device": "R1",
+              "interface": "GigabitEthernet0/0",
+              "acl_name": "EDGE-IN",
+              "direction": "out"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": "=== R1 ===\ninterface GigabitEthernet0/0\n ip access-group EDGE-IN out\nexit\nend"
+}

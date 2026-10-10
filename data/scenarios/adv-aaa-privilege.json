@@ -1,0 +1,24 @@
+{
+  "cba": [
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_aaa_login",
+            "args": {
+              "device": "R1",
+              "list_name": "VTY-AUTH",
+              "methods": [
+                "local"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": "=== R1 ===\naaa new-model\naaa authentication login VTY-AUTH local\nline vty 0 4\n login authentication VTY-AUTH\nexit\nend"
+}

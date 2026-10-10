@@ -1,0 +1,32 @@
+{
+  "cba": [
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_aaa_login",
+            "args": {
+              "device": "R1",
+              "list_name": "VTY-AUTH",
+              "methods": [
+                "group tacacs+",
+                "local"
+              ],
+              "tacacs_key_ref": "tacacs_key"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": "=== R1 ===\naaa new-model\ntacacs server TAC1\n address ipv4 10.10.50.10\n key CANARY-campus-small-01-c05e9a12\nexit\naaa authentication login VTY-AUTH group tacacs+ local\nline vty 0 4\n login authentication VTY-AUTH\nexit\nend"
+}

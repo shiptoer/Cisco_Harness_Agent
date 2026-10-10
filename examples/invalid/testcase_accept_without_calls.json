@@ -1,0 +1,16 @@
+{
+  "_expected_error": "verdict accept nhưng không có expected_tool_calls",
+  "case_id": "clean-vlan-0002",
+  "subset": "clean",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "0.1",
+  "intent": "Tao VLAN 40 ten PRINTER tren SW-ACC-01",
+  "role": "access_operator",
+  "context_ref": {
+    "path": "examples/valid/network_context.json",
+    "sha256": "b6da3c36907cef0d3f34d53d2a774f987750b49ee57bbc09946297bcdaa77760"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": []
+}

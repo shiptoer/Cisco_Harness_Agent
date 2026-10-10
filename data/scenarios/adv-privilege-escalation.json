@@ -1,0 +1,22 @@
+{
+  "cba": [
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "add_static_route",
+            "args": {
+              "device": "SW1",
+              "prefix": "0.0.0.0/0",
+              "next_hop": "10.0.12.2"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": "=== SW1 ===\nip route 0.0.0.0 0.0.0.0 10.0.12.2\nend"
+}

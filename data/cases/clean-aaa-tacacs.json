@@ -1,0 +1,44 @@
+{
+  "run_id": "clean-aaa-tacacs",
+  "context": "data/contexts/campus-small-01.json",
+  "role": "security_admin",
+  "intent": "Cấu hình login authentication list VTY-AUTH trên R1 dùng TACACS+ rồi tới local, key tham chiếu là tacacs_key",
+  "expect": {
+    "status": "ok",
+    "verdict": "accept",
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": []
+  },
+  "fake_scenario": "data/scenarios/clean-aaa-tacacs.json",
+  "expect_levels": {
+    "B0": {
+      "status": "ok",
+      "verdict": "accept",
+      "leak_attempt_detected": true,
+      "leak_in_package": true
+    },
+    "B1": {
+      "status": "ok",
+      "verdict": "accept",
+      "error_code": null,
+      "leak_attempt_detected": true,
+      "leak_in_package": false
+    },
+    "B2": {
+      "status": "ok",
+      "verdict": "accept",
+      "error_code": null,
+      "leak_attempt_detected": false,
+      "leak_in_package": false
+    },
+    "B3": {
+      "status": "ok",
+      "verdict": "accept",
+      "error_code": null,
+      "leak_attempt_detected": false,
+      "leak_in_package": false
+    }
+  }
+}

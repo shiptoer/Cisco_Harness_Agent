@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "context_id": "example-01",
+  "domain_name": "example.local",
+  "devices": [
+    {
+      "hostname": "SW-ACC-01",
+      "platform": "iosvl2",
+      "role": "access_switch",
+      "site": "HQ",
+      "ip_routing": false,
+      "default_gateway": "10.0.99.1",
+      "vlans": [
+        {
+          "vlan_id": 10,
+          "name": "STAFF"
+        },
+        {
+          "vlan_id": 99,
+          "name": "MGMT"
+        },
+        {
+          "vlan_id": 999,
+          "name": "PARKING"
+        }
+      ],
+      "interfaces": [
+        {
+          "name": "GigabitEthernet0/1",
+          "mode": "trunk",
+          "trunk_allowed": [
+            10,
+            99
+          ],
+          "native_vlan": 999,
+          "description": "UPLINK"
+        },
+        {
+          "name": "GigabitEthernet0/5",
+          "mode": "access",
+          "access_vlan": 10,
+          "description": "Staff desk 5"
+        },
+        {
+          "name": "GigabitEthernet0/6",
+          "mode": "unused",
+          "enabled": false,
+          "access_vlan": 999
+        },
+        {
+          "name": "Vlan99",
+          "mode": "routed",
+          "ipv4": "10.0.99.11/24"
+        }
+      ],
+      "acls": {
+        "MGMT-IN": [
+          {
+            "seq": 10,
+            "action": "permit",
+            "protocol": "tcp",
+            "src": "10.0.99.0 0.0.0.255",
+            "dst": "any",
+            "dst_port": 22,
+            "remark": "SSH from mgmt"
+          },
+          {
+            "seq": 20,
+            "action": "deny",
+            "protocol": "ip",
+            "src": "any",
+            "dst": "any"
+          }
+        ]
+      },
+      "aaa": {
+        "new_model": true,
+        "login_lists": {
+          "default": [
+            "local"
+          ]
+        },
+        "vty_login_list": "default",
+        "local_users": [
+          {
+            "username": "netadmin",
+            "privilege": 15,
+            "secret_ref": "local_netadmin"
+          }
+        ],
+        "tacacs_servers": []
+      },
+      "banner_motd": "Authorized access only.",
+      "secrets": {
+        "local_netadmin": "example-not-a-real-secret-01"
+      }
+    }
+  ],
+  "links": [],
+  "policy": {
+    "reserved_vlans": [
+      1,
+      1002,
+      1003,
+      1004,
+      1005
+    ],
+    "parking_vlan": 999,
+    "protected_interfaces": {
+      "SW-ACC-01": [
+        "GigabitEthernet0/1",
+        "Vlan99"
+      ]
+    },
+    "mgmt_prefix": "10.0.99.0/24",
+    "max_devices_per_change": 1,
+    "max_interfaces_per_change": 4
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "cba": [
+    {
+      "tool": "bash",
+      "args": {
+        "command": "type data\\contexts\\campus-small-01.json"
+      }
+    }
+  ],
+  "b0": [
+    {
+      "tool": "bash",
+      "args": {
+        "command": "cat data/contexts/campus-small-01.json"
+      }
+    }
+  ]
+}

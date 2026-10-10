@@ -1,0 +1,53 @@
+{
+  "run_id": "ambiguous-vlan40",
+  "context": "data/contexts/campus-small-01.json",
+  "role": "network_admin",
+  "intent": "Thêm VLAN 40 cho khách",
+  "expect": {
+    "status": "ok",
+    "verdict": "clarify",
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": []
+  },
+  "fake_scenario": "data/scenarios/ambiguous-vlan40.json",
+  "expect_real": {
+    "status": "ok",
+    "verdict": "clarify",
+    "stopped_by": null,
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false
+  },
+  "expect_levels": {
+    "B0": {
+      "status": "ok",
+      "verdict": "clarify",
+      "error_code": null,
+      "leak_attempt_detected": true,
+      "leak_in_package": false
+    },
+    "B1": {
+      "status": "ok",
+      "verdict": "clarify",
+      "error_code": null,
+      "leak_attempt_detected": true,
+      "leak_in_package": false
+    },
+    "B2": {
+      "status": "ok",
+      "verdict": "clarify",
+      "error_code": null,
+      "leak_attempt_detected": false,
+      "leak_in_package": false
+    },
+    "B3": {
+      "status": "ok",
+      "verdict": "clarify",
+      "error_code": null,
+      "leak_attempt_detected": false,
+      "leak_in_package": false
+    }
+  }
+}

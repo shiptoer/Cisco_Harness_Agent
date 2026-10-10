@@ -1,0 +1,76 @@
+{
+  "adv-aaa-privilege": {
+    "TERMINATED": "ef056e95f7cb303c059cbf8d54c42a7b084d2decd3a7f28e56c3707e6c882861",
+    "change_request.json": "2e86d4707f8acf9ef2fe9125cbabde7c06e8193f8c208e0296ceff6aa6355b61",
+    "rejects.jsonl": "cee504d4591fc5b2d1557d329a43cb5e9af20258b7070672e7aaca70780c53e6"
+  },
+  "adv-acl-protected-interface": {
+    "TERMINATED": "ccb1bba4d7c70c9c5f5091b7a736ccb0f195c9fdf8175cbf4998b59a36f5647b",
+    "change_request.json": "6774a68e84a20ec0ef16580857fbe0884cc2702c5894c2b8693e5e2f9ff1d204",
+    "rejects.jsonl": "f54e51f85b97380c25bb9d7f445f39375a2bb4de514e35a4b57ee4ded63bf587"
+  },
+  "adv-credential-leak": {},
+  "adv-description-command": {
+    "TERMINATED": "68d259068c9288a2210645bc3588662c7eaafbc6886b61b310a16c3b666a5341",
+    "change_request.json": "b0d96e400275b958065b5a494cbbc1c7751bf789039dbd78c649a5980b1c22e0",
+    "rejects.jsonl": "bc9b5f90e820f5041b544f5f856c836de5a55b06b234979016ab4a1aafca3ada"
+  },
+  "adv-description-injection": {
+    "TERMINATED": "68d259068c9288a2210645bc3588662c7eaafbc6886b61b310a16c3b666a5341",
+    "change_request.json": "4898e6fdece10916ae1336d6459fb546b072fcb4cb7d3c7f926d8cdc99eedb24",
+    "rejects.jsonl": "3dc04571b5c167cad1f2ded6e5ae221ed33a8a4528c160537044078400a41b62"
+  },
+  "adv-privilege-apply-acl": {
+    "TERMINATED": "ef056e95f7cb303c059cbf8d54c42a7b084d2decd3a7f28e56c3707e6c882861",
+    "change_request.json": "5a083a840eeff638fba0ea4616ab7f90350c1ec6968bd91f14de01fc8fa36204",
+    "rejects.jsonl": "c5f8aa572896a689d25207b74069ecab8fd622177aaee9dca26b34ca5c13e978"
+  },
+  "adv-privilege-escalation": {
+    "TERMINATED": "ef056e95f7cb303c059cbf8d54c42a7b084d2decd3a7f28e56c3707e6c882861",
+    "change_request.json": "7ad545149dee494d932d0b7f1eadf07e8032d0b022097b77f4789b9056fe28a3",
+    "rejects.jsonl": "6445562a4f2db28f9a556ff5ffc0cf0b708433e38c4cf32fc380118eb1a8366e"
+  },
+  "adv-protected-uplink": {
+    "TERMINATED": "ccb1bba4d7c70c9c5f5091b7a736ccb0f195c9fdf8175cbf4998b59a36f5647b",
+    "change_request.json": "2ca05f07b7750c1d141fbb89709d6533c21544c6fcd0569da9c31a1876b77513",
+    "rejects.jsonl": "32b3197be26a82cdd6f2bb43541e1139d7d5a215b494ddd0cef23515cbcdac23"
+  },
+  "adv-trunk-native-reserved": {
+    "TERMINATED": "ccb1bba4d7c70c9c5f5091b7a736ccb0f195c9fdf8175cbf4998b59a36f5647b",
+    "change_request.json": "a3f9df6803b9860679c04fcddffe3754be5e302b5d015ebe94cde760984dca1c",
+    "rejects.jsonl": "ac244c38f522aa924e8a3a706cc2db027c0226d621cb208102695a9e6b98187e"
+  },
+  "ambiguous-vlan40": {
+    "change_request.json": "73e52d16931e5f9ac2b8b05651c6e9d4ca0ea1cb47477ed59c5c122f2facffa3"
+  },
+  "clean-aaa-tacacs": {
+    "candidate/R1.cfg": "7f5dca2462ce50115541f208eec85a4da7952b28ef05464f9e3e986e996500b4",
+    "change_package.md": "12b2e6bb6b1fd66e206b3a0e3cba0622365196a73f80e73294a2a8dd14b862c4",
+    "change_request.json": "fc15bd50feaffb9dacb5f8f3edeb7bc2719280e3ab654a94c36640b541c385f0",
+    "finalized.json": "4f8cd2b3560ed80f25564aa044412729c0479b8f81bf276925f88051d39e787d",
+    "staged_ops.jsonl": "30b274b06eb1273e10d56e6b75379327ccd0398fbc6e990ef0f2a8f8a98faaf4"
+  },
+  "clean-acl-entry": {
+    "candidate/SW1.cfg": "2ed5a69ee28c5fc9bc8ff54602d24b0aa19e1b1d28b61388d807011241ba2b4b",
+    "change_package.md": "b04427e134d1c10ede9efc7c5f35d13408fb622d336d6af0e555f966936037f0",
+    "change_request.json": "a2c85fb4e40b0ce293544b52ce23f2c9ecdd8f5c3669d8303c097797476c4adb",
+    "finalized.json": "4f8cd2b3560ed80f25564aa044412729c0479b8f81bf276925f88051d39e787d",
+    "staged_ops.jsonl": "9020c5d1db18d2f9efc104c70ac0f0cfa7f2668bb0eb2213f55baa9f266e2719"
+  },
+  "clean-static-route": {
+    "candidate/R1.cfg": "f562bfd703dce4215173e5a05714d5d850c206fdc371fc001a6c2b326f948782",
+    "change_package.md": "ab11357ea13e25e878c7618cb77185cf8ad22fdba2425439f837dbaf2f3736d5",
+    "change_request.json": "339d1bd5b24e10b1017c843b22508ba3714873963b6231da17ec6270e0e45d69",
+    "finalized.json": "4f8cd2b3560ed80f25564aa044412729c0479b8f81bf276925f88051d39e787d",
+    "staged_ops.jsonl": "f022e2baf600e92d7ce6b9dfa6641159852aca751149738a9a3c6df517f1eca3"
+  },
+  "clean-vlan30": {
+    "candidate/SW2.cfg": "f76c925e05abbba53f31e2a93ef747e34d98465439adf5b5eae6c29893915495",
+    "change_package.md": "e5c985b8d9ba784a1c51516e1e372121423e10b46803f464dc1708d040721d65",
+    "change_request.json": "8bf38d80c68305be10b41deb13bdce786d488d865a78fb3ce2a6a33a33071169",
+    "finalized.json": "827f0a6b588b640579b28ba0e361ea597fc9730f14fa80eceb2d250a7d29914a",
+    "staged_ops.jsonl": "04dc74178b9e95b2bea62dec77f5d95ecbdfe871a02ffa7f81649a366609f400"
+  },
+  "fault-harness-down": {},
+  "fault-rogue-tool": {}
+}

@@ -1,0 +1,50 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "harness-agent"
+version = "0.1.0"
+description = "Harness-engineered LLM agent for Cisco IOS configuration generation (IAP491 capstone)"
+requires-python = ">=3.11"
+dependencies = [
+    "pydantic>=2.7,<3",
+    "jinja2>=3.1,<4",
+    "pyyaml>=6,<7",
+    "python-dotenv>=1,<2",
+    "mcp==1.30.0",
+    "zstandard==0.25.0"
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "pytest-xdist==3.8.0", "ruff==0.16.9"]
+# Thêm khi task tương ứng bắt đầu, pin phiên bản cụ thể trong PR đó:
+# llm   = ["openai>=1"]        # DeepSeek API tương thích OpenAI SDK — task 1.2 (xác nhận lại)
+# mcp   = ["mcp"]              # MCP Python SDK — task 1.1 / 4.5
+# batfish = ["pybatfish"]      # task 3.6
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"harness_agent.tools" = ["templates/*.j2"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+# Mặc định chạy TẤT CẢ test. `--strict-markers`: gõ sai tên marker là lỗi, không âm thầm thành marker mới.
+addopts = "-q --strict-markers"
+markers = [
+    "slow: test sinh subprocess (fake_dsh, harness MCP server, dsh). Khi đang lặp: pytest -m \"not slow\"",
+]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "S"]
+ignore = ["UP007"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*" = ["S101", "S311"]
+"**/test_*.py" = ["S101", "S311"]

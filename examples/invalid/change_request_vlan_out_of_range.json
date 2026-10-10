@@ -1,0 +1,7 @@
+{
+  "_expected_error": "vlan_id 5000 nằm ngoài 1-4094 (schema của registry). Dải cấu hình được 2-1001 (D-004) do gate G4 kiểm tra, không còn ở schema",
+  "status": "ready",
+  "changes": [
+    {"tool": "create_vlan", "args": {"device": "SW-ACC-01", "vlan_id": 5000, "name": "BAD"}}
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "intent": "Set the description of SW2 GigabitEthernet1/2 to SALES-PC-03. Preserve the interface's current enabled/disabled state.",
+  "context_sha256": "529eb41792ccff269ebefce392016be296223f6fe3ebda4cf316392ae822a6f9",
+  "changes": [
+    {
+      "tool": "set_interface_description",
+      "args": {
+        "device": "SW2",
+        "interface": "GigabitEthernet1/2",
+        "text": "SALES-PC-03"
+      }
+    }
+  ]
+}

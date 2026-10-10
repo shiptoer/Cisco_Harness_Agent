@@ -1,0 +1,569 @@
+{
+  "title": "ToolCall",
+  "oneOf": [
+    {
+      "type": "object",
+      "title": "create_vlan",
+      "properties": {
+        "tool": {
+          "const": "create_vlan"
+        },
+        "args": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "pattern": "^[A-Za-z0-9-]{1,32}$",
+              "title": "Device",
+              "type": "string"
+            },
+            "vlan_id": {
+              "maximum": 4094,
+              "minimum": 1,
+              "title": "Vlan Id",
+              "type": "integer"
+            },
+            "name": {
+              "pattern": "^[A-Za-z0-9_-]{1,32}$",
+              "title": "Name",
+              "type": "string"
+            }
+          },
+          "required": [
+            "device",
+            "vlan_id",
+            "name"
+          ],
+          "title": "CreateVlanArgs",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "title": "set_access_vlan",
+      "properties": {
+        "tool": {
+          "const": "set_access_vlan"
+        },
+        "args": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "pattern": "^[A-Za-z0-9-]{1,32}$",
+              "title": "Device",
+              "type": "string"
+            },
+            "interface": {
+              "pattern": "^(GigabitEthernet|FastEthernet|Ethernet)\\d+(/\\d+){1,2}$",
+              "title": "Interface",
+              "type": "string"
+            },
+            "vlan_id": {
+              "maximum": 4094,
+              "minimum": 1,
+              "title": "Vlan Id",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "device",
+            "interface",
+            "vlan_id"
+          ],
+          "title": "SetAccessVlanArgs",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "title": "set_trunk",
+      "properties": {
+        "tool": {
+          "const": "set_trunk"
+        },
+        "args": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "pattern": "^[A-Za-z0-9-]{1,32}$",
+              "title": "Device",
+              "type": "string"
+            },
+            "interface": {
+              "pattern": "^(GigabitEthernet|FastEthernet|Ethernet)\\d+(/\\d+){1,2}$",
+              "title": "Interface",
+              "type": "string"
+            },
+            "allowed_vlans": {
+              "items": {
+                "type": "integer"
+              },
+              "maxItems": 64,
+              "minItems": 1,
+              "title": "Allowed Vlans",
+              "type": "array"
+            },
+            "native_vlan": {
+              "maximum": 4094,
+              "minimum": 1,
+              "title": "Native Vlan",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "device",
+            "interface",
+            "allowed_vlans",
+            "native_vlan"
+          ],
+          "title": "SetTrunkArgs",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "title": "set_interface_ip",
+      "properties": {
+        "tool": {
+          "const": "set_interface_ip"
+        },
+        "args": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "pattern": "^[A-Za-z0-9-]{1,32}$",
+              "title": "Device",
+              "type": "string"
+            },
+            "interface": {
+              "pattern": "^(GigabitEthernet|FastEthernet|Ethernet)\\d+(/\\d+){1,2}$",
+              "title": "Interface",
+              "type": "string"
+            },
+            "ip": {
+              "title": "Ip",
+              "type": "string"
+            },
+            "prefix_len": {
+              "maximum": 32,
+              "minimum": 1,
+              "title": "Prefix Len",
+              "type": "integer"
+            }
+          },
+          "required": [
+            "device",
+            "interface",
+            "ip",
+            "prefix_len"
+          ],
+          "title": "SetInterfaceIpArgs",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "title": "set_interface_state",
+      "properties": {
+        "tool": {
+          "const": "set_interface_state"
+        },
+        "args": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "pattern": "^[A-Za-z0-9-]{1,32}$",
+              "title": "Device",
+              "type": "string"
+            },
+            "interface": {
+              "pattern": "^(GigabitEthernet|FastEthernet|Ethernet)\\d+(/\\d+){1,2}$",
+              "title": "Interface",
+              "type": "string"
+            },
+            "enabled": {
+              "title": "Enabled",
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "device",
+            "interface",
+            "enabled"
+          ],
+          "title": "SetInterfaceStateArgs",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "title": "set_interface_description",
+      "properties": {
+        "tool": {
+          "const": "set_interface_description"
+        },
+        "args": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "pattern": "^[A-Za-z0-9-]{1,32}$",
+              "title": "Device",
+              "type": "string"
+            },
+            "interface": {
+              "pattern": "^(GigabitEthernet|FastEthernet|Ethernet)\\d+(/\\d+){1,2}$",
+              "title": "Interface",
+              "type": "string"
+            },
+            "text": {
+              "pattern": "^[A-Za-z0-9 _.,:()/-]{0,80}$",
+              "title": "Text",
+              "type": "string"
+            }
+          },
+          "required": [
+            "device",
+            "interface",
+            "text"
+          ],
+          "title": "SetDescriptionArgs",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "title": "add_static_route",
+      "properties": {
+        "tool": {
+          "const": "add_static_route"
+        },
+        "args": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "pattern": "^[A-Za-z0-9-]{1,32}$",
+              "title": "Device",
+              "type": "string"
+            },
+            "prefix": {
+              "pattern": "^\\d{1,3}(\\.\\d{1,3}){3}/\\d{1,2}$",
+              "title": "Prefix",
+              "type": "string"
+            },
+            "next_hop": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Next Hop"
+            },
+            "exit_interface": {
+              "anyOf": [
+                {
+                  "pattern": "^(GigabitEthernet|FastEthernet|Ethernet)\\d+(/\\d+){1,2}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Exit Interface"
+            }
+          },
+          "required": [
+            "device",
+            "prefix"
+          ],
+          "title": "AddStaticRouteArgs",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "title": "remove_static_route",
+      "properties": {
+        "tool": {
+          "const": "remove_static_route"
+        },
+        "args": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "pattern": "^[A-Za-z0-9-]{1,32}$",
+              "title": "Device",
+              "type": "string"
+            },
+            "prefix": {
+              "pattern": "^\\d{1,3}(\\.\\d{1,3}){3}/\\d{1,2}$",
+              "title": "Prefix",
+              "type": "string"
+            },
+            "next_hop": {
+              "title": "Next Hop",
+              "type": "string"
+            }
+          },
+          "required": [
+            "device",
+            "prefix",
+            "next_hop"
+          ],
+          "title": "RemoveStaticRouteArgs",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "title": "add_acl_entry",
+      "properties": {
+        "tool": {
+          "const": "add_acl_entry"
+        },
+        "args": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "pattern": "^[A-Za-z0-9-]{1,32}$",
+              "title": "Device",
+              "type": "string"
+            },
+            "acl_name": {
+              "pattern": "^[A-Za-z0-9_-]{1,32}$",
+              "title": "Acl Name",
+              "type": "string"
+            },
+            "seq": {
+              "maximum": 2147483647,
+              "minimum": 1,
+              "title": "Seq",
+              "type": "integer"
+            },
+            "action": {
+              "enum": [
+                "permit",
+                "deny"
+              ],
+              "title": "Action",
+              "type": "string"
+            },
+            "protocol": {
+              "enum": [
+                "tcp",
+                "udp",
+                "ip",
+                "icmp"
+              ],
+              "title": "Protocol",
+              "type": "string"
+            },
+            "src": {
+              "pattern": "^(any|host \\d{1,3}(\\.\\d{1,3}){3}|\\d{1,3}(\\.\\d{1,3}){3}/\\d{1,2})$",
+              "title": "Src",
+              "type": "string"
+            },
+            "dst": {
+              "pattern": "^(any|host \\d{1,3}(\\.\\d{1,3}){3}|\\d{1,3}(\\.\\d{1,3}){3}/\\d{1,2})$",
+              "title": "Dst",
+              "type": "string"
+            },
+            "dst_port": {
+              "anyOf": [
+                {
+                  "pattern": "^(eq|gt|lt|neq) \\d{1,5}$",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Dst Port"
+            }
+          },
+          "required": [
+            "device",
+            "acl_name",
+            "seq",
+            "action",
+            "protocol",
+            "src",
+            "dst"
+          ],
+          "title": "AddAclEntryArgs",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "title": "apply_acl",
+      "properties": {
+        "tool": {
+          "const": "apply_acl"
+        },
+        "args": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "pattern": "^[A-Za-z0-9-]{1,32}$",
+              "title": "Device",
+              "type": "string"
+            },
+            "interface": {
+              "pattern": "^(GigabitEthernet|FastEthernet|Ethernet|Vlan)\\d+(/\\d+){0,2}$",
+              "title": "Interface",
+              "type": "string"
+            },
+            "acl_name": {
+              "pattern": "^[A-Za-z0-9_-]{1,32}$",
+              "title": "Acl Name",
+              "type": "string"
+            },
+            "direction": {
+              "enum": [
+                "in",
+                "out"
+              ],
+              "title": "Direction",
+              "type": "string"
+            }
+          },
+          "required": [
+            "device",
+            "interface",
+            "acl_name",
+            "direction"
+          ],
+          "title": "ApplyAclArgs",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "title": "set_aaa_login",
+      "properties": {
+        "tool": {
+          "const": "set_aaa_login"
+        },
+        "args": {
+          "additionalProperties": false,
+          "properties": {
+            "device": {
+              "pattern": "^[A-Za-z0-9-]{1,32}$",
+              "title": "Device",
+              "type": "string"
+            },
+            "list_name": {
+              "pattern": "^[A-Za-z0-9_-]{1,32}$",
+              "title": "List Name",
+              "type": "string"
+            },
+            "methods": {
+              "items": {
+                "enum": [
+                  "group tacacs+",
+                  "group radius",
+                  "local"
+                ],
+                "title": "AuthMethod",
+                "type": "string"
+              },
+              "maxItems": 3,
+              "minItems": 1,
+              "title": "Methods",
+              "type": "array"
+            },
+            "tacacs_key_ref": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "default": null,
+              "title": "Tacacs Key Ref"
+            }
+          },
+          "required": [
+            "device",
+            "list_name",
+            "methods"
+          ],
+          "title": "SetAaaLoginArgs",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}
