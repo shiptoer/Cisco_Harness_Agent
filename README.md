@@ -1,6 +1,6 @@
-# Cisco Harness Agent — bản hợp nhất D + P + Đồ-Án
+# Cisco Harness Agent — bản hợp nhất D + P + K
 
-Bản tích hợp riêng, không ghi đè ba nguồn. Base: **D**; thêm ablation/sensors/evaluator của **P** và các sửa lỗi, confirmed intent, prepare/review của **Đồ-Án (K)**. Xem `MERGE_REPORT.md` và `MERGE_MANIFEST.json` để biết nguồn gốc và giới hạn kiểm thử.
+Bản tích hợp riêng, không ghi đè ba nguồn. Base: **D**; thêm ablation/sensors/evaluator của **P** và các sửa lỗi, confirmed intent, prepare/review của **K**. Xem `MERGE_REPORT.md` và `MERGE_MANIFEST.json` để biết nguồn gốc và giới hạn kiểm thử.
 
 ## Chạy offline trên Windows
 
