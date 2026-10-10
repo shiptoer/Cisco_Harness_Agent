@@ -70,7 +70,7 @@ Chạy lại với `--confirmed-intent <file>` để kiểm danh sách đề xu�
 
 ## Các công cụ nghiên cứu giữ lại từ P
 
-- `scripts/gen_corpus.py`: generator đa thao tác deterministic; không liên quan ZIP 2400 mẫu và không được dùng để tiếp tục dự án dataset đó trong lần hợp nhất này.
+- `scripts/gen_corpus.py`: generator đa thao tác deterministic; không được dùng để tiếp tục dự án dataset đó trong lần hợp nhất này.
 - `scripts/run_corpus.py`: chạy corpus theo mức/lặp; `scripts/evaluate.py`: parse candidate CLI độc lập và chấm nhãn.
 - `harness_agent.llm`: client/record/replay phục vụ tác vụ riêng, không thay dsh trong B0–B4; chỉ kiểm bằng transport giả, không gọi API trong lần kiểm thử này.
 - `scripts/web_pipeline_server.py`: MCP stdio bridge tùy chọn, role lấy từ `NETWORK_ROLE` phía server (mặc định `access_operator`), vẫn bắt buộc `NETWORK_CONFIRMED_INTENT`; không phải web app đã deploy.
