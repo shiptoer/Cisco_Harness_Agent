@@ -1,4 +1,5 @@
 import socket
+
 _original_connect = socket.socket.connect
 _original_connect_ex = socket.socket.connect_ex
 def _connect(self, address):
