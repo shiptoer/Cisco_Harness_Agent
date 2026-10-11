@@ -66,7 +66,7 @@ def test_setup_preserves_local_config_and_never_serializes_key(project, monkeypa
     monkeypatch.setenv("DEEPSEEK_API_KEY", "never-write-this-secret-value")
     result = launch(project)
     assert local.read_bytes() == b"existing local config"
-    patch = yaml.safe_load(Path(result["patch"]).read_text())
+    patch = yaml.safe_load(Path(result["patch"]).read_text(encoding="utf-8"))
     env = patch[-2]["insert"][0]["config"]["env"]
     assert env["DEEPSEEK_API_KEY"] == {"__jsExpr": "process.env.DEEPSEEK_API_KEY"}
     assert env["NETWORK_CONFIG"] == result["config"]

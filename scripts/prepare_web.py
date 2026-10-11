@@ -37,25 +37,29 @@ def selected_file(root, value):
     return path
 
 
-def prepare(root, context, contract, role, node, python_exe):
+def prepare(root, context, contract, role, node, python_exe, *, multi=False):
     root = Path(root).resolve(strict=True)
     context = selected_file(root, context)
-    contract = selected_file(root, contract)
+    if multi and contract is not None:
+        raise ValueError("Multi-request mode cannot use a fixed contract")
+    if not multi:
+        contract = selected_file(root, contract)
     node = selected_file(root, node)
     python_exe = selected_file(root, python_exe)
     role_level(role)
     violations = context_violations(context)
     if violations:
         raise ValueError("Invalid context: " + "; ".join(f"{v.code}@{v.path}" for v in violations))
-    confirmation = ConfirmedIntent.model_validate_json(contract.read_text(encoding="utf-8-sig"))
-    load_confirmed_intent(contract, confirmation.intent, context)
+    if not multi:
+        confirmation = ConfirmedIntent.model_validate_json(contract.read_text(encoding="utf-8-sig"))
+        load_confirmed_intent(contract, confirmation.intent, context)
     model = load_model_config(root / "config/model.toml")
     package = root / "spikes/dsh_mcp/node_modules/@deepseek-ai/dsh"
     metadata = json.loads((package / "package.json").read_text(encoding="utf-8"))
     if metadata.get("version") != VERSION:
         raise ValueError(f"Install the pinned dsh {VERSION} with npm ci in spikes/dsh_mcp")
     entry = selected_file(root, package / "lib/bin.js")
-    bridge = selected_file(root, "scripts/web_pipeline_server.py")
+    bridge = selected_file(root, "scripts/web_multi_server.py" if multi else "scripts/web_pipeline_server.py")
     if "NETWORK_CONFIG" not in bridge.read_text(encoding="utf-8"):
         raise ValueError("Update web_pipeline_server.py from the shared launcher bundle")
 
@@ -65,9 +69,10 @@ def prepare(root, context, contract, role, node, python_exe):
     snapshot = out / "context.json"
     confirmed = out / "confirmed.json"
     snapshot.write_bytes(context.read_bytes())
-    confirmed.write_bytes(contract.read_bytes())
-    load_confirmed_intent(confirmed, confirmation.intent, snapshot)
-    (out / "intent.txt").write_text(confirmation.intent, encoding="utf-8", newline="\n")
+    if not multi:
+        confirmed.write_bytes(contract.read_bytes())
+        load_confirmed_intent(confirmed, confirmation.intent, snapshot)
+        (out / "intent.txt").write_text(confirmation.intent, encoding="utf-8", newline="\n")
 
     base = [{"id": row, "disabled": True} for row in REQUIRED_DISABLED_ROWS]
     base.append(
@@ -131,6 +136,8 @@ def prepare(root, context, contract, role, node, python_exe):
             "PYTHONIOENCODING": "utf-8",
         },
     }
+    if multi:
+        web[-1]["insert"][0]["config"]["env"].pop("NETWORK_CONFIRMED_INTENT")
     web.append(model.patch_row())
     patch = out / "web.patch.yml"
     patch.write_text(
@@ -144,9 +151,10 @@ def prepare(root, context, contract, role, node, python_exe):
         "node": str(node),
         "entry": str(entry),
         "context": str(snapshot),
-        "contract": str(confirmed),
+        "contract": None if multi else str(confirmed),
+        "mode": "multi" if multi else "fixed",
         "role": role,
-        "intent_file": str(out / "intent.txt"),
+        "intent_file": None if multi else str(out / "intent.txt"),
         "run_setup": str(out),
         "home_id": hashlib.sha256(str(root).encode("utf-8")).hexdigest()[:12],
         "model": model.describe(),
@@ -156,12 +164,17 @@ def prepare(root, context, contract, role, node, python_exe):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--context", required=True)
-    parser.add_argument("--contract", required=True)
+    parser.add_argument("--contract")
+    parser.add_argument("--multi", action="store_true")
     parser.add_argument("--role", choices=ROLE_NAMES, default="access_operator")
     parser.add_argument("--node", required=True)
     args = parser.parse_args()
+    if args.multi == bool(args.contract):
+        parser.error("Choose either --multi or --contract")
     try:
-        result = prepare(ROOT, args.context, args.contract, args.role, args.node, sys.executable)
+        result = prepare(
+            ROOT, args.context, args.contract, args.role, args.node, sys.executable, multi=args.multi
+        )
         cfg = LocalConfig.load(result["config"])
         for stage in ("cba", "tsa"):
             preflight(
