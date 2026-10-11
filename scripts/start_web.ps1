@@ -1,7 +1,8 @@
-[CmdletBinding()]
+[CmdletBinding(DefaultParameterSetName = 'Fixed')]
 param(
     [Parameter(Mandatory = $true)][string]$Context,
-    [Parameter(Mandatory = $true)][string]$Contract,
+    [Parameter(Mandatory = $true, ParameterSetName = 'Fixed')][string]$Contract,
+    [Parameter(Mandatory = $true, ParameterSetName = 'Multi')][switch]$MultiRequest,
     [ValidateSet('viewer','access_operator','network_admin','security_admin')]
     [string]$Role = 'access_operator',
     [switch]$CheckOnly
@@ -21,14 +22,17 @@ Push-Location $repoRoot
 try {
     $env:PYTHONUTF8 = '1'
     $env:PYTHONIOENCODING = 'utf-8'
-    $output = & $pythonExe (Join-Path $PSScriptRoot 'prepare_web.py') `
-        --context $Context --contract $Contract --role $Role --node $nodeExe
+    $prepareArgs = @('--context', $Context, '--role', $Role, '--node', $nodeExe)
+    if ($MultiRequest) { $prepareArgs += '--multi' }
+    else { $prepareArgs += @('--contract', $Contract) }
+    $output = & $pythonExe (Join-Path $PSScriptRoot 'prepare_web.py') @prepareArgs
     if ($LASTEXITCODE -ne 0) { throw 'Offline setup check failed. Web was not started.' }
     $setup = ($output -join "`n") | ConvertFrom-Json
-    Write-Host 'Context, contract, model config and CBA/TSA preflight: OK'
+    Write-Host 'Context, selected mode, model config and CBA/TSA preflight: OK'
     Write-Host "Role: $Role | Level: B4"
     Write-Host "Model: $($setup.model)"
-    Write-Host "Exact intent: $($setup.intent_file)"
+    if ($MultiRequest) { Write-Host 'Multi-request mode: each proposal needs browser approval.' }
+    else { Write-Host "Exact intent: $($setup.intent_file)" }
     if ($CheckOnly) {
         Write-Host 'Offline check complete. No web server or model request started.'
         return
@@ -47,7 +51,8 @@ try {
         }
     }
     if ([string]::IsNullOrWhiteSpace($env:DEEPSEEK_API_KEY)) { throw 'API key is empty.' }
-    $env:DSH_HOME = Join-Path $env:LOCALAPPDATA ("cha\web-shared-" + $setup.home_id)
+    $homePrefix = if ($MultiRequest) { 'cha\web-multi-' } else { 'cha\web-shared-' }
+    $env:DSH_HOME = Join-Path $env:LOCALAPPDATA ($homePrefix + $setup.home_id)
     $env:DSH_TELEMETRY_DISABLED = '1'
     $env:DSH_TELEMETRY_MODE = 'DISABLED'
     Write-Host 'Opening web. Sending a request may incur model API charges. No device deployment.'
