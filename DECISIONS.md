@@ -1112,6 +1112,27 @@ từng mục sau buổi chốt 06/10/2026 ghi ở tiêu đề của mục đó.
 - Việc cần làm: ánh xạ 8 mutator của tập corrupted (D-040) sang 16 mã ở bước corpus. Người: TV2.
 - Chờ nhóm duyệt.
 
+## D-044 · Runner phát lại gate và chặn TSA terminated · ĐỀ XUẤT
+
+- Ngày đề xuất: 11/10/2026, bản sửa theo yêu cầu Khang sau đánh giá kỹ thuật A1/A2/A4.
+- GVHD: cần duyệt cách mô tả ranh giới tin cậy trong Ch3; không tự thay đổi trạng thái quyết định nhóm.
+- Hiện thực: đã có code (`runner/pipeline.py`), regression và đối chứng âm (`tests/test_runner_trust.py`).
+- Bối cảnh: dsh có thể sửa argv của harness và file staged/finalized. So khớp staged với CR và
+  kiểm marker finalize chưa chứng minh thao tác đã qua gate đúng quyền và mức kiểm soát.
+- Đề xuất: runner gọi lại chính `gate.evaluate` theo thứ tự staged, truyền prefix các thao tác trước,
+  CR đã nạp, role gốc, context đã nạp trước dsh và enforced steps của mức gốc. Không reload authority
+  từ patch, log hay context trên đĩa sau dsh. Gate không cho qua/lỗi → `HARNESS_STATE_INVALID`, không render.
+- TSA: giữ nguyên ưu tiên các lỗi stage và gate rejection đã có. Nếu không có gate rejection, mọi
+  `TERMINATED` còn lại chặn publish: `credential_leak` → `SECRET_IN_ARGS`; marker lạ/hỏng →
+  `HARNESS_STATE_INVALID`. Finalize trước đó không vô hiệu hoá termination.
+- Ablation: B0 giữ nguyên; B1/B2 phát lại G1–G2, B3/B4 phát lại G1–G6. Không nâng B1/B2 thành B4.
+  Thêm event `runner_gate_replay`, không đổi template, contract, model pin hoặc dependency.
+- Giới hạn: không chứng thực harness/trace; không chặn process cùng user sửa code, config hoặc output
+  sau khi runner kết thúc. File phiên cùng quyền cũng không giải quyết giới hạn này. Cách ly OS/
+  transport do runner sở hữu là công việc riêng. Grounding, model mismatch và web token ngoài PR này.
+- Kiểm thử: có runner giả bỏ harness TSA, đổi riêng role/level, sửa context trên đĩa, và secret sau
+  finalize. Gỡ riêng control mới làm các probe tương ứng quay lại accept (đối chứng âm trong thư mục tạm).
+
 # 5. Câu hỏi mở chờ GVHD
 
 Gộp câu hỏi của cả hai bản và đánh số lại. Cột "Nguồn" ghi số cũ.

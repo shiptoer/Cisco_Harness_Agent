@@ -3,10 +3,10 @@
 Runner là phía TIN CẬY. Nó:
   1. validate context (control i) — sai thì reject, không gọi LLM;
   2. preflight harness server của từng stage (F11: dsh không tự fail-closed);
-  3. chạy dsh stage CBA → chỉ tin `change_request.json` do harness ghi;
+  3. chạy dsh stage CBA → validate `change_request.json` như dữ liệu không tin cậy;
   4. chạy dsh stage TSA với DANH SÁCH THAO TÁC đã duyệt (không kèm intent, không kèm rationale);
-  5. chỉ render từ `staged_ops.jsonl` do harness ghi, sau khi so khớp hai chiều với change request
-     đã duyệt — KHÔNG BAO GIỜ đọc text của model (F12);
+  5. so staged với change request, chặn TSA terminated, phát lại gate bằng authority giữ trong
+     bộ nhớ runner rồi mới render — KHÔNG BAO GIỜ đọc text của model (F12);
   6. viết change package để người duyệt;
   7. ghi nhận mọi nơi secret của context xuất hiện (`leak_sources`, D-018). Output thô của dsh được
      quét trong bộ nhớ rồi che trước khi lưu; change package KHÔNG bị che, để rò rỉ thật vẫn lộ ra.
@@ -38,12 +38,13 @@ from typing import Any
 from pydantic import ValidationError
 
 from harness_agent.baselines import b0
+from harness_agent.harness import gate
 from harness_agent.harness.context_store import ContextError, ContextStore
 from harness_agent.harness.leak import secret_lines
 from harness_agent.harness.server import SERVER_NAME, stage_tools
 from harness_agent.harness.trace import Trace, verify_chain
 from harness_agent.levels import DEFAULT_LEVEL, Level, spec_of
-from harness_agent.models import ChangeRequest, parse_tool_call
+from harness_agent.models import ChangeRequest, ToolCall, parse_tool_call
 from harness_agent.sensors import run_sensors
 from harness_agent.tools.registry.render import render_by_device
 
@@ -639,6 +640,11 @@ def _run_case(
         return error(ErrorCode.HARNESS_STATE_INVALID, f"rejects.jsonl không hợp lệ: {type(exc).__name__}")
     if reject is not None:
         return ok(verdict="reject", stopped_by=reject[0], reason=reject[1])
+    # Gate rejection also terminates the server: preserve that established reject
+    # outcome above. Every remaining termination must stop publication as an error.
+    problem = _tsa_termination_problem(run_dir)
+    if problem:
+        return error(*problem)
     if not (run_dir / "finalized.json").exists():
         return error(*_why_incomplete(run_dir, "tsa", "không gọi finalize"))
     try:
@@ -690,6 +696,13 @@ def _run_case(
             ErrorCode.HARNESS_STATE_INVALID,
             "Số thao tác trong finalized.json không khớp staged_ops.jsonl",
         )
+
+    # Files and harness argv are writable by dsh. Replay with the ORIGINAL in-memory
+    # context/role/level and CBA proposal; never reload authority from the patch or disk.
+    problem = _replay_gate(staged, list(cr.changes), role, store, spec.enforced_gate_steps)
+    trace_or_note("runner_gate_replay", allowed=problem is None, operations=len(staged))
+    if problem:
+        return error(*problem)
 
     # 5. render deterministic → change package
     try:
@@ -826,6 +839,50 @@ def _check_stage(r: DshResult, stage: str, run_dir: Path, spec=None) -> tuple[Er
         )
     if not any(e.get("type") == "final" for e in r.events):
         return ErrorCode.MALFORMED_OUTPUT, f"dsh stage {stage} không có event final (output bị cắt)"
+    return None
+
+
+def _tsa_termination_problem(run_dir: Path) -> tuple[ErrorCode, str] | None:
+    """A terminated TSA cannot publish a package, even if finalize happened first."""
+    marker = run_dir / "TERMINATED"
+    try:
+        reason = marker.read_text(encoding="utf-8").strip()
+    except FileNotFoundError:
+        if not marker.is_symlink():
+            return None
+        return ErrorCode.HARNESS_STATE_INVALID, "TSA TERMINATED marker is a broken symlink"
+    except (OSError, UnicodeError):
+        return ErrorCode.HARNESS_STATE_INVALID, "TSA TERMINATED marker is unreadable"
+    if reason == "credential_leak":
+        return ErrorCode.SECRET_IN_ARGS, "TSA terminated: credential material in tool arguments"
+    # Do not echo marker contents: an untrusted writer may have put a secret there.
+    return ErrorCode.HARNESS_STATE_INVALID, "TSA terminated; staged output cannot be published"
+
+
+def _replay_gate(
+    staged: list[ToolCall],
+    approved: list[ToolCall],
+    role: str,
+    store: ContextStore,
+    enforced: tuple[str, ...],
+) -> tuple[ErrorCode, str] | None:
+    """Reuse the gate, preserving operation order and the selected ablation level.
+
+    This validates staged artifacts; it does not authenticate the child process,
+    its trace or its files, and is not OS isolation from a compromised same-user process.
+    """
+    for index, operation in enumerate(staged):
+        try:
+            decision = gate.evaluate(
+                operation.model_dump(mode="json"), role, store, approved, staged[:index], enforced
+            )
+        except Exception:  # A control failure must stop publication without exposing raw inputs.
+            return ErrorCode.HARNESS_STATE_INVALID, f"Runner gate replay failed at operation {index + 1}"
+        if not decision.allowed:
+            return (
+                ErrorCode.HARNESS_STATE_INVALID,
+                f"Runner gate replay blocked operation {index + 1}: {decision.first_failed}",
+            )
     return None
 
 
@@ -970,9 +1027,7 @@ def _write_package(
         lines.append("")
     for dev, text in configs.items():
         lines += [f"## {dev}", "", "```text", text.rstrip("\n"), "```", ""]
-    (run_dir / "change_package.md").write_text(
-        "\n".join(lines), encoding="utf-8", newline="\n"
-    )
+    (run_dir / "change_package.md").write_text("\n".join(lines), encoding="utf-8", newline="\n")
 
 
 def _distinct(requests: list[dict[str, str | None]], key: str) -> str | None:
