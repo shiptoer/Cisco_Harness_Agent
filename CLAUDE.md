@@ -41,8 +41,10 @@ runner (tin cậy) ──subprocess──► dsh (KHÔNG tin cậy) ⇄ MCP ⇄ 
                                           Jinja2 render ─► sensors (iv) ─► change package
 ```
 
-- `role` không bao giờ vào prompt; runner ghi role vào tham số khởi động harness server trong patch do runner sinh,
-  model không đọc hay sửa được.
+- `role` không vào prompt; runner truyền role qua argv trong patch. dsh khởi động harness nên
+  argv/patch/file trạng thái không phải kênh authority bất biến trước runtime bị chiếm quyền.
+- Runner phát lại gate trước render với role/level và context giữ trong bộ nhớ trước khi gọi dsh
+  (D-044). Đây là kiểm tra cuối đối với artifact, không phải sandbox hệ điều hành cho process cùng user.
 - Luồng dữ liệu của contract: README.md, mục "Contract".
 
 ## 4. Quy tắc bảo mật khi viết code (bắt buộc)
