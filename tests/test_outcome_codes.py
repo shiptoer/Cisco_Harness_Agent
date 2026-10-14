@@ -271,7 +271,21 @@ def _sensor_crashes(tmp_path, monkeypatch):
     return _run(tmp_path, monkeypatch, CLEAN)
 
 
+def _model_pin_mismatch(tmp_path, monkeypatch):
+    from test_model_enforcement import run
+
+    return run(tmp_path, monkeypatch, attack="model")
+
+
+def _model_pin_unverified(tmp_path, monkeypatch):
+    from test_model_enforcement import run
+
+    return run(tmp_path, monkeypatch, attack="missing")
+
+
 PRODUCERS: list[tuple[ErrorCode, Callable]] = [
+    (ErrorCode.MODEL_PIN_MISMATCH, _model_pin_mismatch),
+    (ErrorCode.MODEL_PIN_UNVERIFIED, _model_pin_unverified),
     (ErrorCode.INTENT_CONTRACT_INVALID, _invalid_confirmed_intent),
     (ErrorCode.SENSOR_ERROR, _sensor_crashes),
     (ErrorCode.PREFLIGHT_FAILED, _preflight_raises),
@@ -416,7 +430,7 @@ def test_timeout_with_a_cut_trace_is_still_a_timeout(tmp_path: Path, monkeypatch
     assert r.leak_scan_complete is False
     assert r.leak_attempt_detected is True
     # Việc không ghi được trace không im lặng: đúng các event bị bỏ, theo thứ tự.
-    dropped = ["stage_timeout", "dsh_home_scanned", "dsh_cwd_checked", "case_end"]
+    dropped = ["stage_timeout", "model_pin_checked", "dsh_home_scanned", "dsh_cwd_checked", "case_end"]
     assert r.trace_events_dropped == dropped
     assert saved["trace_events_dropped"] == dropped
 

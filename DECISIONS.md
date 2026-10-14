@@ -12,7 +12,7 @@ Cập nhật lần cuối: 07/10/2026 (06/10: gộp hai bản, ghi các quyết 
 
 # 1. Cách dùng và bộ nhãn
 
-- Mỗi quyết định là một mục `## D-xxx` hoặc `## N-xx`. Không xoá mục cũ, không dùng lại số. Số tiếp theo: D-044.
+- Mỗi quyết định là một mục `## D-xxx` hoặc `## N-xx`. Không xoá mục cũ, không dùng lại số. Số tiếp theo: D-046.
 - Dòng tiêu đề kết thúc bằng đúng MỘT nhãn trạng thái:
 
 | Nhãn | Nghĩa |
@@ -1192,3 +1192,25 @@ là chưa biết; không đoán.
 - Hệ quả: <ảnh hưởng tới code, corpus, ablation, Ch3>
 - Việc cần làm: <việc>. Người: <TVn>. Hạn: <dd/mm/yyyy>
 ```
+
+
+## D-045 · Cưỡng chế model pin theo từng stage · ĐỀ XUẤT
+
+GVHD: cần duyệt cách kiểm soát model trong thực nghiệm.
+Hiện thực: đã có code trong `runner/{model,dsh,dsh_home,pipeline}.py` và
+`tests/test_model_enforcement.py`.
+
+- Runner nạp pin một lần trước runtime; cùng snapshot bất biến dùng cho patch
+  B0/CBA/TSA và kiểm tra kết quả. Sửa model.toml giữa hai stage không đổi pin của lượt đang chạy.
+- Mỗi stage phải có session request header mới, đầy đủ provider/model/reasoningEffort,
+  tất cả khớp pin. Thinking được suy từ effort (off = tắt), không có bằng chứng độc lập.
+- Lệch cấu hình -> MODEL_PIN_MISMATCH; bằng chứng thiếu/sai định dạng ->
+  MODEL_PIN_UNVERIFIED. Không xuất candidate, change package hoặc pending_review.
+- Preflight, timeout và lỗi runtime đã xác định giữ nguyên mã gốc. Leak scan
+  không đủ giữ LEAK_SCAN_INCOMPLETE. Không gọi error() từ finish().
+- Log CBA giữ lại không được dùng làm bằng chứng TSA. Session path đã tồn tại
+  trước stage không được tính là mới, kể cả bị viết lại. dsh phải tạo phiên mới mỗi invocation.
+- Áp dụng cố định B0–B4, không thay gate/sensors hay biến ablation.
+- Log do runtime không tin cậy tạo: không chứng minh danh tính model phía provider,
+  không chống runtime giả mạo tất cả header. Không có sandbox OS mới.
+- Đây là sửa A3; không sửa token duyệt web, evaluator, grounding hay đa hãng.

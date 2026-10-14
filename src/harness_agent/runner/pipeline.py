@@ -61,6 +61,7 @@ from .dsh import (
     run_dsh,
 )
 from .intent_contract import load_confirmed_intent, proposal_matches
+from .model import pin_problem
 from .usage import stage_usage, total_usage
 
 PROMPTS = REPO_ROOT / "prompts"
@@ -77,6 +78,8 @@ class ErrorCode(StrEnum):
     # dsh chưa được gọi, LLM chưa chạy.
     INTENT_CONTRACT_INVALID = "INTENT_CONTRACT_INVALID"
     SENSOR_ERROR = "SENSOR_ERROR"
+    MODEL_PIN_MISMATCH = "MODEL_PIN_MISMATCH"
+    MODEL_PIN_UNVERIFIED = "MODEL_PIN_UNVERIFIED"
     PREFLIGHT_FAILED = "PREFLIGHT_FAILED"
     # Trong phiên dsh, harness server của stage không chạy (dsh fail-open, F11).
     HARNESS_DOWN = "HARNESS_DOWN"
@@ -136,7 +139,7 @@ class CaseResult:
     leak_files_scanned: dict[str, dict[str, int]] = field(default_factory=dict)
     tool_calls: dict[str, list[str]] = field(default_factory=dict)
     run_dir: str = ""
-    # Model và reasoning effort mà dsh THỰC SỰ gửi đi, đọc từ session log của dsh (D-020), không chép từ
+    # Model và reasoning effort do dsh báo trong session log (D-020/D-045), không chép từ
     # config/model.toml. None nếu dsh không để lại phiên nào. Nếu trong một case có nhiều giá trị khác
     # nhau thì chúng được nối bằng dấu phẩy, để bất thường lộ ra thay vì bị che.
     model: str | None = None
@@ -269,6 +272,8 @@ def _run_case(
         shutil.rmtree(run_dir)
     run_dir.mkdir(parents=True)
     context_path = context_path.resolve()
+    pinned_model = cfg.model()
+    cfg = replace(cfg, model_snapshot=pinned_model)
     trace = Trace(run_dir / "trace.jsonl", actor="runner")
     trace.write(
         "case_start",
@@ -276,7 +281,7 @@ def _run_case(
         role=role,
         context=str(context_path),
         prompt_hashes={p.name: _sha(p) for p in PROMPTS.glob("*.md")},
-        model_pinned=asdict(cfg.model()),  # config/model.toml; thiếu hay sai là lỗi cấu hình, dừng ở đây
+        model_pinned=asdict(pinned_model),  # config/model.toml; thiếu hay sai là lỗi cấu hình, dừng ở đây
         dsh_workspace=str(workdir),  # đường dẫn dsh sẽ gửi cho model; không phụ thuộc case (D-025)
     )
     res = CaseResult(run_id=run_id, status="ok", verdict=None, level=cfg.level, run_dir=str(run_dir))
@@ -288,6 +293,8 @@ def _run_case(
     cfg = replace(cfg, dsh_home=home, dsh_cwd=workdir)
     home_sources: list[dict[str, Any]] = []
     requests: list[dict[str, str | None]] = []  # cấu hình model dsh thực sự gửi đi, gom qua các stage
+    model_evidence: dict[str, dsh_home.RequestEvidence] = {}
+    previous_sessions: set[str] = set()
     usages: dict[str, dict[str, Any]] = {}  # token và số request của từng stage đã chạy
     durations: dict[str, float] = {}
     dropped_events: list[str] = []
@@ -305,6 +312,8 @@ def _run_case(
 
     def run_stage(stage: str, prompt: str) -> DshResult:
         """Chạy một stage, rồi quét và dọn DSH_HOME, dù stage kết thúc thế nào (kể cả quá giờ)."""
+        nonlocal previous_sessions
+        previous_sessions = dsh_home.session_paths(home)
         stage_started = time.monotonic()
         # dsh luôn khởi động trong thư mục rỗng. Không dọn được là lỗi của máy (`WorkspaceError`, thành
         # `DshSetupError` ở `_workdir`), không phải kết cục của case.
@@ -335,7 +344,15 @@ def _run_case(
     def scan_after_stage(stage: str) -> None:
         """Quét những gì dsh để lại sau một stage ĐÃ khởi động dsh, rồi dọn. Phép quét không đủ thì ghi
         vào `scan_gaps` và `leak_sources` (mục có `status`), không bao giờ coi là sạch."""
-        sent = dsh_home.request_configs(home)  # đọc trước khi session log bị xoá
+        evidence = dsh_home.request_evidence(home, previous_sessions)
+        model_evidence[stage] = evidence
+        sent = evidence.configs  # read before cleanup; keep stage attribution
+        trace_or_note(
+            "model_pin_checked",
+            stage=stage,
+            problem=pin_problem(pinned_model, evidence),
+            issues=evidence.issues,
+        )
         requests.extend(sent)
         home_scan = dsh_home.scan(home, store_secrets, stage)
         found = home_scan.sources
@@ -447,10 +464,26 @@ def _run_case(
             "phép quét secret sau stage không đủ, không kết luận được là sạch: " + "; ".join(scan_gaps),
         )
 
+    def model_error() -> CaseResult | None:
+        # Called before publication, never from finish/error: no recursion and no
+        # replacement of an existing preflight/runtime failure.
+        if scan_gaps:
+            return scan_incomplete()
+        for stage in dsh_started:
+            evidence = model_evidence.get(stage, dsh_home.RequestEvidence([], ["missing"]))
+            problem = pin_problem(pinned_model, evidence)
+            if problem:
+                code = (
+                    ErrorCode.MODEL_PIN_MISMATCH if problem == "mismatch" else ErrorCode.MODEL_PIN_UNVERIFIED
+                )
+                return error(code, f"model pin {problem} at stage {stage}")
+        return None
+
     def ok(**kw: Any) -> CaseResult:
         """Kết cục không phải ERROR (accept/reject/clarify). Phép quét secret không đủ thì kết cục là
         LEAK_SCAN_INCOMPLETE. Mọi đường `error()` giữ mã của nguyên nhân gốc và không đi qua đây."""
-        return scan_incomplete() if scan_gaps else finish(**kw)
+        failure = model_error()
+        return failure if failure is not None else finish(**kw)
 
     # 1. control (i): context validation
     store_secrets: set[str] = set()
@@ -508,6 +541,9 @@ def _run_case(
             return ok(verdict="reject", stopped_by="model_refusal", reason=parsed.message)
         if parsed.kind == "empty":
             return error(ErrorCode.AGENT_INCOMPLETE, "B0: không có cấu hình theo định dạng")
+        failure = model_error()
+        if failure is not None:
+            return failure
         try:
             _, report = _sensors(run_dir, store, parsed.configs, store_secrets, spec, trace)
         except Exception as exc:
@@ -547,6 +583,9 @@ def _run_case(
         return error(
             ErrorCode.HARNESS_STATE_INVALID, f"change_request.json không hợp lệ: {type(exc).__name__}"
         )
+    failure = model_error()
+    if failure is not None:
+        return failure
     if cr.status == "needs_clarification":
         return ok(verdict="clarify", reason=cr.clarification_question or "")
 
@@ -647,6 +686,9 @@ def _run_case(
         return error(*problem)
     if not (run_dir / "finalized.json").exists():
         return error(*_why_incomplete(run_dir, "tsa", "không gọi finalize"))
+    failure = model_error()
+    if failure is not None:
+        return failure
     try:
         staged = [parse_tool_call(x) for x in _read_jsonl(run_dir / "staged_ops.jsonl")]
     except (ValidationError, json.JSONDecodeError, OSError) as exc:

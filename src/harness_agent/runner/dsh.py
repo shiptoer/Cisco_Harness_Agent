@@ -86,9 +86,13 @@ class LocalConfig:
     # định: `run_dsh` từ chối chạy khi chưa đặt, để dsh không bao giờ lấy gốc repo làm workspace.
     dsh_cwd: Path | None = None
     level: str = "B4"
+    # Runner-only immutable snapshot; never loaded from local.toml or runtime output.
+    model_snapshot: ModelConfig | None = field(default=None, repr=False)
 
     def model(self) -> ModelConfig:
         """Model đã ghim. Thiếu hay sai `config/model.toml` là lỗi cấu hình, không có mặc định ngầm."""
+        if self.model_snapshot is not None:
+            return self.model_snapshot
         try:
             return load_model_config(self.model_file)
         except ModelConfigError as exc:

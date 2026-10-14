@@ -1,7 +1,9 @@
 """Model mà runner ghim cho mọi lượt chạy dsh (D-020).
 
 `config/model.toml` (được commit) là nơi DUY NHẤT khai model. Runner ghi nó vào patch của từng stage, ở
-row `agent-default-model` của dsh, rồi đọc lại model THỰC TẾ từ session log của dsh để ghi vào result.json.
+row `agent-default-model` của dsh, rồi kiểm tra cấu hình request do dsh ghi trong session log
+ở từng stage (D-045).
+Đây là kiểm tra tính nhất quán của runtime, không phải chứng thực model từ provider.
 
 Tên khoá lấy từ tài liệu của dsh 0.2.0-rc.1, không đoán:
 - README của `@deepseek-ai/dsh-agent-default-model`: row `agent-default-model` có config `provider`
@@ -22,7 +24,10 @@ import re
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import TYPE_CHECKING, Any
+
+if TYPE_CHECKING:
+    from .dsh_home import RequestEvidence
 
 MODEL_ROW_ID = "agent-default-model"
 EFFORTS = ("off", "low", "high", "max")
@@ -105,3 +110,18 @@ def composed_model(dump: str) -> dict[str, str] | None:
                 found[match.group(1)] = match.group(2).strip("'\"")
         return found
     return None
+
+
+def pin_problem(pinned: ModelConfig, evidence: RequestEvidence) -> str | None:
+    """Check every reported request, including provider and effort (thinking is derived).
+
+    Return fixed reason categories; do not echo arbitrary runtime text in errors.
+    """
+    if evidence.issues or not evidence.configs:
+        return "unverified"
+    expected = {
+        "provider": pinned.provider,
+        "model": pinned.name,
+        "reasoning_effort": pinned.reasoning_effort,
+    }
+    return "mismatch" if any(row != expected for row in evidence.configs) else None
