@@ -23,7 +23,7 @@ from harness_agent.runner.model import (
     composed_model,
     load_model_config,
 )
-from harness_agent.runner.pipeline import CaseResult, run_case
+from harness_agent.runner.pipeline import CaseResult, ErrorCode, run_case
 
 ROOT = Path(__file__).resolve().parents[1]
 CAMPUS = ROOT / "data" / "contexts" / "campus-small-01.json"
@@ -178,6 +178,9 @@ def test_negative_control_result_shows_what_dsh_used_not_what_was_pinned(tmp_pat
     r = _run(tmp_path, monkeypatch, model_file=pinned)
 
     assert (r.model, r.reasoning_effort) == ("deepseek-flash", "high")
+    assert r.error_code == ErrorCode.MODEL_PIN_MISMATCH
+    assert r.status == "error" and r.verdict is None
+    assert not (Path(r.run_dir) / "change_package.md").exists()
 
 
 @pytest.mark.slow

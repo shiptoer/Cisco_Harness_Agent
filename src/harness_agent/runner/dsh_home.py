@@ -157,6 +157,74 @@ def request_configs(home: Path) -> list[dict[str, str | None]]:
     return seen
 
 
+@dataclass(frozen=True)
+class RequestEvidence:
+    """Runtime-reported request configuration, not an attestation from the provider."""
+
+    configs: list[dict[str, str | None]]
+    issues: list[str]
+
+
+def session_paths(home: Path) -> set[str]:
+    """Snapshot names so retained CBA logs cannot stand in for TSA evidence."""
+    return {rel for _, rel in _files(home) if rel.startswith("sessions/")}
+
+
+def request_evidence(home: Path, previous: set[str]) -> RequestEvidence:
+    """Strictly read fresh session logs; never silently drop malformed evidence.
+
+    dsh starts a fresh session per invocation. Reused paths are not accepted as
+    fresh evidence, even if rewritten. All JSON rows are parsed (no substring
+    prefilter), so JSON-escaped event names cannot hide a conflicting header.
+    """
+    configs: list[dict[str, str | None]] = []
+    issues: list[str] = []
+    for path, rel in _files(home):
+        if not rel.startswith("sessions/") or rel in previous:
+            continue
+        if not path.name.endswith(".jsonl.zstd"):
+            continue
+        try:
+            lines = _decompress(path.read_bytes()).splitlines()
+        except (OSError, ValueError, zstandard.ZstdError):
+            issues.append("unreadable_session")
+            continue
+        headers = 0
+        for line in lines:
+            if not line.strip():
+                continue
+            try:
+                event = json.loads(line)
+                if not isinstance(event, dict) or not isinstance(event.get("type"), str):
+                    raise ValueError("invalid event")
+                if event["type"] != "request/header":
+                    continue
+                headers += 1
+                config = event["data"]["header"]["config"]
+                if not isinstance(config, dict):
+                    raise ValueError("invalid config")
+                entry = {}
+                for output, key in (
+                    ("provider", "provider"),
+                    ("model", "model"),
+                    ("reasoning_effort", "reasoningEffort"),
+                ):
+                    value = config.get(key)
+                    # Do not truncate: a long model name must not match its pinned prefix.
+                    entry[output] = value if isinstance(value, str) and 0 < len(value) <= 100 else None
+                if any(value is None for value in entry.values()):
+                    issues.append("incomplete_config")
+                if entry not in configs:
+                    configs.append(entry)
+            except (ValueError, KeyError, TypeError, AttributeError):
+                issues.append("malformed_event")
+        if not headers:
+            issues.append("session_without_request_header")
+    if not configs:
+        issues.append("no_fresh_request_config")
+    return RequestEvidence(configs=configs, issues=sorted(set(issues)))
+
+
 def _text(value: Any) -> str | None:
     """Giá trị lấy từ file của phía không tin cậy: chỉ nhận chuỗi, cắt độ dài."""
     return value[:100] if isinstance(value, str) else None

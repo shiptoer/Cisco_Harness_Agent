@@ -11,6 +11,7 @@ import sys
 from pathlib import Path
 
 import yaml
+import zstandard
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -52,11 +53,16 @@ def main():
             (run_dir / "finalized.json").write_text(
                 json.dumps({"staged": len(proposal["changes"])}), encoding="utf-8", newline="\n"
             )
-            # The existing scan accepts this synthetic session as complete. Do not
-            # confuse a scan-completeness check with proof that a harness executed.
-            session = Path(os.environ["DSH_HOME"]) / "sessions" / "fake"
+            # Deliberately forge matching model metadata too. Model pin checks
+            # runtime-reported logs, not provider attestation; A1's runner gate
+            # must still reject even when this independent check passes.
+            model = next(n["config"] for n in nodes(patch) if n.get("id") == "agent-default-model")
+            session = Path(os.environ["DSH_HOME"]) / "sessions" / "forged-tsa"
             session.mkdir(parents=True, exist_ok=True)
-            (session / "log.jsonl").write_text("{}\n", encoding="utf-8", newline="\n")
+            header = {"type": "request/header", "data": {"header": {"config": model}}}
+            (session / "session.v4.jsonl.zstd").write_bytes(
+                zstandard.ZstdCompressor().compress((json.dumps(header) + "\n").encode("utf-8"))
+            )
             print(json.dumps({"type": "final", "text": ""}))
             return
         if attack == "role":

@@ -1,3 +1,10 @@
+# Bản sửa model pin (D-045, ĐỀ XUẤT)
+
+Runner kiểm tra provider/model/effort theo từng stage trước khi xuất kết quả,
+dùng pin snapshot trong bộ nhớ. MODEL_PIN_MISMATCH và MODEL_PIN_UNVERIFIED là ERROR,
+không phải reject hay accuracy PASS. Đây là kiểm tra log do runtime báo, không
+chứng thực model từ provider. Xem docs/MODEL_PIN_FIX.md; không gọi API khi test offline.
+
 # Trạng thái bản hợp nhất
 
 Đọc README.md, MERGE_REPORT.md và docs/MERGE_DECISIONS.md trước. Phần trạng thái nhánh bên dưới là lịch sử D, không phản ánh merge hiện tại. B0–B4, sensors, corpus/evaluator đã tích hợp; Batfish còn skipped; prepare có pending_review. Không chạy model/API hay deploy khi chỉ kiểm thử offline.
