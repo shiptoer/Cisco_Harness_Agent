@@ -1,8 +1,10 @@
 """Trusted approval state for one running, single-user web bridge."""
 
+import contextlib
 import hashlib
 import json
 import secrets
+import sys
 import threading
 from dataclasses import asdict
 from pathlib import Path
@@ -12,8 +14,8 @@ from harness_agent.harness.context_store import ContextStore
 from harness_agent.harness.roles import role_level
 from harness_agent.models import ChangeRequest
 from harness_agent.runner.context_check import context_violations
-from harness_agent.runner.dsh import LocalConfig
-from harness_agent.runner.pipeline import run_case
+from harness_agent.runner.dsh import DshSetupError, LocalConfig
+from harness_agent.runner.pipeline import lock_workspace, run_case
 
 
 def digest(path):
@@ -209,50 +211,76 @@ class ReviewService:
         if not self.runner_lock.acquire(blocking=False):
             raise ReviewError("Another request is running; wait for its result")
         try:
-            with self.lock:
-                record = self._record(request_id)
-                if record["state"] == "completed":
-                    return self.status(request_id)  # Idempotent: never incur a second run on retries.
-                if record["state"] != "approved":
-                    raise ReviewError("Operator browser approval is required before generation")
-                self._verify(record)
-                if digest(record["contract_path"]) != record["contract_hash"]:
-                    raise ReviewError("Approval contract changed; prepare again")
-                record["state"] = "running"
-                self._audit(record)
-            run_id = "web-generate-" + request_id
-            try:
-                result = self.runner(
-                    LocalConfig.load(self.config),
-                    self.context,
-                    record["intent"],
-                    self.role,
-                    self.out_root,
-                    run_id,
-                    level="B4",
-                    confirmed_intent_path=record["contract_path"],
-                )
-                payload = asdict(result)
-                package = self.out_root / run_id / "change_package.md"
-                if (
-                    result.status == "ok"
-                    and result.verdict == "accept"
-                    and result.leak_scan_complete
-                    and not result.leak_in_package
-                    and package.is_file()
-                ):
-                    payload["change_package"] = package.read_text(encoding="utf-8")
-            except Exception:  # Fail closed: a failed run cannot silently reuse approval.
+            # Keep the workspace reservation through runner entry and completion.
+            # run_case re-enters this same process-owned lock (D-025).
+            with contextlib.ExitStack() as reservation:
                 with self.lock:
-                    record["state"] = "failed"
+                    record = self._record(request_id)
+                    if record["state"] == "completed":
+                        return self.status(request_id)  # Cached outcome; never run a second time.
+                    if record["state"] != "approved":
+                        raise ReviewError("Operator browser approval is required before generation")
+                    self._verify(record)
+                    if digest(record["contract_path"]) != record["contract_hash"]:
+                        raise ReviewError("Approval contract changed; prepare again")
+                    try:
+                        cfg = LocalConfig.load(self.config)
+                        reservation.enter_context(lock_workspace(cfg))
+                    except (DshSetupError, OSError) as exc:
+                        self._generation_diagnostic("before_start", exc)
+                        raise ReviewError(
+                            "Generation has not started: config/workspace unavailable; approval retained. "
+                            "Operator must resolve the issue and explicitly request another attempt. "
+                            "Do not retry automatically."
+                        ) from None
+                    record["state"] = "running"
+                run_id = "web-generate-" + request_id
+                try:
                     self._audit(record)
-                raise ReviewError(
-                    "Generation failed; inspect local runner logs before preparing again"
-                ) from None
-            with self.lock:
-                record["execution"] = payload
-                record["state"] = "completed"
-                self._audit(record)
-                return self.status(request_id)
+                    result = self.runner(
+                        cfg,
+                        self.context,
+                        record["intent"],
+                        self.role,
+                        self.out_root,
+                        run_id,
+                        level="B4",
+                        confirmed_intent_path=record["contract_path"],
+                    )
+                    payload = asdict(result)
+                    package = self.out_root / run_id / "change_package.md"
+                    if (
+                        result.status == "ok"
+                        and result.verdict == "accept"
+                        and result.leak_scan_complete
+                        and not result.leak_in_package
+                        and package.is_file()
+                    ):
+                        payload["change_package"] = package.read_text(encoding="utf-8")
+                    with self.lock:
+                        record["execution"] = payload
+                        record["state"] = "completed"
+                        self._audit(record)
+                        return self.status(request_id)
+                except Exception as exc:
+                    # After the start boundary, even a DshSetupError may follow
+                    # earlier model calls. Never infer safe retry from its type/text.
+                    self._generation_diagnostic("after_start", exc)
+                    with self.lock:
+                        record["state"] = "failed"
+                        record.pop("execution", None)
+                        try:
+                            self._audit(record)
+                        except Exception as audit_exc:
+                            self._generation_diagnostic("failure_audit", audit_exc)
+                    raise ReviewError(
+                        "Generation failed; inspect local runner logs before preparing again"
+                    ) from None
         finally:
             self.runner_lock.release()
+
+    @staticmethod
+    def _generation_diagnostic(phase, exc):
+        # Exception messages/tracebacks can include paths, request data or secrets.
+        # Phase + exception class identify the failure category without echoing them.
+        print(f"[multi-web] generate phase={phase} error={type(exc).__name__}", file=sys.stderr, flush=True)

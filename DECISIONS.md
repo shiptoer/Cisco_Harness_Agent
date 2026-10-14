@@ -1237,3 +1237,30 @@ Hiện thực: đã có code trong `runner/{model,dsh,dsh_home,pipeline}.py` và
   browser profile, điều khiển tab hoặc sửa code. HTTP loopback không phải OS sandbox.
   Browser launch thật trên Windows chưa kiểm chứng trong lượt offline này.
 - Không sửa A7/evaluator/grounding/dataset/đa hãng. Không thêm dependency, gọi model hay deploy.
+
+
+## D-047 · Retry sau lỗi trước khi generate bắt đầu · ĐỀ XUẤT
+
+- Ngày đề xuất: 14/10/2026. GVHD: cần duyệt semantics retry/đo lường trong thực nghiệm.
+- Hiện thực: src/harness_agent/web/reviews.py, scripts/web_multi_server.py;
+  tests/test_approval_retry.py. Không thay runner core hoặc D-025.
+- A7 được tái hiện bằng process khác giữ khóa workspace: code cũ chuyển running trước
+  run_case, gặp DshSetupError do tranh chấp rồi chuyển failed, dù chưa gọi dsh.
+- Generate lấy config và reservation lock_workspace trước running. Nếu không vào được
+  context manager thì chưa gọi runner: giữ approved, báo blocked và hướng dẫn xử lý nguyên nhân.
+- Reservation giữ liên tục qua runner và xử lý kết quả; run_case lấy khóa lồng theo D-025.
+  Không dùng kiểm tra khóa rồi thả trước khi chạy (tránh race).
+- Sau biên running, mọi exception thông thường đều terminal failed; không phân loại khả năng
+  retry dựa riêng vào DshSetupError vì lỗi này có thể xảy ra sau stage trước đã gọi model.
+- Ghi audit thất bại sau biên start cũng terminal, giải phóng runner lock; lỗi audit lần nữa
+  không che mất trạng thái failed trong RAM. Không khẳng định audit được ghi thành công khi disk lỗi.
+- CaseResult error/reject/clarify/accept giữ semantics và cache completed; không chạy lại.
+- Mỗi lần thử lại kiểm tra context/config/model/proposal/contract hash. Approval không được
+  dùng cho request khác, đề xuất mới hoặc sau exception khi execution đã bắt đầu.
+- Ghi phase và lớp exception ra stderr, không log message/traceback/URL/token/secret.
+- Không có vòng lặp retry hoặc MCP tool approve mới. Yêu cầu người vận hành chủ động thử lại
+  là hướng dẫn workflow; không có cơ chế chứng thực riêng người đã gửi lời nhắc tiếp tục.
+- Giữ workspace cố định theo D-025; không tạo workspace theo request/session để tránh đổi
+  context runtime trong thực nghiệm. Tranh chấp tạm thời được xử lý tại biên trước execution.
+- Giới hạn: trạng thái trong RAM, không phục hồi sau restart; không chống sửa code/bộ nhớ cùng user.
+  Không sửa A5/A8/A9/A10/A11, evaluator, grounding, dataset hoặc hỗ trợ đa hãng.

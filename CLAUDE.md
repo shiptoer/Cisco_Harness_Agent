@@ -286,3 +286,16 @@ nào có GVHD duyệt)
 - Đây là cách ly kênh MCP/HTTP, không phải chứng thực người thật hay sandbox runtime cùng user.
   Quyền đọc bộ nhớ/browser profile hoặc điều khiển tab operator vẫn vượt ranh giới này.
 - Kiểm thử: tests/test_approval_isolation.py; quy trình hiện hành: docs/MULTI_REQUEST_WEB.md.
+
+
+## A7 — giữ approval khi chưa vào runner (D-047, ĐỀ XUẤT)
+
+- Generate kiểm tra approval/hash và giữ lock_workspace trước khi chuyển running.
+  Lỗi nạp config/lấy khóa ở biên này giữ approved; không gọi runner, không tự retry.
+- Reservation giữ qua toàn bộ runner; run_case lồng lại khóa theo D-025.
+  Không thả khóa rồi lấy lại giữa kiểm tra và thực thi.
+- Sau biên running, exception (kể cả DshSetupError) là failed, không phục hồi approval.
+  Kết quả runner trả về được cache, gồm cả error/reject/clarify; gọi lặp không chạy lại.
+- Chỉ log phase/lớp exception; không đưa raw message/traceback lên stderr MCP.
+- tests/test_approval_retry.py dùng process giữ khóa riêng, fake_dsh và đối chứng bỏ reservation.
+  Không đổi workspace mỗi phiên, schema, API model hoặc deployment.
