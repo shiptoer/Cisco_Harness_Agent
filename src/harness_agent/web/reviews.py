@@ -126,7 +126,6 @@ class ReviewService:
                 "proposal_hash": proposal_hash,
                 "proposal_path": proposal_path,
                 "changes": changes,
-                "view_token": secrets.token_urlsafe(32),
                 "csrf": set(),
                 "contract_path": run_dir / "operator-confirmed.json",
                 "audit_path": run_dir / "operator-review.json",
@@ -152,18 +151,27 @@ class ReviewService:
                 "prepare_result": record["prepare_result"],
             }
             if record["state"] == "pending":
-                result["review_url"] = f"{self.origin}/review/{request_id}?token={record['view_token']}"
-                result["next_step"] = "Operator opens review_url and chooses Approve or Reject in browser"
+                result["next_step"] = (
+                    "Operator refreshes the separate review tab opened at startup, "
+                    "matches this request_id, and chooses Approve or Reject. "
+                    "Never paste approval links into chat."
+                )
             if "execution" in record:
                 result["execution"] = record["execution"]
             return result
 
-    def browser_review(self, request_id, view_token):
-        """Only the local HTTP handler calls this; never expose CSRF values to MCP."""
+    def operator_requests(self):
+        """Private operator view; HTTP authentication is required by the caller."""
+        with self.lock:
+            return [(key, record["state"]) for key, record in self.records.items()]
+
+    def browser_review(self, request_id):
+        """Trusted caller only: HTTP must authenticate the operator before calling.
+
+        Never register this method as an MCP tool or return its CSRF through MCP.
+        """
         with self.lock:
             record = self._record(request_id)
-            if not secrets.compare_digest(record["view_token"], view_token):
-                raise ReviewError("Invalid review link")
             self._verify(record)
             csrf = secrets.token_urlsafe(32)
             if len(record["csrf"]) > 20:

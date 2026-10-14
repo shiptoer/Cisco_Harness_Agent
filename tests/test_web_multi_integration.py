@@ -25,8 +25,7 @@ def test_fake_pipeline_preserves_contract_and_rbac(tmp_path, monkeypatch, role, 
     assert result["state"] == "pending", result
     assert not list(tmp_path.rglob("change_package.md"))
     request_id = result["request_id"]
-    record = service.records[request_id]
-    _, csrf = service.browser_review(request_id, record["view_token"])
+    _, csrf = service.browser_review(request_id)
     service.browser_decide(request_id, csrf, "approve")
     result = service.generate(request_id)
     execution = result["execution"]
@@ -48,7 +47,7 @@ def test_changed_model_proposal_is_rejected_after_approval(tmp_path, monkeypatch
     service = ReviewService(ROOT / "config/fake.toml", ROOT / case["context"], "network_admin", tmp_path)
     result = service.prepare(case["intent"])
     request_id = result["request_id"]
-    _, csrf = service.browser_review(request_id, service.records[request_id]["view_token"])
+    _, csrf = service.browser_review(request_id)
     service.browser_decide(request_id, csrf, "approve")
     changed = scenario.read_text(encoding="utf-8").replace("FINANCE", "OTHER")
     altered = tmp_path / "different-scenario.json"
@@ -61,24 +60,59 @@ def test_changed_model_proposal_is_rejected_after_approval(tmp_path, monkeypatch
 
 
 @pytest.mark.slow
-def test_stdio_bridge_lists_only_workflow_tools_and_blocks_spoofed_approval():
+def test_stdio_bridge_lists_only_workflow_tools_and_blocks_spoofed_approval(tmp_path):
+    # Test-only wrapper: do not open a real desktop browser in offline tests.
+    wrapper = tmp_path / "bridge_test.py"
+    wrapper.write_text(
+        "import runpy\n"
+        "from pathlib import Path\n"
+        "import harness_agent.web.reviews as reviews\n"
+        "real_service = reviews.ReviewService\n"
+        "reviews.ReviewService = lambda config, context, role, out: "
+        f"real_service(config, context, role, Path({str(tmp_path / 'runs')!r}))\n"
+        "import harness_agent.web.open_browser as opener\n"
+        "opener.open_operator_page = lambda url: False\n"
+        f"runpy.run_path({str(ROOT / 'scripts/web_multi_server.py')!r}, run_name='__main__')\n",
+        encoding="utf-8",
+    )
+
     async def check():
         params = StdioServerParameters(
             command=sys.executable,
-            args=[str(ROOT / "scripts/web_multi_server.py")],
+            args=[str(wrapper)],
             env={
                 "NETWORK_CONFIG": str(ROOT / "config/fake.toml"),
                 "NETWORK_CONTEXT": str(ROOT / "data/contexts/campus-small-01.json"),
                 "NETWORK_ROLE": "network_admin",
                 "PYTHONUTF8": "1",
+                "FAKE_DSH_SCENARIO": str(
+                    ROOT
+                    / json.loads((ROOT / "data/cases/clean-vlan30.json").read_text(encoding="utf-8"))[
+                        "fake_scenario"
+                    ]
+                ),
             },
         )
         async with stdio_client(params) as (reader, writer), ClientSession(reader, writer) as session:
             await session.initialize()
             tools = (await session.list_tools()).tools
             assert {t.name for t in tools} == {
-                "prepare_network_request", "get_network_request", "generate_approved_request",
+                "prepare_network_request",
+                "get_network_request",
+                "generate_approved_request",
             }
+            case = json.loads((ROOT / "data/cases/clean-vlan30.json").read_text(encoding="utf-8"))
+            prepared = await session.call_tool("prepare_network_request", {"intent": case["intent"]})
+            payload = json.loads(prepared.content[0].text)
+            assert payload["state"] == "pending", payload
+            request_id = payload["request_id"]
+            status = await session.call_tool("get_network_request", {"request_id": request_id})
+            for response in [prepared, status]:
+                assert "review_url" not in response.content[0].text
+                assert "token=" not in response.content[0].text
+                assert "csrf" not in response.content[0].text
+            blocked = await session.call_tool("generate_approved_request", {"request_id": request_id})
+            assert json.loads(blocked.content[0].text)["status"] == "blocked"
             for name, args in [
                 ("generate_approved_request", {"request_id": "0" * 32}),
                 ("prepare_network_request", {"intent": "VLAN 30", "approved": True}),

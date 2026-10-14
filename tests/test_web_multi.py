@@ -65,8 +65,7 @@ def service(tmp_path):
 
 
 def decide(service, request_id, decision="approve"):
-    token = service.records[request_id]["view_token"]
-    _, csrf = service.browser_review(request_id, token)
+    _, csrf = service.browser_review(request_id)
     service.browser_decide(request_id, csrf, decision)
 
 
@@ -116,7 +115,7 @@ def test_modified_inputs_cannot_use_approval(service, target):
 def test_approval_token_is_request_bound_and_single_use(service):
     a = service.prepare("First")["request_id"]
     b = service.prepare("Second")["request_id"]
-    _, csrf = service.browser_review(a, service.records[a]["view_token"])
+    _, csrf = service.browser_review(a)
     with pytest.raises(ReviewError):
         service.browser_decide(b, csrf, "approve")
     service.browser_decide(a, csrf, "approve")
@@ -196,18 +195,28 @@ def test_http_approval_requires_local_origin_and_nonce(service):
     server = start_approval_server(service)
     try:
         result = service.prepare("Description <script>alert(1)</script>")
-        url = urlsplit(result["review_url"])
+        url = urlsplit(service.origin + "/review/" + result["request_id"])
+        bootstrap = urlsplit(server.operator_url)
+        cookie = ""
 
         def request(method, path, body=None, headers=None):
+            nonlocal cookie
+            headers = dict(headers or {})
+            if cookie:
+                headers["Cookie"] = cookie
             conn = http.client.HTTPConnection("127.0.0.1", server.server_port, timeout=5)
             try:
                 conn.request(method, path, body=body, headers=headers or {})
                 response = conn.getresponse()
+                if response.getheader("Set-Cookie"):
+                    cookie = response.getheader("Set-Cookie").split(";", 1)[0]
                 return response.status, response.read().decode("utf-8")
             finally:
                 conn.close()
 
-        status, page = request("GET", url.path + "?" + url.query)
+        assert request("GET", url.path)[0] == 400
+        assert request("GET", bootstrap.path + "?" + bootstrap.query)[0] == 303
+        status, page = request("GET", url.path)
         assert status == 200
         assert "<script>" not in page and "&lt;script&gt;" in page
         csrf = re.search(r"name='csrf' value='([^']+)'", page)[1]

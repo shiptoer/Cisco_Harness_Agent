@@ -274,3 +274,15 @@ nào có GVHD duyệt)
   đặt gì phụ thuộc case vào thứ runtime có thể đưa cho model.
 - D-024 marker `slow` + xdist, mặc định vẫn chạy tất cả: test sinh subprocess (130 trong 618) chiếm gần hết thời gian; phần lớn thời
   gian đó là `import mcp` (khoảng 1,1 giây mỗi process), chưa xử lý vì phải đổi code.
+
+
+## A6 — cách ly capability duyệt web (D-046, ĐỀ XUẤT)
+
+- MCP prepare/status chỉ trả dữ liệu đề xuất, request_id và trạng thái; không trả review_url,
+  bootstrap token, cookie phiên hoặc CSRF. Không đăng ký browser_review/browser_decide thành tool.
+- Bridge tự mở tab operator riêng; bootstrap dùng một lần, cookie HttpOnly/SameSite=Strict;
+  GET review và POST quyết định đều yêu cầu cookie. Host/Origin/CSRF vẫn được kiểm tra.
+- Helper nhận URL qua stdin, tắt stdout/stderr; không fallback in URL vào chat/log khi mở tab thất bại.
+- Đây là cách ly kênh MCP/HTTP, không phải chứng thực người thật hay sandbox runtime cùng user.
+  Quyền đọc bộ nhớ/browser profile hoặc điều khiển tab operator vẫn vượt ranh giới này.
+- Kiểm thử: tests/test_approval_isolation.py; quy trình hiện hành: docs/MULTI_REQUEST_WEB.md.

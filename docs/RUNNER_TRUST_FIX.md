@@ -70,3 +70,13 @@ không qua được kiểm tra cuối ở B4. Sửa context trên đĩa ở TSA 
 - Chưa chạy trên Windows hoặc dsh/model thật với patch này. Các lượt web trước patch không thay thế
   kiểm thử mới. Người vận hành cần chạy hướng dẫn offline trên Windows trước khi PR/merge.
 - D-044 là ĐỀ XUẤT, không tự nâng thành quyết định của nhóm/GVHD.
+
+## Windows validation — 2026-10-13
+
+- Targeted Ruff: All checks passed.
+- Runner trust regression tests: 24 passed in 88.74s.
+- Fixed UTF-8 encoding in the Python executable selection test.
+- Python executable selection tests: 4 passed, 48 deselected.
+- Full suite: 995 passed, 1 skipped, 1 xfailed in 1106.71s.
+- Results reported from the operator's Windows machine.
+- No model API calls or deployment during validation.

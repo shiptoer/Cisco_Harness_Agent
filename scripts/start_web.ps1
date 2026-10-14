@@ -55,6 +55,10 @@ try {
     $env:DSH_HOME = Join-Path $env:LOCALAPPDATA ($homePrefix + $setup.home_id)
     $env:DSH_TELEMETRY_DISABLED = '1'
     $env:DSH_TELEMETRY_MODE = 'DISABLED'
+    if ($MultiRequest) {
+        Write-Host 'The bridge opens a separate private operator tab. Refresh it after each proposal.'
+        Write-Host 'Keep approval links and cookies out of chat. If the tab does not open, restart from this desktop.'
+    }
     Write-Host 'Opening web. Sending a request may incur model API charges. No device deployment.'
     & $nodeExe $setup.entry --profile web --patch $setup.patch
     if ($LASTEXITCODE -ne 0) { throw "dsh exited with code $LASTEXITCODE" }

@@ -1214,3 +1214,26 @@ Hiện thực: đã có code trong `runner/{model,dsh,dsh_home,pipeline}.py` và
 - Log do runtime không tin cậy tạo: không chứng minh danh tính model phía provider,
   không chống runtime giả mạo tất cả header. Không có sandbox OS mới.
 - Đây là sửa A3; không sửa token duyệt web, evaluator, grounding hay đa hãng.
+
+
+## D-046 · Cách ly capability duyệt khỏi MCP · ĐỀ XUẤT
+
+- Ngày đề xuất: 14/10/2026. GVHD: cần duyệt ranh giới tin cậy của phê duyệt trong thực nghiệm.
+- Hiện thực: web/{reviews,approval_http,open_browser}.py, scripts/web_multi_server.py;
+  kiểm thử offline tại tests/test_approval_isolation.py và test_web_multi*.py.
+- Bối cảnh A6: review_url có bearer token trong phản hồi prepare/status cho phép chương trình
+  tự GET form, đọc CSRF và POST với Origin giả. Không có tool approve chưa đủ ngăn tự duyệt.
+- Thay đổi: bỏ view_token/review_url khỏi record và phản hồi MCP. Bridge mở tab operator riêng
+  qua helper nhận URL bằng stdin, tắt stdout/stderr. Không ghi capability vào patch/env/run artifacts.
+- Bootstrap ngẫu nhiên dùng một lần đổi lấy cookie phiên riêng HttpOnly/SameSite=Strict,
+  chuyển hướng về /operator không có query. Tên cookie riêng theo cổng; session secret mới mỗi server.
+  GET/POST review yêu cầu cookie, POST còn kiểm tra Host/Origin và CSRF ràng buộc từng request.
+- Mở tab thất bại chỉ báo lỗi chung; không in URL dự phòng. Chưa duyệt thì generate bị chặn.
+- Test đối chứng cố ý trả bootstrap URL qua status: chương trình tự duyệt được. Khi control bật,
+  chỉ biết request_id, spoof Origin hoặc biết CSRF mà không có cookie đều không đủ.
+- Hệ quả: người dùng làm mới tab operator và khớp request_id. Không còn link duyệt trong chat.
+  RBAC, contract hash, B4, model pin, fixed-contract mode và retry semantics giữ nguyên.
+- Giới hạn: không xác thực người thật đã bấm nút; không chống runtime cùng user đọc bộ nhớ,
+  browser profile, điều khiển tab hoặc sửa code. HTTP loopback không phải OS sandbox.
+  Browser launch thật trên Windows chưa kiểm chứng trong lượt offline này.
+- Không sửa A7/evaluator/grounding/dataset/đa hãng. Không thêm dependency, gọi model hay deploy.
