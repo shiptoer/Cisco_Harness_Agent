@@ -299,3 +299,14 @@ nào có GVHD duyệt)
 - Chỉ log phase/lớp exception; không đưa raw message/traceback lên stderr MCP.
 - tests/test_approval_retry.py dùng process giữ khóa riêng, fake_dsh và đối chứng bỏ reservation.
   Không đổi workspace mỗi phiên, schema, API model hoặc deployment.
+
+
+## A5 — policy CBA chung cho B1–B4 (D-048, ĐỀ XUẤT)
+
+- Chỉ còn prompts/cba.md làm template CBA. Không tạo bản cba_b1.md riêng hoặc gắn nhãn mức vào prompt.
+- _cba_prompt chỉ thay network-state source và inventory block: B1 raw inventory/no read tools;
+  B2–B4 projection/read tools. Luật clarification, không đoán VLAN, operations và submit giống nhau.
+- Placeholder được thay một lượt; nội dung template-like trong intent/context giữ nguyên là dữ liệu.
+- B0/TSA, stage tools, gate, sensors, model pin, schema và dataset không đổi.
+- Test fake chỉ kiểm tra prompt/control được nối đúng; không chứng minh accuracy/robustness LLM.
+  Không gộp kết quả trước/sau đổi prompt vào cùng một phép so sánh mà không ghi phiên bản/kiểm lại.

@@ -1264,3 +1264,27 @@ Hiện thực: đã có code trong `runner/{model,dsh,dsh_home,pipeline}.py` và
   context runtime trong thực nghiệm. Tranh chấp tạm thời được xử lý tại biên trước execution.
 - Giới hạn: trạng thái trong RAM, không phục hồi sau restart; không chống sửa code/bộ nhớ cùng user.
   Không sửa A5/A8/A9/A10/A11, evaluator, grounding, dataset hoặc hỗ trợ đa hãng.
+
+
+## D-048 · Dùng chung policy CBA trong ablation B1–B4 · ĐỀ XUẤT
+
+- Ngày đề xuất: 14/10/2026. GVHD: cần duyệt prompt mới và tính hợp lệ của so sánh ablation.
+- Hiện thực: prompts/cba.md, runner/pipeline.py (_cba_prompt), tests/test_prompt_parity.py.
+- A5: cba_b1.md có luật clarification yếu hơn cba.md, thiếu các ràng buộc VLAN, đồng thời
+  lộ nhãn level B1. Do vậy B1/B2 đổi cả prompt policy lẫn control dự kiến.
+- Chỉ giữ một template cba.md cho B1–B4; xóa cba_b1.md để tránh hai bản policy trôi khác nhau.
+  Luật 2 thống nhất free text và untrusted_text; luật 3–7 giữ nội dung cba.md trước sửa.
+- Chỉ biến thiên NETWORK_SOURCE và INVENTORY theo projection: B1 inventory thô, không read tools;
+  B2–B4 đọc state qua list_devices/get_device/get_interface, không nhúng raw inventory.
+  Full interface names, schema thao tác, không đoán VLAN, alternatives và submit một lần giữ chung.
+- Không đưa nhãn B1/B2/B3/B4 vào prompt CBA. Không tuyên bố runtime/argv không thể làm lộ level.
+- Render placeholder một lượt, không xử lý lại template tokens trong dữ liệu vừa chèn.
+  Delimiter và chỉ dẫn prompt không phải sandbox hay bảo đảm chống prompt injection.
+- B0 và TSA giữ nguyên byte; level table, validation, tool exposure, gate/sensor enforcement không đổi.
+- Trace giữ cơ chế hash prefix 16 ký tự hiện có; common template hash không phải hash đầy đủ prompt
+  đã render. Cần lưu commit, template, config/context và cba.prompt.txt để đối chiếu phép thử.
+- Test so policy sau khi loại đúng hai phần được phép khác; đối chứng cố ý đổi riêng rule 5 của B1
+  phải bị phát hiện. Fake pipeline B1–B4 xác nhận prompt thật đã ghi và hash template chung.
+- Không chứng minh LLM sẽ clarify đúng, không sửa grounding xfail/evaluator. Các lượt model trước
+  patch dùng prompt cũ; không gộp với lượt mới như cùng điều kiện thực nghiệm. Chưa gọi API lại.
+- Không tiếp tục dataset 2400 mẫu, không đổi model/dependency/schema/CI hoặc deploy.

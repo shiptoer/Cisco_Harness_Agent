@@ -25,6 +25,7 @@ from __future__ import annotations
 import contextlib
 import hashlib
 import json
+import re
 import shutil
 import subprocess
 import time
@@ -556,11 +557,7 @@ def _run_case(
 
     # 2–3. stage CBA
     try:
-        cba_prompt = (
-            _prompt("cba.md", INTENT=intent)
-            if spec.projection
-            else _prompt("cba_b1.md", INTENT=intent, CONTEXT=_raw_context_text(context_path))
-        )
+        cba_prompt = _cba_prompt(intent, context_path, projection=spec.projection)
         cba = run_stage("cba", cba_prompt)
     except _StageError as exc:
         return error(exc.code, exc.reason)
@@ -1015,6 +1012,23 @@ def _chain_ok(path: Path) -> bool:
         return verify_chain(path)
     except _TRACE_ERRORS:
         return False
+
+
+def _cba_prompt(intent: str, context_path: Path, *, projection: bool) -> str:
+    """One CBA policy for B1–B4; vary only the network-state access mechanism.
+
+    Substitute once so template-like text in inventory/intent stays literal data.
+    This is not a semantic prompt-injection defense; deterministic gates still apply.
+    """
+    source = (
+        "Read the network state ONLY through the tools list_devices, get_device, get_interface."
+        if projection
+        else "Read the network state ONLY from the INVENTORY markers below; there are no read tools."
+    )
+    inventory = "" if projection else f"<<<INVENTORY\n{_raw_context_text(context_path)}\nINVENTORY>>>\n\n"
+    values = {"NETWORK_SOURCE": source, "INVENTORY": inventory, "INTENT": intent}
+    template = (PROMPTS / "cba.md").read_text(encoding="utf-8")
+    return re.sub(r"\{\{(NETWORK_SOURCE|INVENTORY|INTENT)\}\}", lambda m: values[m[1]], template)
 
 
 def _prompt(name: str, **values: str) -> str:
