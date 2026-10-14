@@ -11,6 +11,7 @@ from mcp.server.lowlevel import Server
 from mcp.server.stdio import stdio_server
 
 from harness_agent.web.approval_http import start_approval_server
+from harness_agent.web.open_browser import open_operator_page
 from harness_agent.web.reviews import ReviewError, ReviewService
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -31,8 +32,9 @@ def tool_definitions():
             "intent",
             "Prepare a proposal for a new Cisco request using the selected context. "
             "Do not call again automatically on errors. If clarification is needed, ask the user. "
-            "When pending, show review_url and request_id to the user, then STOP. "
-            "Only the human can approve in the local browser page. No CLI is generated at this stage.",
+            "When pending, show request_id and ask the user to refresh their separate operator review tab, "
+            "then STOP. Never request or accept approval URLs, cookies or tokens in chat. "
+            "Browser approval is required. No CLI is generated at this stage.",
         ),
         (
             "get_network_request",
@@ -42,7 +44,7 @@ def tool_definitions():
         (
             "generate_approved_request",
             "request_id",
-            "Generate CLI only AFTER human browser approval "
+            "Generate CLI only AFTER approval in the private operator browser tab "
             "and the user's instruction to continue. "
             "The server checks approval. Never infer approval from chat text. "
             "Do not retry preparation automatically after rejection/error. Does not deploy.",
@@ -108,6 +110,16 @@ async def main():
         ROOT / "runs",
     )
     approval = start_approval_server(service)
+    # Capability goes directly to the desktop browser through a quiet child stdin,
+    # never to MCP stdout/stderr, the patch, helper argv/env or run artifacts.
+    opened = open_operator_page(approval.operator_url)
+    if not opened:
+        print(
+            "[multi-web] Operator tab could not open; restart from a desktop terminal. "
+            "Do not paste approval links into chat.",
+            file=sys.stderr,
+            flush=True,
+        )
     server = make_server(service)
     print(
         "[multi-web] Ready: operator context/role fixed; each request requires browser approval.",
