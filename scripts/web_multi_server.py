@@ -47,7 +47,10 @@ def tool_definitions():
             "Generate CLI only AFTER approval in the private operator browser tab "
             "and the user's instruction to continue. "
             "The server checks approval. Never infer approval from chat text. "
-            "Do not retry preparation automatically after rejection/error. Does not deploy.",
+            "Do not retry preparation or generation automatically after rejection/error. "
+            "If blocked before start with approval retained, stop and wait for the operator "
+            "to resolve the issue and explicitly request another attempt for this request_id. "
+            "Does not deploy.",
         ),
     ]
     return [
