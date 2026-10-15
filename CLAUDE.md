@@ -319,3 +319,13 @@ nào có GVHD duyệt)
 - Kết cục: ok/reject, stopped_by=change_request_validation; không phải accuracy PASS.
 - Không tự deduplicate, không đổi thứ tự hoặc gộp thao tác khác args.
 - TSA gọi lại cùng thao tác đã duyệt vẫn already_staged; staged mismatch thật vẫn ERROR.
+
+
+## A9 — test grounding ở biên runner (D-050, ĐỀ XUẤT)
+
+- tests/test_intent_grounding.py truyền intent gốc vào pipeline thật, fake CBA/TSA chọn sai cùng nhau.
+- Chỉ UngroundedPublication sau khi xác minh CLI sai đã được xuất mới xfail; runtime/fixture error phải fail.
+- Test gate riêng chỉ mô tả G5 consistency, không gọi matching proposal là bám ý định người dùng.
+- HITL confirmed_intent là oracle riêng, không dùng để làm xanh test grounding tự động.
+- strict xfail giữ tới khi có control thực tế; XPASS buộc rà soát marker và bằng chứng.
+- A9 chỉ sửa phép kiểm thử; chưa triển khai H3/D-030, không đổi semantics B0–B4.

@@ -77,6 +77,6 @@ Chạy lại với `--confirmed-intent <file>` để kiểm danh sách đề xu�
 
 ## Giới hạn đã biết
 
-Grounding tự động còn một test xfail chủ đích. Syntax/CIS chỉ phủ phạm vi tool hiện có; Batfish chưa chạy, chưa xác thực bằng Cisco/EVE-NG. Không suy ra độ chính xác hay robustness LLM từ fake tests. Các hướng dẫn chạy model thật của D được giữ ở `docs/SETUP_WINDOWS.md`, nhưng chưa kiểm lại dsh thật sau merge. `config/model.toml` là nguồn ghim model duy nhất; không thêm model lần nữa vào base patch.
+Grounding tự động còn một test xfail chủ đích ở pipeline: intent yêu cầu VLAN 20 nhưng fake CBA/TSA cùng chọn VLAN 10 và xuất cấu hình. Test truyền intent thật vào runner; G5 chỉ kiểm TSA khớp đề xuất CBA. Xem `docs/GROUNDING_TEST_FIX.md`; bản sửa test A9 không hiện thực grounding tự động. Syntax/CIS chỉ phủ phạm vi tool hiện có; Batfish chưa chạy, chưa xác thực bằng Cisco/EVE-NG. Không suy ra độ chính xác hay robustness LLM từ fake tests. Các hướng dẫn chạy model thật của D được giữ ở `docs/SETUP_WINDOWS.md`, nhưng chưa kiểm lại dsh thật sau merge. `config/model.toml` là nguồn ghim model duy nhất; không thêm model lần nữa vào base patch.
 
 Bản ZIP không gồm venv, node_modules, API key, config máy riêng, bộ cài, run lịch sử hay dataset 2400. Log spike vốn có của D vẫn giữ nguyên. Tài liệu README/CLAUDE/DECISIONS gốc từng nguồn nằm trong `docs/archive/source-*`; những trạng thái tiến độ cũ không phải trạng thái bản hợp nhất.
