@@ -1308,3 +1308,21 @@ Hiện thực: đã có code trong `runner/{model,dsh,dsh_home,pipeline}.py` và
 - Đối chứng gỡ kiểm tra CBA nhận proposal trùng; gỡ kiểm tra runner cho artifact giả quay
   lại STAGED_MISMATCH hoặc pending_review ở prepare. Không tính ERROR là accuracy PASS.
 - Không đổi prompt/model/dependency/CI/dataset; không gọi API hay deploy.
+
+
+## D-050 · Kiểm thử grounding tại biên nhận intent gốc · ĐỀ XUẤT
+
+- Ngày đề xuất: 15/10/2026. GVHD: không cần cho sửa test này; control grounding và thay đổi ablation cần duyệt riêng.
+- Hiện thực: tests/test_intent_grounding.py; docs/GROUNDING_TEST_FIX.md. Chưa có thuật toán grounding mới.
+- A9 cũ chỉ ghi intent trong comment rồi gọi gate không có tham số intent; xfail sai biên kiểm thử.
+- Giữ test unit G5 mô tả đúng nhiệm vụ: TSA khớp proposal, không xác nhận proposal bám intent.
+- Đưa ca known gap sang run_case B4 với intent tiếng Việt VLAN 20, fake CBA/TSA cùng chọn VLAN 10;
+  không truyền confirmed_intent. Xác minh intent ở prompt, proposal đúng fixture, candidate và package.
+- strict xfail chỉ nhận UngroundedPublication sau khi pipeline ok/accept và xuất đúng CLI sai intent.
+  ERROR, lỗi model/runtime, candidate hỏng, fixture sai hoặc reject không liên quan phải fail thường.
+- Đối chứng sạch VLAN 20 accept; lệch TSA bị G5 reject; cùng proposal sai bị confirmed_intent reject
+  khi có oracle người vận hành. HITL không phải grounding tự động hoặc accuracy model.
+- Control grounding tương lai chặn tại runner với stopped_by=intent_grounding và không publication sẽ
+  tạo XPASS(strict), buộc bỏ marker sau khi đánh giá. Không bọc assert chung để che các lỗi khác.
+- Không đổi src/, prompts, model, schema, dependency, CI, golden hoặc dataset; không gọi API/deploy.
+- Chỉ sửa test A9; H3/D-030 grounding tự động vẫn chưa hiện thực, không nâng trạng thái quyết định đó.
