@@ -1288,3 +1288,23 @@ Hiện thực: đã có code trong `runner/{model,dsh,dsh_home,pipeline}.py` và
 - Không chứng minh LLM sẽ clarify đúng, không sửa grounding xfail/evaluator. Các lượt model trước
   patch dùng prompt cũ; không gộp với lượt mới như cùng điều kiện thực nghiệm. Chưa gọi API lại.
 - Không tiếp tục dataset 2400 mẫu, không đổi model/dependency/schema/CI hoặc deploy.
+
+
+## D-049 · Từ chối thao tác trùng trong ChangeRequest · ĐỀ XUẤT
+
+- Ngày đề xuất: 15/10/2026. GVHD: cần duyệt phân loại kết cục thực nghiệm.
+- Hiện thực: harness/proposal.py, harness/server.py, runner/pipeline.py;
+  tests/test_duplicate_operations.py.
+- A8: submit trước đây nhận [V,V], TSA stage idempotent thành [V], runner báo
+  STAGED_MISMATCH. Đề xuất lỗi của model bị phân loại thành lỗi trạng thái thực thi.
+- Dùng ToolCall equality sau registry normalization, giống semantics của staging.
+  Chặn trùng dù không liền nhau hoặc thứ tự key khác nhau; khác args không là trùng.
+- CBA trả terminal reject, ghi trace mã cố định và TERMINATED; không ghi proposal.
+  Runner kiểm lại proposal không tin cậy sau kiểm stage/model, trước clarification/review/TSA.
+- B1–B4 áp dụng cùng quy tắc như điều kiện vận hành của staging; B0 giữ nguyên.
+- Không sửa contract/schema, không tự bỏ thao tác trùng để biến đề xuất thành accept.
+- Giữ replay gate, secret scan, model pin và ERROR của staged sequence sai.
+- Không phát hiện xung đột ngữ nghĩa hoặc chứng minh proposal bám intent. Không sandbox OS.
+- Đối chứng gỡ kiểm tra CBA nhận proposal trùng; gỡ kiểm tra runner cho artifact giả quay
+  lại STAGED_MISMATCH hoặc pending_review ở prepare. Không tính ERROR là accuracy PASS.
+- Không đổi prompt/model/dependency/CI/dataset; không gọi API hay deploy.
