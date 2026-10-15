@@ -21,7 +21,19 @@ def proposal(*changes):
 def test_duplicate_equality(variant):
     other = {"tool": VLAN["tool"], "args": dict(reversed(list(VLAN["args"].items())))}
     if variant == "normalized":
-        other["args"]["vlan_id"] = "30"
+        # Registry still normalizes trunk ordering/duplicates; numeric strings now fail A10a.
+        trunk = {
+            "tool": "set_trunk",
+            "args": {
+                "device": "SW2",
+                "interface": "GigabitEthernet0/1",
+                "allowed_vlans": [20, 10, 20],
+                "native_vlan": 10,
+            },
+        }
+        normalized = {"tool": "set_trunk", "args": {**trunk["args"], "allowed_vlans": [10, 20]}}
+        assert has_duplicate_operations(proposal(trunk, normalized))
+        return
     distinct = {"tool": VLAN["tool"], "args": {**VLAN["args"], "name": "OTHER"}}
     changes = [VLAN, distinct, other] if variant == "nonadjacent" else [VLAN, other]
     assert has_duplicate_operations(proposal(*changes))

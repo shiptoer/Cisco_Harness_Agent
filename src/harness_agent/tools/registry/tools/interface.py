@@ -7,7 +7,9 @@ Lưu ý: bản nháp gốc trong tài liệu có regex interface hơi lỗi
 `(/\\d+){1,2}` để khớp cả `GigabitEthernet0/1` lẫn `GigabitEthernet0/0/1`.
 """
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+import ipaddress
+
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, field_validator, model_validator
 
 from ..base import BlastRadius, Role, ToolSpec
 from ..ip_utils import validate_ipv4
@@ -24,7 +26,7 @@ class SetAccessVlanArgs(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
     device: str = Field(pattern=DEVICE_PATTERN)
     interface: str = Field(pattern=INTERFACE_PATTERN)
-    vlan_id: int = Field(ge=1, le=4094)
+    vlan_id: int = Field(strict=True, ge=1, le=4094)
 
 
 SET_ACCESS_VLAN = ToolSpec(
@@ -47,8 +49,8 @@ class SetTrunkArgs(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
     device: str = Field(pattern=DEVICE_PATTERN)
     interface: str = Field(pattern=INTERFACE_PATTERN)
-    allowed_vlans: list[int] = Field(min_length=1, max_length=64)
-    native_vlan: int = Field(ge=1, le=4094)
+    allowed_vlans: list[StrictInt] = Field(min_length=1, max_length=64)
+    native_vlan: int = Field(strict=True, ge=1, le=4094)
 
     @field_validator("allowed_vlans")
     @classmethod
@@ -85,12 +87,24 @@ class SetInterfaceIpArgs(BaseModel):
     device: str = Field(pattern=DEVICE_PATTERN)
     interface: str = Field(pattern=INTERFACE_PATTERN)
     ip: str
-    prefix_len: int = Field(ge=1, le=32)
+    prefix_len: int = Field(strict=True, ge=1, le=32)
 
     @field_validator("ip")
     @classmethod
     def _check_ip(cls, v: str) -> str:
         return validate_ipv4(v)
+
+    @model_validator(mode="after")
+    def _check_host_address(self):
+        address = ipaddress.IPv4Interface(f"{self.ip}/{self.prefix_len}")
+        # /31 endpoints (RFC 3021) and /32 host addresses are intentionally retained.
+        # This checks address shape, not device/link support or reachability.
+        if self.prefix_len <= 30 and address.ip in (
+            address.network.network_address,
+            address.network.broadcast_address,
+        ):
+            raise ValueError("Interface IPv4 must not be a subnet network or broadcast address")
+        return self
 
 
 SET_INTERFACE_IP = ToolSpec(

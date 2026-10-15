@@ -48,7 +48,7 @@ class AddAclEntryArgs(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
     device: str = Field(pattern=DEVICE_PATTERN)
     acl_name: str = Field(pattern=ACL_NAME_PATTERN)
-    seq: int = Field(ge=1, le=2147483647)
+    seq: int = Field(strict=True, ge=1, le=2147483647)
     action: Action
     protocol: Protocol
     src: str = Field(pattern=ENDPOINT_PATTERN)

@@ -329,3 +329,13 @@ nào có GVHD duyệt)
 - HITL confirmed_intent là oracle riêng, không dùng để làm xanh test grounding tự động.
 - strict xfail giữ tới khi có control thực tế; XPASS buộc rà soát marker và bằng chứng.
 - A9 chỉ sửa phép kiểm thử; chưa triển khai H3/D-030, không đổi semantics B0–B4.
+
+
+## A10a — số nguyên strict và IPv4 host trong registry (D-051, ĐỀ XUẤT)
+
+- VLAN id/native/allowed, prefix_len và ACL seq không nhận bool, chuỗi số hoặc float.
+- set_interface_ip chặn network/broadcast của prefix 1–30; giữ /31 và /32.
+- Không sửa models/ hoặc schema; JSON Schema shape không biểu diễn toàn bộ validation runtime.
+- B1–B4 vẫn cưỡng chế G2; không tự sửa giá trị model để tạo CLI hợp lệ.
+- A10 chưa đóng toàn bộ: hỗ trợ SVI/Loopback giữa các tool cần thiết kế và kiểm thử riêng.
+- Chưa xác thực /31 trên link/image thật; kiểm host bit không thay thế topology/IOS validation.
