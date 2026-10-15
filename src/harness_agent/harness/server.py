@@ -45,6 +45,7 @@ from harness_agent.tools.schema import tool_input_schema
 from . import gate
 from .context_store import ContextError, ContextStore
 from .leak import secret_paths
+from .proposal import DUPLICATE_REASON, has_duplicate_operations
 from .roles import ROLE_NAMES
 from .trace import Trace
 
@@ -275,6 +276,16 @@ def _submit_change_request(state: RunState, arguments: dict[str, Any]) -> dict[s
         err = exc.errors()[0]
         loc = ".".join(str(x) for x in err.get("loc", ()))
         raise ToolFailure(f"Invalid change request ({loc}): {err['msg']} — fix and resubmit.") from exc
+    if has_duplicate_operations(cr):
+        state.trace.write("change_request_rejected", control="duplicate_operations")
+        state.terminate(DUPLICATE_REASON)
+        return {
+            "status": "rejected",
+            "terminal": True,
+            "control": "change_request_validation",
+            "reason": DUPLICATE_REASON,
+            "next": "The change is rejected. Do not retry. End your turn.",
+        }
     state.cr_path.write_text(cr.model_dump_json(indent=2), encoding="utf-8", newline="\n")
     state.trace.write("change_request_submitted", change_request=cr.model_dump(mode="json"))
     return {"accepted": True, "changes": len(cr.changes), "next": "End your turn now."}

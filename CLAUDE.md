@@ -310,3 +310,12 @@ nào có GVHD duyệt)
 - B0/TSA, stage tools, gate, sensors, model pin, schema và dataset không đổi.
 - Test fake chỉ kiểm tra prompt/control được nối đúng; không chứng minh accuracy/robustness LLM.
   Không gộp kết quả trước/sau đổi prompt vào cùng một phép so sánh mà không ghi phiên bản/kiểm lại.
+
+
+## A8 — thao tác trùng trong đề xuất (D-049, ĐỀ XUẤT)
+
+- B1–B4 từ chối ChangeRequest có ToolCall trùng sau chuẩn hóa registry.
+- CBA chặn trước ghi proposal; runner kiểm lại artifact trước prepare/review/TSA.
+- Kết cục: ok/reject, stopped_by=change_request_validation; không phải accuracy PASS.
+- Không tự deduplicate, không đổi thứ tự hoặc gộp thao tác khác args.
+- TSA gọi lại cùng thao tác đã duyệt vẫn already_staged; staged mismatch thật vẫn ERROR.

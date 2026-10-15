@@ -42,6 +42,7 @@ from harness_agent.baselines import b0
 from harness_agent.harness import gate
 from harness_agent.harness.context_store import ContextError, ContextStore
 from harness_agent.harness.leak import secret_lines
+from harness_agent.harness.proposal import DUPLICATE_REASON, has_duplicate_operations
 from harness_agent.harness.server import SERVER_NAME, stage_tools
 from harness_agent.harness.trace import Trace, verify_chain
 from harness_agent.levels import DEFAULT_LEVEL, Level, spec_of
@@ -583,6 +584,10 @@ def _run_case(
     failure = model_error()
     if failure is not None:
         return failure
+    # Recheck the untrusted artifact independently of the MCP submission path.
+    if has_duplicate_operations(cr):
+        trace.write("change_request_rejected", control="duplicate_operations")
+        return ok(verdict="reject", stopped_by="change_request_validation", reason=DUPLICATE_REASON)
     if cr.status == "needs_clarification":
         return ok(verdict="clarify", reason=cr.clarification_question or "")
 
