@@ -1326,3 +1326,25 @@ Hiện thực: đã có code trong `runner/{model,dsh,dsh_home,pipeline}.py` và
   tạo XPASS(strict), buộc bỏ marker sau khi đánh giá. Không bọc assert chung để che các lỗi khác.
 - Không đổi src/, prompts, model, schema, dependency, CI, golden hoặc dataset; không gọi API/deploy.
 - Chỉ sửa test A9; H3/D-030 grounding tự động vẫn chưa hiện thực, không nâng trạng thái quyết định đó.
+
+
+## D-051 · Validation registry: integer strict và IPv4 host · ĐỀ XUẤT
+
+- Ngày đề xuất: 15/10/2026. GVHD: cần duyệt ảnh hưởng phân loại đầu vào trong thực nghiệm.
+- Hiện thực: tools/registry/tools/{vlan,interface,acl}.py; tests/test_registry_validation.py.
+- Phạm vi A10a: scalar vlan_id, native_vlan, prefix_len, seq dùng strict=True;
+  từng phần tử allowed_vlans dùng StrictInt. Giữ giới hạn số và chuẩn hóa trunk sorted(set).
+- Bool, chuỗi số, float không tự ép thành integer; JSON integer hợp lệ vẫn nhận.
+  Không đặt strict toàn bộ BaseModel để tránh đổi coercion khác ngoài phạm vi.
+- set_interface_ip kiểm đồng thời ip/prefix_len: prefix 1–30 không dùng địa chỉ subnet network
+  hoặc broadcast. Giữ /31 endpoint theo RFC 3021 và /32; không suy từ đuôi .0/.255 đơn thuần.
+- Kiểm dạng địa chỉ không chứng minh link point-to-point, khả năng image IOS, uniqueness hoặc reachability.
+- Registry là nguồn validation chung của ToolCall; CBA/schema và gate G2 nhận rule mới ở B1–B4.
+  Không thay gate semantics, không sửa model/dependency/prompt/CI/dataset, không API/deploy.
+- JSON tool schema trước/sau giữ nguyên; schema type integer không mô tả toàn bộ quy tắc strict
+  của parser/runtime hoặc quan hệ ip/prefix. models/ và schemas/ không sửa.
+- Test A8 normalized chuyển từ chuỗi VLAN sang chuẩn hóa trunk: không bỏ test duplicate equality.
+  Test models về normalization đổi kỳ vọng chuỗi số sang reject; giữ đối chứng trunk/route/round-trip.
+- Đối chứng chạy unit test mới trên source trước sửa tái hiện lỗi; test mới gồm G2 và fake pipeline B1–B4.
+- A10b SVI/Loopback còn mở: context hỗ trợ, registry khác nhau theo tool; không mở regex hàng loạt.
+  apply_acl đã nhận Vlan; các tool khác giữ nguyên phạm vi. Chưa tuyên bố hoàn tất toàn bộ A10.

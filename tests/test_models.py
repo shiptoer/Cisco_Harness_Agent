@@ -106,8 +106,10 @@ def test_vlan_outside_ios_range_rejected(vlan_id: int):
 
 
 def test_args_are_normalised_so_equal_calls_compare_equal():
-    """Cần cho gate G5: tool call cùng nghĩa phải bằng nhau dù model viết khác kiểu."""
-    a = parse_tool_call(_vlan(vlan_id="30"))
+    """G5 normalizes valid values; numeric strings are invalid under A10a."""
+    with pytest.raises(ValidationError):
+        parse_tool_call(_vlan(vlan_id="30"))
+    a = parse_tool_call(_vlan(vlan_id=30))
     assert a.args["vlan_id"] == 30 and a == parse_tool_call(_vlan())
     trunk = {"device": "SW1", "interface": "GigabitEthernet0/1", "native_vlan": 99}
     t1 = parse_tool_call({"tool": "set_trunk", "args": {**trunk, "allowed_vlans": [20, 10, 20]}})

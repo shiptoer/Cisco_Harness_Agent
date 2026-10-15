@@ -11,7 +11,7 @@ VLAN_NAME_PATTERN = r"^[A-Za-z0-9_-]{1,32}$"
 class CreateVlanArgs(BaseModel):
     model_config = ConfigDict(extra="forbid", frozen=True)
     device: str = Field(pattern=DEVICE_PATTERN)
-    vlan_id: int = Field(ge=1, le=4094)
+    vlan_id: int = Field(strict=True, ge=1, le=4094)
     name: str = Field(pattern=VLAN_NAME_PATTERN)
 
 
