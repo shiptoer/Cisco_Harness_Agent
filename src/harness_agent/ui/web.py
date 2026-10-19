@@ -146,7 +146,7 @@ def _handler(app: UiApp, auth: Auth) -> type[BaseHTTPRequestHandler]:
             if not 1 <= length <= MAX_FORM:
                 raise UiError(400, "độ dài form không hợp lệ")
             try:
-                raw = self.rfile.read(length).decode("utf-8")
+                raw = self._post_body.decode("utf-8")
                 form = parse_qs(raw, keep_blank_values=True, strict_parsing=True)
             except (UnicodeDecodeError, ValueError):
                 raise UiError(400, "form không đọc được") from None
@@ -213,6 +213,22 @@ def _handler(app: UiApp, auth: Auth) -> type[BaseHTTPRequestHandler]:
 
         def do_POST(self) -> None:  # noqa: N802
             try:
+                # Consume a bounded body before any early response. Closing with
+                # unread request bytes can reset the connection on Windows.
+                if self.headers.get("Transfer-Encoding") is not None:
+                    raise UiError(400, "Transfer-Encoding không được hỗ trợ")
+                lengths = self.headers.get_all("Content-Length", [])
+                if len(lengths) > 1:
+                    raise UiError(400, "độ dài form không hợp lệ")
+                try:
+                    length = int(lengths[0]) if lengths else 0
+                except ValueError:
+                    raise UiError(400, "độ dài form không hợp lệ") from None
+                if not 0 <= length <= MAX_FORM:
+                    raise UiError(400, "độ dài form không hợp lệ")
+                self._post_body = self.rfile.read(length)
+                if len(self._post_body) != length:
+                    raise UiError(400, "form chưa được gửi đầy đủ")
                 if not self._host_ok():
                     raise UiError(400, "Host không hợp lệ")
                 session = self._session()

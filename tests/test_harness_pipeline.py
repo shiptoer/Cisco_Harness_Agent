@@ -163,11 +163,13 @@ def test_bare_python_does_not_depend_on_path(tmp_path: Path, monkeypatch, name: 
     assert cfg.dsh_command[0] == sys.executable
     assert cfg.python_exe == Path(sys.executable)
     proc = subprocess.run(  # noqa: S603 — lệnh lấy từ config test, không từ input
-        [cfg.dsh_command[0], "-c", "import sys, harness_agent; print(sys.prefix)"],
+        [cfg.dsh_command[0], "-X", "utf8", "-c", "import sys, harness_agent; print(sys.prefix)"],
         capture_output=True,
         text=True,
-        check=True,
+        encoding="utf-8",
+        check=False,
     )
+    assert proc.returncode == 0, proc.stderr
     assert Path(proc.stdout.strip()) == Path(sys.prefix)
 
 
