@@ -1,0 +1,13 @@
+{
+  "expect": {
+    "status": "error",
+    "error_code": "HARNESS_DOWN",
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": [
+      "dsh_home"
+    ]
+  },
+  "simulate_server_down": true,
+  "cba": []
+}

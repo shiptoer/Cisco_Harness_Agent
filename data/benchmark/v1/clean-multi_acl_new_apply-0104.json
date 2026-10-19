@@ -1,0 +1,39 @@
+{
+  "case_id": "clean-multi_acl_new_apply-0104",
+  "subset": "clean",
+  "config_type": "acl",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "On CORE1, create ACL PRINT-ACL with line 10 to deny tcp from 10.64.30.0/24 to host 10.10.50.32 port 3389, then apply ACL PRINT-ACL outbound on Vlan60",
+  "intent_template": "On CORE1, create ACL PRINT-ACL with line 10 to deny tcp from 10.64.30.0/24 to host 10.10.50.32 port 3389, then apply ACL PRINT-ACL outbound on Vlan60",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "add_acl_entry",
+      "args": {
+        "device": "CORE1",
+        "acl_name": "PRINT-ACL",
+        "seq": 10,
+        "action": "deny",
+        "protocol": "tcp",
+        "src": "10.64.30.0/24",
+        "dst": "host 10.10.50.32",
+        "dst_port": "eq 3389"
+      }
+    },
+    {
+      "tool": "apply_acl",
+      "args": {
+        "device": "CORE1",
+        "interface": "Vlan60",
+        "acl_name": "PRINT-ACL",
+        "direction": "out"
+      }
+    }
+  ]
+}

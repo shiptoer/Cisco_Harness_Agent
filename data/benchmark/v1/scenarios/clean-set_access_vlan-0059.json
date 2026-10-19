@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-set_access_vlan-0059",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "ACC2",
+              "interface": "Ethernet1/0",
+              "vlan_id": 30
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC2\ninterface Ethernet1/0\n switchport mode access\n switchport access vlan 30\nexit\nend\n```\n"
+  }
+}

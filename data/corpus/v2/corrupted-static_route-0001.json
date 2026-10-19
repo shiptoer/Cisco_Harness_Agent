@@ -1,0 +1,17 @@
+{
+  "case_id": "corrupted-static_route-0001",
+  "subset": "corrupted",
+  "config_type": "static_route",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Thêm static route trên R1 tới 10.20.0.0/16 qua 203.0.113.1",
+  "intent_template": "Add a static route on R1 to 10.20.0.0/16 via 203.0.113.1",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/ad2e1bf47e9724ca868d02f6b363798206d4232704a64a80641a3d1e6033be96.json",
+    "sha256": "ad2e1bf47e9724ca868d02f6b363798206d4232704a64a80641a3d1e6033be96"
+  },
+  "expected_verdict": "reject",
+  "expected_tool_calls": [],
+  "corruption": "CTX_ACL_REF"
+}

@@ -1,0 +1,7 @@
+interface {{ a.interface }}
+ ip proxy-arp
+{% if a.enabled %}
+ no shutdown
+{% else %}
+ shutdown
+{% endif %}

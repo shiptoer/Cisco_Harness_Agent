@@ -1,0 +1,39 @@
+{
+  "expect": {
+    "status": "ok",
+    "verdict": "accept",
+    "stopped_by": null,
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": [
+      "dsh_home"
+    ]
+  },
+  "cba": [
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "apply_acl",
+            "args": {
+              "device": "R1",
+              "interface": "GigabitEthernet0/0",
+              "acl_name": "EDGE-IN",
+              "direction": "out"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto"
+}

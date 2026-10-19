@@ -1,0 +1,38 @@
+# Sao chép file này thành config/local.toml rồi sửa đường dẫn cho máy của bạn.
+# config/local.toml nằm trong .gitignore — KHÔNG commit (chứa đường dẫn riêng của máy).
+# Không đặt API key trong file này. Key chỉ nhập vào terminal bằng Read-Host -AsSecureString.
+
+[dsh]
+# Lệnh gọi dsh dưới dạng danh sách. Lấy đúng như cách spikes/dsh_mcp/run_echo.ps1 đang gọi:
+# node.exe portable + file chạy của gói @deepseek-ai/dsh@0.2.0-rc.1 đã cài trong spike.
+# File chạy là giá trị trường "bin" trong package.json của gói; bản 0.2.0-rc.1 khai "lib/bin.js".
+# Tự kiểm (PowerShell), không đoán tên file:
+#   (Get-Content spikes\dsh_mcp\node_modules\@deepseek-ai\dsh\package.json -Raw | ConvertFrom-Json).bin
+command = [
+  "D:/FPT/KLTN/Cisco-Harness-Agent/cisco-harness-agent/spikes/dsh_mcp/.tools/node/node.exe",
+  "D:/FPT/KLTN/Cisco-Harness-Agent/cisco-harness-agent/spikes/dsh_mcp/node_modules/@deepseek-ai/dsh/lib/bin.js",
+]
+# Không cần khai DSH_HOME: runner đặt DSH_HOME riêng cho từng case ở runs/<run_id>/.dsh_home, quét secret
+# trong session log của dsh sau mỗi stage rồi xoá (giữ lại bằng --keep-dsh-home). Khoá `home` cũ, nếu
+# còn trong config/local.toml của bạn, bị bỏ qua.
+# Base patch: bản đã kiểm chứng ở spike (tắt 20 row, có 1 khối dsh-mcp-client).
+base_patch = "config/dsh.base.patch.yml"
+# Cách đưa prompt vào dsh: "stdin" (đọc từ '-') hoặc "arg" (tham số dòng lệnh).
+prompt_via = "stdin"
+# Tham số thêm cho APP headless của dsh, đặt sau --json (để trống nếu chưa cần). Runner gọi:
+#   <command> --profile headless --patch <file> --json <extra_args> -
+# Cờ của launcher (--profile, --patch) phải đứng trước --json, nên không đưa cờ launcher vào đây.
+extra_args = []
+timeout_s = 300
+requires_api_key = true
+# Thư mục làm việc (cwd) của dsh. dsh gửi nguyên văn đường dẫn này cho model, nên nó phải cố định, tên
+# trung tính, nằm NGOÀI repo và giống nhau ở mọi case (D-025). Không khai thì dùng mặc định của máy:
+#   Windows: %LOCALAPPDATA%\cha\workspace        Linux/macOS: ~/.cache/cha/workspace
+# Runner XOÁ mọi thứ trong thư mục này trước mỗi stage và giữ khoá <thư mục>.lock suốt lượt chạy: hai lượt
+# chạy thật cùng lúc trên một máy thì lượt thứ hai dừng ngay với lỗi cấu hình. Muốn mọi máy của nhóm gửi
+# cho model cùng một đường dẫn thì khai chung một giá trị (đường dẫn tuyệt đối), ví dụ:
+# workspace = "C:/cha/workspace"
+
+[python]
+# Python của venv GỐC repo — dsh dùng python này để khởi động harness MCP server.
+exe = "D:/FPT/KLTN/Cisco-Harness-Agent/cisco-harness-agent/.venv/Scripts/python.exe"

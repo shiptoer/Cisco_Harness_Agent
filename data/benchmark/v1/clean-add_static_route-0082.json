@@ -1,0 +1,25 @@
+{
+  "case_id": "clean-add_static_route-0082",
+  "subset": "clean",
+  "config_type": "static_route",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Add a static route on R-EDGE1 to 172.30.45.0/24 via 203.0.113.2",
+  "intent_template": "Add a static route on R-EDGE1 to 172.30.45.0/24 via 203.0.113.2",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "add_static_route",
+      "args": {
+        "device": "R-EDGE1",
+        "prefix": "172.30.45.0/24",
+        "next_hop": "203.0.113.2"
+      }
+    }
+  ]
+}

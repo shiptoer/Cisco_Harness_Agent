@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-vlan-0006",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW2",
+              "vlan_id": 101,
+              "name": "CAMERA"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW2\nvlan 101\n name CAMERA\nexit\nend\n```\n"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "case_id": "clean-apply_acl-0091",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "CORE1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "apply_acl",
+            "args": {
+              "device": "CORE1",
+              "interface": "Vlan30",
+              "acl_name": "ACL-SERVERS-OUT",
+              "direction": "out"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco CORE1\ninterface Vlan30\n ip access-group ACL-SERVERS-OUT out\nexit\nend\n```\n"
+  }
+}

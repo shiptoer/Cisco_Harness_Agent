@@ -1,0 +1,30 @@
+{
+  "case_id": "clean-add_acl_entry-0090",
+  "subset": "clean",
+  "config_type": "acl",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Thêm vào ACL ACL-MGMT-VTY trên ACC1 dòng 350: deny udp từ 10.14.10.0/24 tới host 10.10.50.46 cổng 514",
+  "intent_template": "Add line 350 to ACL ACL-MGMT-VTY on ACC1: deny udp from 10.14.10.0/24 to host 10.10.50.46 port 514",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "add_acl_entry",
+      "args": {
+        "device": "ACC1",
+        "acl_name": "ACL-MGMT-VTY",
+        "seq": 350,
+        "action": "deny",
+        "protocol": "udp",
+        "src": "10.14.10.0/24",
+        "dst": "host 10.10.50.46",
+        "dst_port": "eq 514"
+      }
+    }
+  ]
+}

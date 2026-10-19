@@ -1,0 +1,30 @@
+{
+  "case_id": "clean-set_aaa_login-0041",
+  "subset": "clean",
+  "config_type": "aaa",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Cấu hình login authentication list MGMT-LOGIN trên R1 dùng TACACS+, RADIUS rồi local, key tham chiếu tacacs_key",
+  "intent_template": "Configure login authentication list MGMT-LOGIN on R1 using TACACS+, then RADIUS, then local, key reference tacacs_key",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_aaa_login",
+      "args": {
+        "device": "R1",
+        "list_name": "MGMT-LOGIN",
+        "methods": [
+          "group tacacs+",
+          "group radius",
+          "local"
+        ],
+        "tacacs_key_ref": "tacacs_key"
+      }
+    }
+  ]
+}

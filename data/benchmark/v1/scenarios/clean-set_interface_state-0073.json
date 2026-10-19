@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-set_interface_state-0073",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC3"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_state",
+            "args": {
+              "device": "ACC3",
+              "interface": "Ethernet0/3",
+              "enabled": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC3\ninterface Ethernet0/3\n shutdown\nexit\nend\n```\n"
+  }
+}

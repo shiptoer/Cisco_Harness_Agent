@@ -1,0 +1,39 @@
+{
+  "case_id": "clean-multi_acl_new_apply-0049",
+  "subset": "clean",
+  "config_type": "acl",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên SW1, tạo ACL PRINT-ACL với dòng 10 chặn udp từ 10.39.10.0/24 tới host 10.10.50.34 cổng 514, rồi áp ACL PRINT-ACL chiều ra (out) lên Vlan10",
+  "intent_template": "On SW1, create ACL PRINT-ACL with line 10 to deny udp from 10.39.10.0/24 to host 10.10.50.34 port 514, then apply ACL PRINT-ACL outbound on Vlan10",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "add_acl_entry",
+      "args": {
+        "device": "SW1",
+        "acl_name": "PRINT-ACL",
+        "seq": 10,
+        "action": "deny",
+        "protocol": "udp",
+        "src": "10.39.10.0/24",
+        "dst": "host 10.10.50.34",
+        "dst_port": "eq 514"
+      }
+    },
+    {
+      "tool": "apply_acl",
+      "args": {
+        "device": "SW1",
+        "interface": "Vlan10",
+        "acl_name": "PRINT-ACL",
+        "direction": "out"
+      }
+    }
+  ]
+}

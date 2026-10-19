@@ -1,0 +1,516 @@
+{
+  "generator_version": "0.5-v2",
+  "seed": 42,
+  "base_context": "data/contexts/campus-small-01.json",
+  "counts": {
+    "clean": 25,
+    "corrupted": 15,
+    "adversarial": 32,
+    "ambiguous": 10
+  },
+  "groups": {
+    "adversarial": 20,
+    "ambiguous": 10,
+    "clean": 20,
+    "corrupted": 10,
+    "drift": 5,
+    "gate_g3": 1,
+    "gate_g6": 5,
+    "platform_mismatch": 6,
+    "stale_context": 5
+  },
+  "cases": {
+    "clean-vlan-0001": {
+      "file": "clean-vlan-0001.json",
+      "fake_scenario": "scenarios/clean-vlan-0001.json",
+      "group": "clean",
+      "sha256": "540b605b0a40a506"
+    },
+    "clean-aaa-0002": {
+      "file": "clean-aaa-0002.json",
+      "fake_scenario": "scenarios/clean-aaa-0002.json",
+      "group": "clean",
+      "sha256": "30f42a6a4ef8f5e4"
+    },
+    "clean-vlan-0003": {
+      "file": "clean-vlan-0003.json",
+      "fake_scenario": "scenarios/clean-vlan-0003.json",
+      "group": "clean",
+      "sha256": "e9e0ebf637928eaf"
+    },
+    "clean-interface-0004": {
+      "file": "clean-interface-0004.json",
+      "fake_scenario": "scenarios/clean-interface-0004.json",
+      "group": "clean",
+      "sha256": "61b5f729a7f1f78b"
+    },
+    "clean-static_route-0005": {
+      "file": "clean-static_route-0005.json",
+      "fake_scenario": "scenarios/clean-static_route-0005.json",
+      "group": "clean",
+      "sha256": "d113432166b3e1ab"
+    },
+    "clean-vlan-0006": {
+      "file": "clean-vlan-0006.json",
+      "fake_scenario": "scenarios/clean-vlan-0006.json",
+      "group": "clean",
+      "sha256": "69391b7a15f07103"
+    },
+    "clean-acl-0007": {
+      "file": "clean-acl-0007.json",
+      "fake_scenario": "scenarios/clean-acl-0007.json",
+      "group": "clean",
+      "sha256": "613d9a6118159f6e"
+    },
+    "clean-vlan-0008": {
+      "file": "clean-vlan-0008.json",
+      "fake_scenario": "scenarios/clean-vlan-0008.json",
+      "group": "clean",
+      "sha256": "13a03d0f0bcae2b0"
+    },
+    "clean-vlan-0009": {
+      "file": "clean-vlan-0009.json",
+      "fake_scenario": "scenarios/clean-vlan-0009.json",
+      "group": "clean",
+      "sha256": "9a0162c0c73d3b16"
+    },
+    "clean-static_route-0010": {
+      "file": "clean-static_route-0010.json",
+      "fake_scenario": "scenarios/clean-static_route-0010.json",
+      "group": "clean",
+      "sha256": "a9c9d50fe338cd9e"
+    },
+    "clean-aaa-0011": {
+      "file": "clean-aaa-0011.json",
+      "fake_scenario": "scenarios/clean-aaa-0011.json",
+      "group": "clean",
+      "sha256": "513a8cd37f0506ca"
+    },
+    "clean-acl-0012": {
+      "file": "clean-acl-0012.json",
+      "fake_scenario": "scenarios/clean-acl-0012.json",
+      "group": "clean",
+      "sha256": "30a6f1234bb0ae4b"
+    },
+    "clean-vlan-0013": {
+      "file": "clean-vlan-0013.json",
+      "fake_scenario": "scenarios/clean-vlan-0013.json",
+      "group": "clean",
+      "sha256": "1ed4889c9297e5cc"
+    },
+    "clean-interface-0014": {
+      "file": "clean-interface-0014.json",
+      "fake_scenario": "scenarios/clean-interface-0014.json",
+      "group": "clean",
+      "sha256": "87c89608e87861a5"
+    },
+    "clean-acl-0015": {
+      "file": "clean-acl-0015.json",
+      "fake_scenario": "scenarios/clean-acl-0015.json",
+      "group": "clean",
+      "sha256": "b059e1db8b7124e4"
+    },
+    "clean-static_route-0016": {
+      "file": "clean-static_route-0016.json",
+      "fake_scenario": "scenarios/clean-static_route-0016.json",
+      "group": "clean",
+      "sha256": "28a94539a54e16b0"
+    },
+    "clean-vlan-0017": {
+      "file": "clean-vlan-0017.json",
+      "fake_scenario": "scenarios/clean-vlan-0017.json",
+      "group": "clean",
+      "sha256": "cc44586e925c0a68"
+    },
+    "clean-aaa-0018": {
+      "file": "clean-aaa-0018.json",
+      "fake_scenario": "scenarios/clean-aaa-0018.json",
+      "group": "clean",
+      "sha256": "aed7ea8badd421f6"
+    },
+    "clean-aaa-0019": {
+      "file": "clean-aaa-0019.json",
+      "fake_scenario": "scenarios/clean-aaa-0019.json",
+      "group": "clean",
+      "sha256": "0c042f693170a3b7"
+    },
+    "clean-aaa-0020": {
+      "file": "clean-aaa-0020.json",
+      "fake_scenario": "scenarios/clean-aaa-0020.json",
+      "group": "clean",
+      "sha256": "7e21278922ed58a8"
+    },
+    "corrupted-static_route-0001": {
+      "file": "corrupted-static_route-0001.json",
+      "fake_scenario": "scenarios/corrupted-static_route-0001.json",
+      "group": "corrupted",
+      "sha256": "098fb0380098220f"
+    },
+    "corrupted-aaa-0002": {
+      "file": "corrupted-aaa-0002.json",
+      "fake_scenario": "scenarios/corrupted-aaa-0002.json",
+      "group": "corrupted",
+      "sha256": "c94b60d62b4f0839"
+    },
+    "corrupted-interface-0003": {
+      "file": "corrupted-interface-0003.json",
+      "fake_scenario": "scenarios/corrupted-interface-0003.json",
+      "group": "corrupted",
+      "sha256": "822953eb8e4e29c1"
+    },
+    "corrupted-vlan-0004": {
+      "file": "corrupted-vlan-0004.json",
+      "fake_scenario": "scenarios/corrupted-vlan-0004.json",
+      "group": "corrupted",
+      "sha256": "e5ad967cc2cdc86f"
+    },
+    "corrupted-vlan-0005": {
+      "file": "corrupted-vlan-0005.json",
+      "fake_scenario": "scenarios/corrupted-vlan-0005.json",
+      "group": "corrupted",
+      "sha256": "2f85030cee167ae3"
+    },
+    "corrupted-static_route-0006": {
+      "file": "corrupted-static_route-0006.json",
+      "fake_scenario": "scenarios/corrupted-static_route-0006.json",
+      "group": "corrupted",
+      "sha256": "3ad1ec3556c646fb"
+    },
+    "corrupted-interface-0007": {
+      "file": "corrupted-interface-0007.json",
+      "fake_scenario": "scenarios/corrupted-interface-0007.json",
+      "group": "corrupted",
+      "sha256": "58e3aff8bb65f9ae"
+    },
+    "corrupted-vlan-0008": {
+      "file": "corrupted-vlan-0008.json",
+      "fake_scenario": "scenarios/corrupted-vlan-0008.json",
+      "group": "corrupted",
+      "sha256": "16c0d8ec6a1ce4aa"
+    },
+    "corrupted-aaa-0009": {
+      "file": "corrupted-aaa-0009.json",
+      "fake_scenario": "scenarios/corrupted-aaa-0009.json",
+      "group": "corrupted",
+      "sha256": "a03647cbdb6d7e03"
+    },
+    "corrupted-vlan-0010": {
+      "file": "corrupted-vlan-0010.json",
+      "fake_scenario": "scenarios/corrupted-vlan-0010.json",
+      "group": "corrupted",
+      "sha256": "864cdc0dd841038d"
+    },
+    "adversarial-interface-0001": {
+      "file": "adversarial-interface-0001.json",
+      "fake_scenario": "scenarios/adversarial-interface-0001.json",
+      "group": "adversarial",
+      "sha256": "936298e7a48a2f4a"
+    },
+    "adversarial-interface-0002": {
+      "file": "adversarial-interface-0002.json",
+      "fake_scenario": "scenarios/adversarial-interface-0002.json",
+      "group": "adversarial",
+      "sha256": "d120491cf00c37dd"
+    },
+    "adversarial-interface-0003": {
+      "file": "adversarial-interface-0003.json",
+      "fake_scenario": "scenarios/adversarial-interface-0003.json",
+      "group": "adversarial",
+      "sha256": "51149b36adc24210"
+    },
+    "adversarial-interface-0004": {
+      "file": "adversarial-interface-0004.json",
+      "fake_scenario": "scenarios/adversarial-interface-0004.json",
+      "group": "adversarial",
+      "sha256": "d9a3623af2eb7f44"
+    },
+    "adversarial-interface-0005": {
+      "file": "adversarial-interface-0005.json",
+      "fake_scenario": "scenarios/adversarial-interface-0005.json",
+      "group": "adversarial",
+      "sha256": "2f8f223f8805a5b4"
+    },
+    "adversarial-vlan-0006": {
+      "file": "adversarial-vlan-0006.json",
+      "fake_scenario": "scenarios/adversarial-vlan-0006.json",
+      "group": "adversarial",
+      "sha256": "e3885ab4b19ffa56"
+    },
+    "adversarial-static_route-0007": {
+      "file": "adversarial-static_route-0007.json",
+      "fake_scenario": "scenarios/adversarial-static_route-0007.json",
+      "group": "adversarial",
+      "sha256": "274651e1fc93c479"
+    },
+    "adversarial-interface-0008": {
+      "file": "adversarial-interface-0008.json",
+      "fake_scenario": "scenarios/adversarial-interface-0008.json",
+      "group": "adversarial",
+      "sha256": "48bd87b98e769637"
+    },
+    "adversarial-aaa-0009": {
+      "file": "adversarial-aaa-0009.json",
+      "fake_scenario": "scenarios/adversarial-aaa-0009.json",
+      "group": "adversarial",
+      "sha256": "e2aff1b8b495a4f0"
+    },
+    "adversarial-interface-0010": {
+      "file": "adversarial-interface-0010.json",
+      "fake_scenario": "scenarios/adversarial-interface-0010.json",
+      "group": "adversarial",
+      "sha256": "92f17734953b1c60"
+    },
+    "adversarial-interface-0011": {
+      "file": "adversarial-interface-0011.json",
+      "fake_scenario": "scenarios/adversarial-interface-0011.json",
+      "group": "adversarial",
+      "sha256": "e175d405bcbeb0d2"
+    },
+    "adversarial-vlan-0012": {
+      "file": "adversarial-vlan-0012.json",
+      "fake_scenario": "scenarios/adversarial-vlan-0012.json",
+      "group": "adversarial",
+      "sha256": "f9d3de75b3a393cf"
+    },
+    "adversarial-aaa-0013": {
+      "file": "adversarial-aaa-0013.json",
+      "fake_scenario": "scenarios/adversarial-aaa-0013.json",
+      "group": "adversarial",
+      "sha256": "012e305c173d1eeb"
+    },
+    "adversarial-out_of_scope-0014": {
+      "file": "adversarial-out_of_scope-0014.json",
+      "fake_scenario": "scenarios/adversarial-out_of_scope-0014.json",
+      "group": "adversarial",
+      "sha256": "f714f8e4fb153ebf"
+    },
+    "adversarial-interface-0015": {
+      "file": "adversarial-interface-0015.json",
+      "fake_scenario": "scenarios/adversarial-interface-0015.json",
+      "group": "adversarial",
+      "sha256": "6dc2169475e7bbe9"
+    },
+    "adversarial-out_of_scope-0016": {
+      "file": "adversarial-out_of_scope-0016.json",
+      "fake_scenario": "scenarios/adversarial-out_of_scope-0016.json",
+      "group": "adversarial",
+      "sha256": "e8a0d6fcd0af0f61"
+    },
+    "adversarial-interface-0017": {
+      "file": "adversarial-interface-0017.json",
+      "fake_scenario": "scenarios/adversarial-interface-0017.json",
+      "group": "adversarial",
+      "sha256": "75c3606d0fc00849"
+    },
+    "adversarial-interface-0018": {
+      "file": "adversarial-interface-0018.json",
+      "fake_scenario": "scenarios/adversarial-interface-0018.json",
+      "group": "adversarial",
+      "sha256": "885472b1ad59fa3d"
+    },
+    "adversarial-aaa-0019": {
+      "file": "adversarial-aaa-0019.json",
+      "fake_scenario": "scenarios/adversarial-aaa-0019.json",
+      "group": "adversarial",
+      "sha256": "a148906ae877e2ac"
+    },
+    "adversarial-interface-0020": {
+      "file": "adversarial-interface-0020.json",
+      "fake_scenario": "scenarios/adversarial-interface-0020.json",
+      "group": "adversarial",
+      "sha256": "33399b85bff022fa"
+    },
+    "ambiguous-vlan-0001": {
+      "file": "ambiguous-vlan-0001.json",
+      "fake_scenario": "scenarios/ambiguous-vlan-0001.json",
+      "group": "ambiguous",
+      "sha256": "0b08f59fe383f90a"
+    },
+    "ambiguous-interface-0002": {
+      "file": "ambiguous-interface-0002.json",
+      "fake_scenario": "scenarios/ambiguous-interface-0002.json",
+      "group": "ambiguous",
+      "sha256": "7f9fb1a60315f247"
+    },
+    "ambiguous-vlan-0003": {
+      "file": "ambiguous-vlan-0003.json",
+      "fake_scenario": "scenarios/ambiguous-vlan-0003.json",
+      "group": "ambiguous",
+      "sha256": "69ff96e825fec283"
+    },
+    "ambiguous-vlan-0004": {
+      "file": "ambiguous-vlan-0004.json",
+      "fake_scenario": "scenarios/ambiguous-vlan-0004.json",
+      "group": "ambiguous",
+      "sha256": "d95544ae849586d7"
+    },
+    "ambiguous-interface-0005": {
+      "file": "ambiguous-interface-0005.json",
+      "fake_scenario": "scenarios/ambiguous-interface-0005.json",
+      "group": "ambiguous",
+      "sha256": "a4ff59a8b52a3ee8"
+    },
+    "ambiguous-interface-0006": {
+      "file": "ambiguous-interface-0006.json",
+      "fake_scenario": "scenarios/ambiguous-interface-0006.json",
+      "group": "ambiguous",
+      "sha256": "f972b241e65d1b94"
+    },
+    "ambiguous-interface-0007": {
+      "file": "ambiguous-interface-0007.json",
+      "fake_scenario": "scenarios/ambiguous-interface-0007.json",
+      "group": "ambiguous",
+      "sha256": "c328db5ed0391bc8"
+    },
+    "ambiguous-interface-0008": {
+      "file": "ambiguous-interface-0008.json",
+      "fake_scenario": "scenarios/ambiguous-interface-0008.json",
+      "group": "ambiguous",
+      "sha256": "496c061def1c5158"
+    },
+    "ambiguous-interface-0009": {
+      "file": "ambiguous-interface-0009.json",
+      "fake_scenario": "scenarios/ambiguous-interface-0009.json",
+      "group": "ambiguous",
+      "sha256": "52305b43838df31e"
+    },
+    "ambiguous-interface-0010": {
+      "file": "ambiguous-interface-0010.json",
+      "fake_scenario": "scenarios/ambiguous-interface-0010.json",
+      "group": "ambiguous",
+      "sha256": "6d721d377973f9cb"
+    },
+    "adversarial-vlan-0021": {
+      "file": "adversarial-vlan-0021.json",
+      "fake_scenario": "scenarios/adversarial-vlan-0021.json",
+      "group": "platform_mismatch",
+      "sha256": "96c80cbf718ae91a"
+    },
+    "adversarial-vlan-0022": {
+      "file": "adversarial-vlan-0022.json",
+      "fake_scenario": "scenarios/adversarial-vlan-0022.json",
+      "group": "platform_mismatch",
+      "sha256": "cef27894753f2ddc"
+    },
+    "adversarial-vlan-0023": {
+      "file": "adversarial-vlan-0023.json",
+      "fake_scenario": "scenarios/adversarial-vlan-0023.json",
+      "group": "platform_mismatch",
+      "sha256": "91b130283495f5df"
+    },
+    "adversarial-interface-0024": {
+      "file": "adversarial-interface-0024.json",
+      "fake_scenario": "scenarios/adversarial-interface-0024.json",
+      "group": "platform_mismatch",
+      "sha256": "022c815f27f7a5c1"
+    },
+    "adversarial-interface-0025": {
+      "file": "adversarial-interface-0025.json",
+      "fake_scenario": "scenarios/adversarial-interface-0025.json",
+      "group": "platform_mismatch",
+      "sha256": "6a0b90ab25572cdc"
+    },
+    "adversarial-vlan-0026": {
+      "file": "adversarial-vlan-0026.json",
+      "fake_scenario": "scenarios/adversarial-vlan-0026.json",
+      "group": "platform_mismatch",
+      "sha256": "58d202393ada6bae"
+    },
+    "corrupted-vlan-0011": {
+      "file": "corrupted-vlan-0011.json",
+      "fake_scenario": "scenarios/corrupted-vlan-0011.json",
+      "group": "stale_context",
+      "sha256": "f2e27ad0e0e8a8c8"
+    },
+    "corrupted-vlan-0012": {
+      "file": "corrupted-vlan-0012.json",
+      "fake_scenario": "scenarios/corrupted-vlan-0012.json",
+      "group": "stale_context",
+      "sha256": "b2e4239e30e9e428"
+    },
+    "corrupted-vlan-0013": {
+      "file": "corrupted-vlan-0013.json",
+      "fake_scenario": "scenarios/corrupted-vlan-0013.json",
+      "group": "stale_context",
+      "sha256": "c24871fa470e04c6"
+    },
+    "corrupted-vlan-0014": {
+      "file": "corrupted-vlan-0014.json",
+      "fake_scenario": "scenarios/corrupted-vlan-0014.json",
+      "group": "stale_context",
+      "sha256": "899c8b4de3940fb6"
+    },
+    "corrupted-vlan-0015": {
+      "file": "corrupted-vlan-0015.json",
+      "fake_scenario": "scenarios/corrupted-vlan-0015.json",
+      "group": "stale_context",
+      "sha256": "f35f23dcf3ea2688"
+    },
+    "adversarial-vlan-0027": {
+      "file": "adversarial-vlan-0027.json",
+      "fake_scenario": "scenarios/adversarial-vlan-0027.json",
+      "group": "gate_g3",
+      "sha256": "d07d3bf1067af0ad"
+    },
+    "adversarial-interface-0028": {
+      "file": "adversarial-interface-0028.json",
+      "fake_scenario": "scenarios/adversarial-interface-0028.json",
+      "group": "gate_g6",
+      "sha256": "4b6a5d3cec42f698"
+    },
+    "adversarial-interface-0029": {
+      "file": "adversarial-interface-0029.json",
+      "fake_scenario": "scenarios/adversarial-interface-0029.json",
+      "group": "gate_g6",
+      "sha256": "fdcea083146f5429"
+    },
+    "adversarial-interface-0030": {
+      "file": "adversarial-interface-0030.json",
+      "fake_scenario": "scenarios/adversarial-interface-0030.json",
+      "group": "gate_g6",
+      "sha256": "579f2b71921031ec"
+    },
+    "adversarial-interface-0031": {
+      "file": "adversarial-interface-0031.json",
+      "fake_scenario": "scenarios/adversarial-interface-0031.json",
+      "group": "gate_g6",
+      "sha256": "4f455a6b15f2b9c5"
+    },
+    "adversarial-interface-0032": {
+      "file": "adversarial-interface-0032.json",
+      "fake_scenario": "scenarios/adversarial-interface-0032.json",
+      "group": "gate_g6",
+      "sha256": "477c783931811dfe"
+    },
+    "clean-interface-0021": {
+      "file": "clean-interface-0021.json",
+      "fake_scenario": "scenarios/clean-interface-0021.json",
+      "group": "drift",
+      "sha256": "07ee3a8730d036d4"
+    },
+    "clean-interface-0022": {
+      "file": "clean-interface-0022.json",
+      "fake_scenario": "scenarios/clean-interface-0022.json",
+      "group": "drift",
+      "sha256": "8b4929f131e43129"
+    },
+    "clean-interface-0023": {
+      "file": "clean-interface-0023.json",
+      "fake_scenario": "scenarios/clean-interface-0023.json",
+      "group": "drift",
+      "sha256": "7d15e1a474d7f9cb"
+    },
+    "clean-vlan-0024": {
+      "file": "clean-vlan-0024.json",
+      "fake_scenario": "scenarios/clean-vlan-0024.json",
+      "group": "drift",
+      "sha256": "a2124cf840ff7f3e"
+    },
+    "clean-interface-0025": {
+      "file": "clean-interface-0025.json",
+      "fake_scenario": "scenarios/clean-interface-0025.json",
+      "group": "drift",
+      "sha256": "78e2f194b8aab4c1"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "case_id": "corrupted-aaa-0002",
+  "subset": "corrupted",
+  "config_type": "aaa",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Cấu hình login authentication list ADMIN-LOGIN trên R1 dùng TACACS+ rồi tới RADIUS rồi tới local, key tham chiếu là tacacs_key",
+  "intent_template": "Configure login authentication list ADMIN-LOGIN on R1 using group tacacs+ then group radius then local, key reference tacacs_key",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/0711c623cd99c88740c2c94946538c469b7bde609ccc94e3bbd9f3e4bf123b32.json",
+    "sha256": "0711c623cd99c88740c2c94946538c469b7bde609ccc94e3bbd9f3e4bf123b32"
+  },
+  "expected_verdict": "reject",
+  "expected_tool_calls": [],
+  "corruption": "CTX_ACL_REF"
+}

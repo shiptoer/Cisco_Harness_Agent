@@ -1,0 +1,13 @@
+{
+  "context_id": "smb-01",
+  "domain_name": "smb.lab",
+  "devices": [
+    {"hostname": "R-EDGE1", "host": "192.168.137.11", "role": "router", "site": "HQ", "platform": "ios", "mgmt_interface": "Ethernet0/3"},
+    {"hostname": "R-BR1", "host": "192.168.137.12", "role": "router", "site": "BR1", "platform": "ios", "mgmt_interface": "Ethernet0/3"},
+    {"hostname": "CORE1", "host": "192.168.137.21", "role": "distribution_switch", "site": "HQ", "platform": "iosvl2", "mgmt_interface": "Ethernet1/3"},
+    {"hostname": "ACC1", "host": "192.168.137.31", "role": "access_switch", "site": "HQ", "platform": "iosvl2", "mgmt_interface": "Ethernet1/3"},
+    {"hostname": "ACC2", "host": "192.168.137.32", "role": "access_switch", "site": "HQ", "platform": "iosvl2", "mgmt_interface": "Ethernet1/3"},
+    {"hostname": "ACC3", "host": "192.168.137.33", "role": "access_switch", "site": "HQ", "platform": "iosvl2", "mgmt_interface": "Ethernet1/3"},
+    {"hostname": "ACC-BR1", "host": "192.168.137.34", "role": "access_switch", "site": "BR1", "platform": "iosvl2", "mgmt_interface": "Ethernet1/3"}
+  ]
+}

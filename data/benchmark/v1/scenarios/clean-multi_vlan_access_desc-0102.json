@@ -1,0 +1,51 @@
+{
+  "case_id": "clean-multi_vlan_access_desc-0102",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC3"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "ACC3",
+              "vlan_id": 97,
+              "name": "WIFI"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "ACC3",
+              "interface": "Ethernet1/0",
+              "vlan_id": 97
+            }
+          },
+          {
+            "tool": "set_interface_description",
+            "args": {
+              "device": "ACC3",
+              "interface": "Ethernet1/0",
+              "text": "Lab PC, temporary"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC3\nvlan 97\n name WIFI\nexit\ninterface Ethernet1/0\n switchport mode access\n switchport access vlan 97\nexit\ninterface Ethernet1/0\n description Lab PC, temporary\nexit\nend\n```\n"
+  }
+}

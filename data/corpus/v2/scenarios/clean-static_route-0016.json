@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-static_route-0016",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "remove_static_route",
+            "args": {
+              "device": "R1",
+              "prefix": "10.10.0.0/16",
+              "next_hop": "10.0.12.2"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R1\nno ip route 10.10.0.0 255.255.0.0 10.0.12.2\nend\n```\n"
+  }
+}

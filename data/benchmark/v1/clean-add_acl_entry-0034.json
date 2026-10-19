@@ -1,0 +1,30 @@
+{
+  "case_id": "clean-add_acl_entry-0034",
+  "subset": "clean",
+  "config_type": "acl",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên SW1, ACL SERVERS-PROTECT cần thêm dòng 450 chặn tcp từ 10.56.10.0/24 đến host 10.10.50.57 port 8080",
+  "intent_template": "On SW1, ACL SERVERS-PROTECT needs line 450 to deny tcp from 10.56.10.0/24 to host 10.10.50.57 port 8080",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "add_acl_entry",
+      "args": {
+        "device": "SW1",
+        "acl_name": "SERVERS-PROTECT",
+        "seq": 450,
+        "action": "deny",
+        "protocol": "tcp",
+        "src": "10.56.10.0/24",
+        "dst": "host 10.10.50.57",
+        "dst_port": "eq 8080"
+      }
+    }
+  ]
+}

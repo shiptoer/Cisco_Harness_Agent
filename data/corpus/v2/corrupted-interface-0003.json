@@ -1,0 +1,17 @@
+{
+  "case_id": "corrupted-interface-0003",
+  "subset": "corrupted",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Tắt cổng GigabitEthernet0/2 trên SW2",
+  "intent_template": "Shut down interface GigabitEthernet0/2 on SW2",
+  "role": "access_operator",
+  "context_ref": {
+    "path": "contexts/e5b0f5f3b953b1737fd210f86ca9ad0b11a8c01834638f87ae2a166e2b6b1d66.json",
+    "sha256": "e5b0f5f3b953b1737fd210f86ca9ad0b11a8c01834638f87ae2a166e2b6b1d66"
+  },
+  "expected_verdict": "reject",
+  "expected_tool_calls": [],
+  "corruption": "CTX_RESERVED_VLAN_IN_USE"
+}

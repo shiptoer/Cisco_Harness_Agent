@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-set_access_vlan-0006",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "SW1",
+              "interface": "GigabitEthernet0/3",
+              "vlan_id": 10
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\ninterface GigabitEthernet0/3\n switchport mode access\n switchport access vlan 10\nexit\nend\n```\n"
+  }
+}

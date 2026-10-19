@@ -1,0 +1,33 @@
+{
+  "case_id": "clean-multi_vlan_access-0100",
+  "subset": "clean",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Tạo VLAN 112 tên LAB trên ACC-BR1 và gán cổng Ethernet0/3 vào VLAN 112",
+  "intent_template": "Create VLAN 112 named LAB on ACC-BR1 and put interface Ethernet0/3 into VLAN 112",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "create_vlan",
+      "args": {
+        "device": "ACC-BR1",
+        "vlan_id": 112,
+        "name": "LAB"
+      }
+    },
+    {
+      "tool": "set_access_vlan",
+      "args": {
+        "device": "ACC-BR1",
+        "interface": "Ethernet0/3",
+        "vlan_id": 112
+      }
+    }
+  ]
+}

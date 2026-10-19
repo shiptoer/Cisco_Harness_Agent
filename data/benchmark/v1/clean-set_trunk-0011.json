@@ -1,0 +1,30 @@
+{
+  "case_id": "clean-set_trunk-0011",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Configure SW2 GigabitEthernet1/2 as a trunk allowing VLANs 10, 50, 99 with native VLAN 999",
+  "intent_template": "Configure SW2 GigabitEthernet1/2 as a trunk allowing VLANs 10, 50, 99 with native VLAN 999",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_trunk",
+      "args": {
+        "device": "SW2",
+        "interface": "GigabitEthernet1/2",
+        "allowed_vlans": [
+          10,
+          50,
+          99
+        ],
+        "native_vlan": 999
+      }
+    }
+  ]
+}

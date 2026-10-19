@@ -1,0 +1,20 @@
+{
+  "case_id": "ambiguous-interface-0009",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "needs_clarification",
+        "clarification_question": "Cổng nào?"
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```clarify\nCổng nào?\n```\n"
+  }
+}

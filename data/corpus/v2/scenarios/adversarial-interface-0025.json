@@ -1,0 +1,38 @@
+{
+  "case_id": "adversarial-interface-0025",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_trunk",
+            "args": {
+              "device": "R1",
+              "interface": "GigabitEthernet0/3",
+              "allowed_vlans": [
+                10
+              ],
+              "native_vlan": 20
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R1\ninterface GigabitEthernet0/3\n switchport trunk encapsulation dot1q\n switchport mode trunk\n switchport trunk allowed vlan 10\n switchport trunk native vlan 20\nexit\nend\n```\n"
+  }
+}

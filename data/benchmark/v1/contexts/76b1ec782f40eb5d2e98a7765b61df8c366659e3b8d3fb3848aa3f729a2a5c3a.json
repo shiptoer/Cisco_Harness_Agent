@@ -1,0 +1,1281 @@
+{
+  "context_id": "smb-01",
+  "devices": [
+    {
+      "aaa": {
+        "local_users": [
+          {
+            "privilege": 15,
+            "secret_ref": "local_netadmin",
+            "username": "netadmin"
+          }
+        ],
+        "login_lists": {
+          "CONSOLE": [
+            "local"
+          ],
+          "default": [
+            "group tacacs+",
+            "local"
+          ]
+        },
+        "new_model": true,
+        "tacacs_servers": [
+          {
+            "address": "10.10.50.10",
+            "key_ref": "tacacs_key",
+            "name": "TAC1"
+          }
+        ],
+        "vty_login_list": "default"
+      },
+      "acls": {
+        "ACL-MGMT-VTY": [
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 10,
+            "src": "host 192.168.137.1"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 20,
+            "src": "10.10.99.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 30,
+            "src": "10.20.99.0 0.0.0.255"
+          },
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 40,
+            "src": "any"
+          }
+        ]
+      },
+      "banner_motd": "",
+      "hostname": "R-EDGE1",
+      "interfaces": [
+        {
+          "description": "UPLINK-CORE1-e0/0",
+          "enabled": true,
+          "ipv4": "10.255.0.1/30",
+          "mode": "routed",
+          "name": "Ethernet0/0"
+        },
+        {
+          "description": "WAN-ISP-e0/0",
+          "enabled": true,
+          "ipv4": "203.0.113.1/30",
+          "mode": "routed",
+          "name": "Ethernet0/1"
+        },
+        {
+          "description": "WAN-R-BR1-e0/0",
+          "enabled": true,
+          "ipv4": "10.255.0.5/30",
+          "mode": "routed",
+          "name": "Ethernet0/2"
+        },
+        {
+          "description": "OOB-MGMT",
+          "enabled": true,
+          "ipv4": "192.168.137.11/24",
+          "mode": "routed",
+          "name": "Ethernet0/3"
+        },
+        {
+          "enabled": false,
+          "mode": "routed",
+          "name": "Ethernet1/0"
+        },
+        {
+          "enabled": false,
+          "mode": "routed",
+          "name": "Ethernet1/1"
+        },
+        {
+          "enabled": false,
+          "mode": "routed",
+          "name": "Ethernet1/2"
+        },
+        {
+          "enabled": false,
+          "mode": "routed",
+          "name": "Ethernet1/3"
+        }
+      ],
+      "ip_routing": true,
+      "platform": "ios",
+      "role": "router",
+      "secrets": {
+        "enable_secret": "redacted-by-collector",
+        "local_netadmin": "redacted-by-collector",
+        "tacacs_key": "redacted-by-collector"
+      },
+      "site": "HQ",
+      "static_routes": [
+        {
+          "next_hop": "203.0.113.2",
+          "prefix": "0.0.0.0/0"
+        },
+        {
+          "next_hop": "10.255.0.2",
+          "prefix": "10.10.0.0/16"
+        },
+        {
+          "next_hop": "10.255.0.6",
+          "prefix": "10.20.0.0/16"
+        },
+        {
+          "next_hop": "10.255.0.6",
+          "prefix": "10.255.0.8/30"
+        }
+      ],
+      "vlans": []
+    },
+    {
+      "aaa": {
+        "local_users": [
+          {
+            "privilege": 15,
+            "secret_ref": "local_netadmin",
+            "username": "netadmin"
+          }
+        ],
+        "login_lists": {
+          "CONSOLE": [
+            "local"
+          ],
+          "default": [
+            "group tacacs+",
+            "local"
+          ]
+        },
+        "new_model": true,
+        "tacacs_servers": [
+          {
+            "address": "10.10.50.10",
+            "key_ref": "tacacs_key",
+            "name": "TAC1"
+          }
+        ],
+        "vty_login_list": "default"
+      },
+      "acls": {
+        "ACL-MGMT-VTY": [
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 10,
+            "src": "host 192.168.137.1"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 20,
+            "src": "10.10.99.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 30,
+            "src": "10.20.99.0 0.0.0.255"
+          },
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 40,
+            "src": "any"
+          }
+        ]
+      },
+      "banner_motd": "",
+      "hostname": "R-BR1",
+      "interfaces": [
+        {
+          "description": "WAN-R-EDGE1-e0/2",
+          "enabled": true,
+          "ipv4": "10.255.0.6/30",
+          "mode": "routed",
+          "name": "Ethernet0/0"
+        },
+        {
+          "description": "UPLINK-ACC-BR1-e0/0",
+          "enabled": true,
+          "ipv4": "10.255.0.9/30",
+          "mode": "routed",
+          "name": "Ethernet0/1"
+        },
+        {
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "routed",
+          "name": "Ethernet0/2"
+        },
+        {
+          "description": "OOB-MGMT",
+          "enabled": true,
+          "ipv4": "192.168.137.12/24",
+          "mode": "routed",
+          "name": "Ethernet0/3"
+        }
+      ],
+      "ip_routing": true,
+      "platform": "ios",
+      "role": "router",
+      "secrets": {
+        "enable_secret": "redacted-by-collector",
+        "local_netadmin": "redacted-by-collector",
+        "tacacs_key": "redacted-by-collector"
+      },
+      "site": "BR1",
+      "static_routes": [
+        {
+          "next_hop": "10.255.0.5",
+          "prefix": "0.0.0.0/0"
+        },
+        {
+          "next_hop": "10.255.0.10",
+          "prefix": "10.20.0.0/16"
+        }
+      ],
+      "vlans": []
+    },
+    {
+      "aaa": {
+        "local_users": [
+          {
+            "privilege": 15,
+            "secret_ref": "local_netadmin",
+            "username": "netadmin"
+          }
+        ],
+        "login_lists": {
+          "CONSOLE": [
+            "local"
+          ],
+          "default": [
+            "group tacacs+",
+            "local"
+          ]
+        },
+        "new_model": true,
+        "tacacs_servers": [
+          {
+            "address": "10.10.50.10",
+            "key_ref": "tacacs_key",
+            "name": "TAC1"
+          }
+        ],
+        "vty_login_list": "default"
+      },
+      "acls": {
+        "ACL-GUEST-IN": [
+          {
+            "action": "deny",
+            "dst": "10.0.0.0 0.255.255.255",
+            "protocol": "ip",
+            "remark": "Khach chi ra Internet, khong vao mang noi bo",
+            "seq": 10,
+            "src": "10.10.60.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 20,
+            "src": "10.10.60.0 0.0.0.255"
+          },
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 30,
+            "src": "any"
+          }
+        ],
+        "ACL-MGMT-VTY": [
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 10,
+            "src": "host 192.168.137.1"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 20,
+            "src": "10.10.99.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 30,
+            "src": "10.20.99.0 0.0.0.255"
+          },
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 40,
+            "src": "any"
+          }
+        ],
+        "ACL-SERVERS-OUT": [
+          {
+            "action": "permit",
+            "dst": "host 10.10.50.20",
+            "dst_port": 443,
+            "protocol": "tcp",
+            "remark": "May chu tai chinh chi cho VLAN FINANCE qua HTTPS",
+            "seq": 10,
+            "src": "10.10.30.0 0.0.0.255"
+          },
+          {
+            "action": "deny",
+            "dst": "host 10.10.50.20",
+            "protocol": "ip",
+            "seq": 20,
+            "src": "any"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 30,
+            "src": "any"
+          }
+        ]
+      },
+      "banner_motd": "",
+      "hostname": "CORE1",
+      "interfaces": [
+        {
+          "description": "UPLINK-R-EDGE1-e0/0",
+          "enabled": true,
+          "ipv4": "10.255.0.2/30",
+          "mode": "routed",
+          "name": "Ethernet0/0"
+        },
+        {
+          "description": "TRUNK-ACC1-e0/0",
+          "enabled": true,
+          "mode": "trunk",
+          "name": "Ethernet0/1",
+          "native_vlan": 999,
+          "trunk_allowed": [
+            10,
+            20,
+            60,
+            99
+          ]
+        },
+        {
+          "description": "TRUNK-ACC2-e0/0",
+          "enabled": true,
+          "mode": "trunk",
+          "name": "Ethernet0/2",
+          "native_vlan": 999,
+          "trunk_allowed": [
+            30,
+            40,
+            99
+          ]
+        },
+        {
+          "description": "TRUNK-ACC3-e0/0",
+          "enabled": true,
+          "mode": "trunk",
+          "name": "Ethernet0/3",
+          "native_vlan": 999,
+          "trunk_allowed": [
+            50,
+            99
+          ]
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/0"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/1"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/2"
+        },
+        {
+          "description": "OOB-MGMT",
+          "enabled": true,
+          "ipv4": "192.168.137.21/24",
+          "mode": "routed",
+          "name": "Ethernet1/3"
+        },
+        {
+          "description": "GW-STAFF",
+          "enabled": true,
+          "ipv4": "10.10.10.1/24",
+          "mode": "routed",
+          "name": "Vlan10"
+        },
+        {
+          "description": "GW-SALES",
+          "enabled": true,
+          "ipv4": "10.10.20.1/24",
+          "mode": "routed",
+          "name": "Vlan20"
+        },
+        {
+          "description": "GW-FINANCE",
+          "enabled": true,
+          "ipv4": "10.10.30.1/24",
+          "mode": "routed",
+          "name": "Vlan30"
+        },
+        {
+          "description": "GW-HR",
+          "enabled": true,
+          "ipv4": "10.10.40.1/24",
+          "mode": "routed",
+          "name": "Vlan40"
+        },
+        {
+          "acl_out": "ACL-SERVERS-OUT",
+          "description": "GW-SERVERS",
+          "enabled": true,
+          "ipv4": "10.10.50.1/24",
+          "mode": "routed",
+          "name": "Vlan50"
+        },
+        {
+          "acl_in": "ACL-GUEST-IN",
+          "description": "GW-GUEST",
+          "enabled": true,
+          "ipv4": "10.10.60.1/24",
+          "mode": "routed",
+          "name": "Vlan60"
+        },
+        {
+          "description": "GW-INBAND-MGMT",
+          "enabled": true,
+          "ipv4": "10.10.99.1/24",
+          "mode": "routed",
+          "name": "Vlan99"
+        }
+      ],
+      "ip_routing": true,
+      "platform": "iosvl2",
+      "role": "distribution_switch",
+      "secrets": {
+        "enable_secret": "redacted-by-collector",
+        "local_netadmin": "redacted-by-collector",
+        "tacacs_key": "redacted-by-collector"
+      },
+      "site": "HQ",
+      "static_routes": [
+        {
+          "next_hop": "10.255.0.1",
+          "prefix": "0.0.0.0/0"
+        }
+      ],
+      "vlans": [
+        {
+          "name": "STAFF",
+          "vlan_id": 10
+        },
+        {
+          "name": "SALES",
+          "vlan_id": 20
+        },
+        {
+          "name": "FINANCE",
+          "vlan_id": 30
+        },
+        {
+          "name": "HR",
+          "vlan_id": 40
+        },
+        {
+          "name": "SERVERS",
+          "vlan_id": 50
+        },
+        {
+          "name": "GUEST",
+          "vlan_id": 60
+        },
+        {
+          "name": "MGMT",
+          "vlan_id": 99
+        },
+        {
+          "name": "NATIVE-UNUSED",
+          "vlan_id": 999
+        }
+      ]
+    },
+    {
+      "aaa": {
+        "local_users": [
+          {
+            "privilege": 15,
+            "secret_ref": "local_netadmin",
+            "username": "netadmin"
+          }
+        ],
+        "login_lists": {
+          "CONSOLE": [
+            "local"
+          ],
+          "default": [
+            "group tacacs+",
+            "local"
+          ]
+        },
+        "new_model": true,
+        "tacacs_servers": [
+          {
+            "address": "10.10.50.10",
+            "key_ref": "tacacs_key",
+            "name": "TAC1"
+          }
+        ],
+        "vty_login_list": "default"
+      },
+      "acls": {
+        "ACL-MGMT-VTY": [
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 10,
+            "src": "host 192.168.137.1"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 20,
+            "src": "10.10.99.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 30,
+            "src": "10.20.99.0 0.0.0.255"
+          },
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 40,
+            "src": "any"
+          }
+        ]
+      },
+      "banner_motd": "",
+      "default_gateway": "10.10.99.1",
+      "hostname": "ACC1",
+      "interfaces": [
+        {
+          "description": "UPLINK-CORE1-e0/1",
+          "enabled": true,
+          "mode": "trunk",
+          "name": "Ethernet0/0",
+          "native_vlan": 999,
+          "trunk_allowed": [
+            10,
+            20,
+            60,
+            99
+          ]
+        },
+        {
+          "access_vlan": 10,
+          "description": "PC-STAFF-01",
+          "enabled": true,
+          "mode": "access",
+          "name": "Ethernet0/1"
+        },
+        {
+          "access_vlan": 20,
+          "description": "PC-SALES-01",
+          "enabled": true,
+          "mode": "access",
+          "name": "Ethernet0/2"
+        },
+        {
+          "access_vlan": 60,
+          "description": "GUEST-AP-01",
+          "enabled": true,
+          "mode": "access",
+          "name": "Ethernet0/3"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/0"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/1"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/2"
+        },
+        {
+          "description": "OOB-MGMT",
+          "enabled": true,
+          "ipv4": "192.168.137.31/24",
+          "mode": "routed",
+          "name": "Ethernet1/3"
+        },
+        {
+          "description": "INBAND-MGMT",
+          "enabled": true,
+          "ipv4": "10.10.99.11/24",
+          "mode": "routed",
+          "name": "Vlan99"
+        }
+      ],
+      "ip_routing": false,
+      "platform": "iosvl2",
+      "role": "access_switch",
+      "secrets": {
+        "enable_secret": "redacted-by-collector",
+        "local_netadmin": "redacted-by-collector",
+        "tacacs_key": "redacted-by-collector"
+      },
+      "site": "HQ",
+      "static_routes": [],
+      "vlans": [
+        {
+          "name": "STAFF",
+          "vlan_id": 10
+        },
+        {
+          "name": "SALES",
+          "vlan_id": 20
+        },
+        {
+          "name": "GUEST",
+          "vlan_id": 60
+        },
+        {
+          "name": "MGMT",
+          "vlan_id": 99
+        },
+        {
+          "name": "NATIVE-UNUSED",
+          "vlan_id": 999
+        }
+      ]
+    },
+    {
+      "aaa": {
+        "local_users": [
+          {
+            "privilege": 15,
+            "secret_ref": "local_netadmin",
+            "username": "netadmin"
+          }
+        ],
+        "login_lists": {
+          "CONSOLE": [
+            "local"
+          ],
+          "default": [
+            "group tacacs+",
+            "local"
+          ]
+        },
+        "new_model": true,
+        "tacacs_servers": [
+          {
+            "address": "10.10.50.10",
+            "key_ref": "tacacs_key",
+            "name": "TAC1"
+          }
+        ],
+        "vty_login_list": "default"
+      },
+      "acls": {
+        "ACL-MGMT-VTY": [
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 10,
+            "src": "host 192.168.137.1"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 20,
+            "src": "10.10.99.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 30,
+            "src": "10.20.99.0 0.0.0.255"
+          },
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 40,
+            "src": "any"
+          }
+        ]
+      },
+      "banner_motd": "",
+      "default_gateway": "10.10.99.1",
+      "hostname": "ACC2",
+      "interfaces": [
+        {
+          "description": "UPLINK-CORE1-e0/2",
+          "enabled": true,
+          "mode": "trunk",
+          "name": "Ethernet0/0",
+          "native_vlan": 999,
+          "trunk_allowed": [
+            30,
+            40,
+            99
+          ]
+        },
+        {
+          "access_vlan": 30,
+          "description": "PC-FINANCE-01",
+          "enabled": true,
+          "mode": "access",
+          "name": "Ethernet0/1"
+        },
+        {
+          "access_vlan": 40,
+          "description": "PC-HR-01",
+          "enabled": true,
+          "mode": "access",
+          "name": "Ethernet0/2"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet0/3"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/0"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/1"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/2"
+        },
+        {
+          "description": "OOB-MGMT",
+          "enabled": true,
+          "ipv4": "192.168.137.32/24",
+          "mode": "routed",
+          "name": "Ethernet1/3"
+        },
+        {
+          "description": "INBAND-MGMT",
+          "enabled": true,
+          "ipv4": "10.10.99.12/24",
+          "mode": "routed",
+          "name": "Vlan99"
+        }
+      ],
+      "ip_routing": false,
+      "platform": "iosvl2",
+      "role": "access_switch",
+      "secrets": {
+        "enable_secret": "redacted-by-collector",
+        "local_netadmin": "redacted-by-collector",
+        "tacacs_key": "redacted-by-collector"
+      },
+      "site": "HQ",
+      "static_routes": [],
+      "vlans": [
+        {
+          "name": "FINANCE",
+          "vlan_id": 30
+        },
+        {
+          "name": "HR",
+          "vlan_id": 40
+        },
+        {
+          "name": "MGMT",
+          "vlan_id": 99
+        },
+        {
+          "name": "NATIVE-UNUSED",
+          "vlan_id": 999
+        }
+      ]
+    },
+    {
+      "aaa": {
+        "local_users": [
+          {
+            "privilege": 15,
+            "secret_ref": "local_netadmin",
+            "username": "netadmin"
+          }
+        ],
+        "login_lists": {
+          "CONSOLE": [
+            "local"
+          ],
+          "default": [
+            "group tacacs+",
+            "local"
+          ]
+        },
+        "new_model": true,
+        "tacacs_servers": [
+          {
+            "address": "10.10.50.10",
+            "key_ref": "tacacs_key",
+            "name": "TAC1"
+          }
+        ],
+        "vty_login_list": "default"
+      },
+      "acls": {
+        "ACL-MGMT-VTY": [
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 10,
+            "src": "host 192.168.137.1"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 20,
+            "src": "10.10.99.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 30,
+            "src": "10.20.99.0 0.0.0.255"
+          },
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 40,
+            "src": "any"
+          }
+        ]
+      },
+      "banner_motd": "",
+      "default_gateway": "10.10.99.1",
+      "hostname": "ACC3",
+      "interfaces": [
+        {
+          "description": "UPLINK-CORE1-e0/3",
+          "enabled": true,
+          "mode": "trunk",
+          "name": "Ethernet0/0",
+          "native_vlan": 999,
+          "trunk_allowed": [
+            50,
+            99
+          ]
+        },
+        {
+          "access_vlan": 50,
+          "description": "SRV-AAA-10.10.50.10",
+          "enabled": true,
+          "mode": "access",
+          "name": "Ethernet0/1"
+        },
+        {
+          "access_vlan": 50,
+          "description": "SRV-FINANCE-10.10.50.20",
+          "enabled": true,
+          "mode": "access",
+          "name": "Ethernet0/2"
+        },
+        {
+          "access_vlan": 50,
+          "description": "SRV-FILE-10.10.50.30",
+          "enabled": true,
+          "mode": "access",
+          "name": "Ethernet0/3"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/0"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/1"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/2"
+        },
+        {
+          "description": "OOB-MGMT",
+          "enabled": true,
+          "ipv4": "192.168.137.33/24",
+          "mode": "routed",
+          "name": "Ethernet1/3"
+        },
+        {
+          "description": "INBAND-MGMT",
+          "enabled": true,
+          "ipv4": "10.10.99.13/24",
+          "mode": "routed",
+          "name": "Vlan99"
+        }
+      ],
+      "ip_routing": false,
+      "platform": "iosvl2",
+      "role": "access_switch",
+      "secrets": {
+        "enable_secret": "redacted-by-collector",
+        "local_netadmin": "redacted-by-collector",
+        "tacacs_key": "redacted-by-collector"
+      },
+      "site": "HQ",
+      "static_routes": [],
+      "vlans": [
+        {
+          "name": "SERVERS",
+          "vlan_id": 50
+        },
+        {
+          "name": "MGMT",
+          "vlan_id": 99
+        },
+        {
+          "name": "NATIVE-UNUSED",
+          "vlan_id": 999
+        }
+      ]
+    },
+    {
+      "aaa": {
+        "local_users": [
+          {
+            "privilege": 15,
+            "secret_ref": "local_netadmin",
+            "username": "netadmin"
+          }
+        ],
+        "login_lists": {
+          "CONSOLE": [
+            "local"
+          ],
+          "default": [
+            "group tacacs+",
+            "local"
+          ]
+        },
+        "new_model": true,
+        "tacacs_servers": [
+          {
+            "address": "10.10.50.10",
+            "key_ref": "tacacs_key",
+            "name": "TAC1"
+          }
+        ],
+        "vty_login_list": "default"
+      },
+      "acls": {
+        "ACL-MGMT-VTY": [
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 10,
+            "src": "host 192.168.137.1"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 20,
+            "src": "10.10.99.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 30,
+            "src": "10.20.99.0 0.0.0.255"
+          },
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 40,
+            "src": "any"
+          }
+        ]
+      },
+      "banner_motd": "",
+      "hostname": "ACC-BR1",
+      "interfaces": [
+        {
+          "description": "UPLINK-R-BR1-e0/1",
+          "enabled": true,
+          "ipv4": "10.255.0.10/30",
+          "mode": "routed",
+          "name": "Ethernet0/0"
+        },
+        {
+          "access_vlan": 110,
+          "description": "PC-BR-STAFF-01",
+          "enabled": true,
+          "mode": "access",
+          "name": "Ethernet0/1"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet0/2"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet0/3"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/0"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/1"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "Ethernet1/2"
+        },
+        {
+          "description": "OOB-MGMT",
+          "enabled": true,
+          "ipv4": "192.168.137.34/24",
+          "mode": "routed",
+          "name": "Ethernet1/3"
+        },
+        {
+          "description": "GW-BR-STAFF",
+          "enabled": true,
+          "ipv4": "10.20.10.1/24",
+          "mode": "routed",
+          "name": "Vlan110"
+        },
+        {
+          "description": "GW-BR-MGMT",
+          "enabled": true,
+          "ipv4": "10.20.99.1/24",
+          "mode": "routed",
+          "name": "Vlan199"
+        }
+      ],
+      "ip_routing": true,
+      "platform": "iosvl2",
+      "role": "access_switch",
+      "secrets": {
+        "enable_secret": "redacted-by-collector",
+        "local_netadmin": "redacted-by-collector",
+        "tacacs_key": "redacted-by-collector"
+      },
+      "site": "BR1",
+      "static_routes": [
+        {
+          "next_hop": "10.255.0.9",
+          "prefix": "0.0.0.0/0"
+        }
+      ],
+      "vlans": [
+        {
+          "name": "BR-STAFF",
+          "vlan_id": 110
+        },
+        {
+          "name": "BR-MGMT",
+          "vlan_id": 199
+        },
+        {
+          "name": "NATIVE-UNUSED",
+          "vlan_id": 999
+        }
+      ]
+    }
+  ],
+  "domain_name": "smb.lab",
+  "links": [
+    {
+      "a_device": "ACC-BR1",
+      "a_interface": "Ethernet0/0",
+      "b_device": "R-BR1",
+      "b_interface": "Ethernet0/1"
+    },
+    {
+      "a_device": "ACC1",
+      "a_interface": "Ethernet0/0",
+      "b_device": "CORE1",
+      "b_interface": "Ethernet0/1"
+    },
+    {
+      "a_device": "ACC2",
+      "a_interface": "Ethernet0/0",
+      "b_device": "CORE1",
+      "b_interface": "Ethernet0/2"
+    },
+    {
+      "a_device": "ACC3",
+      "a_interface": "Ethernet0/0",
+      "b_device": "CORE1",
+      "b_interface": "Ethernet0/3"
+    },
+    {
+      "a_device": "CORE1",
+      "a_interface": "Ethernet0/0",
+      "b_device": "R-EDGE1",
+      "b_interface": "Ethernet0/0"
+    },
+    {
+      "a_device": "R-BR1",
+      "a_interface": "Ethernet0/0",
+      "b_device": "R-EDGE1",
+      "b_interface": "Ethernet0/2"
+    }
+  ],
+  "policy": {
+    "max_devices_per_change": 2,
+    "max_interfaces_per_change": 8,
+    "mgmt_prefix": "192.168.137.0/24",
+    "parking_vlan": 999,
+    "protected_interfaces": {
+      "ACC-BR1": [
+        "Ethernet0/0",
+        "Ethernet1/3"
+      ],
+      "ACC1": [
+        "Ethernet0/0",
+        "Ethernet1/3"
+      ],
+      "ACC2": [
+        "Ethernet0/0",
+        "Ethernet1/3"
+      ],
+      "ACC3": [
+        "Ethernet0/0",
+        "Ethernet1/3"
+      ],
+      "CORE1": [
+        "Ethernet0/0",
+        "Ethernet0/1",
+        "Ethernet0/2",
+        "Ethernet0/3",
+        "Ethernet1/3"
+      ],
+      "R-BR1": [
+        "Ethernet0/0",
+        "Ethernet0/1",
+        "Ethernet0/3"
+      ],
+      "R-EDGE1": [
+        "Ethernet0/0",
+        "Ethernet0/1",
+        "Ethernet0/2",
+        "Ethernet0/3"
+      ]
+    },
+    "reserved_vlans": [
+      1,
+      99,
+      199,
+      999
+    ]
+  },
+  "schema_version": "1.0"
+}

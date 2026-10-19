@@ -1,0 +1,35 @@
+{
+  "case_id": "corrupted-interface-0007",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_description",
+            "args": {
+              "device": "SW1",
+              "interface": "GigabitEthernet0/3",
+              "text": "HR-PC-07"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\ninterface GigabitEthernet0/3\n description HR-PC-07\nexit\nend\n```\n"
+  }
+}

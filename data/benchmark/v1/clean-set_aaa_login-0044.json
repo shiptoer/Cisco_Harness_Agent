@@ -1,0 +1,27 @@
+{
+  "case_id": "clean-set_aaa_login-0044",
+  "subset": "clean",
+  "config_type": "aaa",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Cấu hình login authentication list ADMIN-LOGIN trên SW2 dùng chỉ local",
+  "intent_template": "Configure login authentication list ADMIN-LOGIN on SW2 using local only",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_aaa_login",
+      "args": {
+        "device": "SW2",
+        "list_name": "ADMIN-LOGIN",
+        "methods": [
+          "local"
+        ]
+      }
+    }
+  ]
+}

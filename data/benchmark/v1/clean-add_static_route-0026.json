@@ -1,0 +1,25 @@
+{
+  "case_id": "clean-add_static_route-0026",
+  "subset": "clean",
+  "config_type": "static_route",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "On SW1, route network 10.148.0.0 255.255.0.0 through next hop 10.0.12.1",
+  "intent_template": "On SW1, route network 10.148.0.0 255.255.0.0 through next hop 10.0.12.1",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "add_static_route",
+      "args": {
+        "device": "SW1",
+        "prefix": "10.148.0.0/16",
+        "next_hop": "10.0.12.1"
+      }
+    }
+  ]
+}

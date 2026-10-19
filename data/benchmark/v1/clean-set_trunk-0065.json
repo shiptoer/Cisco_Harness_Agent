@@ -1,0 +1,29 @@
+{
+  "case_id": "clean-set_trunk-0065",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Configure CORE1 Ethernet1/0 as a trunk allowing VLANs 20, 30 with native VLAN 50",
+  "intent_template": "Configure CORE1 Ethernet1/0 as a trunk allowing VLANs 20, 30 with native VLAN 50",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_trunk",
+      "args": {
+        "device": "CORE1",
+        "interface": "Ethernet1/0",
+        "allowed_vlans": [
+          20,
+          30
+        ],
+        "native_vlan": 50
+      }
+    }
+  ]
+}

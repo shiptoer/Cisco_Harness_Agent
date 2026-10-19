@@ -1,0 +1,16 @@
+{
+  "expect": {
+    "status": "ok",
+    "verdict": "accept",
+    "stopped_by": null,
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": [
+      "dsh_home"
+    ]
+  },
+  "b0": {
+    "final": "```cisco R1\ninterface GigabitEthernet0/0\n ip access-group EDGE-IN out\nend\n```\n"
+  }
+}

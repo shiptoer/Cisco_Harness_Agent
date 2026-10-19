@@ -1,0 +1,40 @@
+{
+  "case_id": "clean-add_acl_entry-0035",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "add_acl_entry",
+            "args": {
+              "device": "R1",
+              "acl_name": "EDGE-IN",
+              "seq": 930,
+              "action": "deny",
+              "protocol": "tcp",
+              "src": "10.71.0.0/24",
+              "dst": "host 10.10.50.58",
+              "dst_port": "eq 443"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R1\nip access-list extended EDGE-IN\n 930 deny tcp 10.71.0.0 0.0.0.255 host 10.10.50.58 eq 443\nexit\nend\n```\n"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "case_id": "clean-multi_vlan_access_desc-0101",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "ACC1",
+              "vlan_id": 177,
+              "name": "WIFI"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "ACC1",
+              "interface": "Ethernet0/2",
+              "vlan_id": 177
+            }
+          },
+          {
+            "tool": "set_interface_description",
+            "args": {
+              "device": "ACC1",
+              "interface": "Ethernet0/2",
+              "text": "HR-PC-07"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC1\nvlan 177\n name WIFI\nexit\ninterface Ethernet0/2\n switchport mode access\n switchport access vlan 177\nexit\ninterface Ethernet0/2\n description HR-PC-07\nexit\nend\n```\n"
+  }
+}

@@ -1,0 +1,15 @@
+# Model mà runner ghim cho MỌI lượt chạy dsh (D-020). File này được commit: đổi model là đổi điều kiện
+# thí nghiệm, nên phải đi qua PR chứ không sửa ở config cục bộ.
+#
+# Runner ghi các giá trị này vào patch của từng stage (row `agent-default-model` của dsh), và ghi model
+# THỰC TẾ mà dsh đã dùng vào result.json (đọc từ session log của dsh).
+#
+# Giá trị hiện tại là đúng mặc định của dsh 0.2.0-rc.1 (thấy trong session log của spike 1.1), nên việc
+# ghim không đổi hành vi. Tên model vẫn chờ GVHD duyệt (CLAUDE.md mục 12).
+[model]
+provider = "deepseek-official"
+name = "deepseek-flash"
+# off | low | high | max. low/high/max bật thinking; "off" tắt thinking.
+reasoning_effort = "high"
+# Phải khớp với reasoning_effort: true với low/high/max, false với "off". Sai thì runner từ chối chạy.
+thinking = true

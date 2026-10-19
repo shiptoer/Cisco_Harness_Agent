@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-remove_static_route-0084",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R-BR1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "remove_static_route",
+            "args": {
+              "device": "R-BR1",
+              "prefix": "0.0.0.0/0",
+              "next_hop": "10.255.0.5"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R-BR1\nno ip route 0.0.0.0 0.0.0.0 10.255.0.5\nend\n```\n"
+  }
+}

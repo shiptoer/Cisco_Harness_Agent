@@ -1,0 +1,12 @@
+session:            session-d89c9481-1d2b-4861-b06c-38d232633ed8
+dsh exit code:      0
+turn_end:           completed
+tool calls:         (none)
+successful final:   True
+final text:         <｜｜DSML｜｜ calls> <｜｜DSML｜｜ invoke name="bash"> <｜｜DSML｜｜ parameter name="command" string="true">ls -la</｜｜DSML｜｜ parameter> </｜｜DSML｜｜ invoke> </｜｜DSML｜｜ calls>
+stderr warning:     dsh: warning ... did not activate
+offered tools:      []
+
+DSH FAIL-CLOSED:    FAIL (expected exit != 0 and no successful final)
+RUNNER DETECTOR:    DETECTED (request/header tools must include ['mcp__cisco__get_device'])
+exit=1

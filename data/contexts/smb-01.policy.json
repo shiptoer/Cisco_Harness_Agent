@@ -1,0 +1,24 @@
+{
+  "reserved_vlans": [1, 99, 199, 999],
+  "parking_vlan": 999,
+  "protected_interfaces": {
+    "R-EDGE1": ["Ethernet0/0", "Ethernet0/1", "Ethernet0/2", "Ethernet0/3"],
+    "R-BR1": ["Ethernet0/0", "Ethernet0/1", "Ethernet0/3"],
+    "CORE1": ["Ethernet0/0", "Ethernet0/1", "Ethernet0/2", "Ethernet0/3", "Ethernet1/3"],
+    "ACC1": ["Ethernet0/0", "Ethernet1/3"],
+    "ACC2": ["Ethernet0/0", "Ethernet1/3"],
+    "ACC3": ["Ethernet0/0", "Ethernet1/3"],
+    "ACC-BR1": ["Ethernet0/0", "Ethernet1/3"]
+  },
+  "mgmt_prefix": "192.168.137.0/24",
+  "mgmt_prefixes_all": [
+    "192.168.137.0/24",
+    "10.10.99.0/24",
+    "10.20.99.0/24",
+    "10.255.0.0/30",
+    "10.255.0.4/30",
+    "10.255.0.8/30"
+  ],
+  "max_devices_per_change": 2,
+  "max_interfaces_per_change": 8
+}

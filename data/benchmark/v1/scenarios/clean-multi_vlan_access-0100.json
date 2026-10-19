@@ -1,0 +1,43 @@
+{
+  "case_id": "clean-multi_vlan_access-0100",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC-BR1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "ACC-BR1",
+              "vlan_id": 112,
+              "name": "LAB"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "ACC-BR1",
+              "interface": "Ethernet0/3",
+              "vlan_id": 112
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC-BR1\nvlan 112\n name LAB\nexit\ninterface Ethernet0/3\n switchport mode access\n switchport access vlan 112\nexit\nend\n```\n"
+  }
+}

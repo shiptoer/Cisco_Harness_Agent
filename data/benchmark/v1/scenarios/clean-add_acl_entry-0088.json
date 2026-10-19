@@ -1,0 +1,40 @@
+{
+  "case_id": "clean-add_acl_entry-0088",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC3"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "add_acl_entry",
+            "args": {
+              "device": "ACC3",
+              "acl_name": "ACL-MGMT-VTY",
+              "seq": 160,
+              "action": "deny",
+              "protocol": "tcp",
+              "src": "10.29.20.0/24",
+              "dst": "host 10.10.50.29",
+              "dst_port": "eq 8080"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC3\nip access-list extended ACL-MGMT-VTY\n 160 deny tcp 10.29.20.0 0.0.0.255 host 10.10.50.29 eq 8080\nexit\nend\n```\n"
+  }
+}

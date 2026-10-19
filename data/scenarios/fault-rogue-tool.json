@@ -1,0 +1,17 @@
+{
+  "expect": {
+    "status": "error",
+    "error_code": "RUNTIME_TOOL_VIOLATION",
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": []
+  },
+  "cba": [
+    {
+      "tool": "bash",
+      "args": {
+        "command": "type data\\contexts\\campus-small-01.json"
+      }
+    }
+  ]
+}

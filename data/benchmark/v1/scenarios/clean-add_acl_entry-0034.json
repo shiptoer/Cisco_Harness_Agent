@@ -1,0 +1,40 @@
+{
+  "case_id": "clean-add_acl_entry-0034",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "add_acl_entry",
+            "args": {
+              "device": "SW1",
+              "acl_name": "SERVERS-PROTECT",
+              "seq": 450,
+              "action": "deny",
+              "protocol": "tcp",
+              "src": "10.56.10.0/24",
+              "dst": "host 10.10.50.57",
+              "dst_port": "eq 8080"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\nip access-list extended SERVERS-PROTECT\n 450 deny tcp 10.56.10.0 0.0.0.255 host 10.10.50.57 eq 8080\nexit\nend\n```\n"
+  }
+}

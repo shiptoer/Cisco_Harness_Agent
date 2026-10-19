@@ -1,0 +1,26 @@
+{
+  "case_id": "clean-set_interface_ip-0068",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên router R-EDGE1, interface Ethernet1/3 dùng địa chỉ 10.118.7.1/24",
+  "intent_template": "On router R-EDGE1, interface Ethernet1/3 should use address 10.118.7.1/24",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_interface_ip",
+      "args": {
+        "device": "R-EDGE1",
+        "interface": "Ethernet1/3",
+        "ip": "10.118.7.1",
+        "prefix_len": 24
+      }
+    }
+  ]
+}

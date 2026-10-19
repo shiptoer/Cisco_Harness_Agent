@@ -1,0 +1,40 @@
+{
+  "case_id": "clean-add_acl_entry-0087",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC-BR1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "add_acl_entry",
+            "args": {
+              "device": "ACC-BR1",
+              "acl_name": "ACL-MGMT-VTY",
+              "seq": 50,
+              "action": "deny",
+              "protocol": "udp",
+              "src": "10.72.10.0/24",
+              "dst": "host 10.10.50.23",
+              "dst_port": "eq 514"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC-BR1\nip access-list extended ACL-MGMT-VTY\n 50 deny udp 10.72.10.0 0.0.0.255 host 10.10.50.23 eq 514\nexit\nend\n```\n"
+  }
+}

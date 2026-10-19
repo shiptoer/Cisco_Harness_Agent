@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-create_vlan-0055",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "CORE1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "CORE1",
+              "vlan_id": 694,
+              "name": "WIFI"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco CORE1\nvlan 694\n name WIFI\nexit\nend\n```\n"
+  }
+}

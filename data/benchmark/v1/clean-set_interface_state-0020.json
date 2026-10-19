@@ -1,0 +1,25 @@
+{
+  "case_id": "clean-set_interface_state-0020",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "On SW2, bring up interface GigabitEthernet1/1",
+  "intent_template": "On SW2, bring up interface GigabitEthernet1/1",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_interface_state",
+      "args": {
+        "device": "SW2",
+        "interface": "GigabitEthernet1/1",
+        "enabled": true
+      }
+    }
+  ]
+}

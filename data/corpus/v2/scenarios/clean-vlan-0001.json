@@ -1,0 +1,43 @@
+{
+  "case_id": "clean-vlan-0001",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW1",
+              "vlan_id": 761,
+              "name": "VOICE"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "SW1",
+              "interface": "GigabitEthernet1/1",
+              "vlan_id": 761
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\nvlan 761\n name VOICE\nexit\ninterface GigabitEthernet1/1\n switchport mode access\n switchport access vlan 761\nexit\nend\n```\n"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "case_id": "clean-aaa-0011",
+  "subset": "clean",
+  "config_type": "aaa",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Cấu hình login authentication list VTY-AUTH trên SW2 dùng TACACS+ rồi tới local, key tham chiếu là tacacs_key",
+  "intent_template": "Configure login authentication list VTY-AUTH on SW2 using group tacacs+ then local, key reference tacacs_key",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_aaa_login",
+      "args": {
+        "device": "SW2",
+        "list_name": "VTY-AUTH",
+        "methods": [
+          "group tacacs+",
+          "local"
+        ],
+        "tacacs_key_ref": "tacacs_key"
+      }
+    }
+  ]
+}

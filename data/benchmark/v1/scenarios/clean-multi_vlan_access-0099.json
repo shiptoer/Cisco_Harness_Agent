@@ -1,0 +1,43 @@
+{
+  "case_id": "clean-multi_vlan_access-0099",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "ACC2",
+              "vlan_id": 243,
+              "name": "STAFF2"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "ACC2",
+              "interface": "Ethernet1/2",
+              "vlan_id": 243
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC2\nvlan 243\n name STAFF2\nexit\ninterface Ethernet1/2\n switchport mode access\n switchport access vlan 243\nexit\nend\n```\n"
+  }
+}

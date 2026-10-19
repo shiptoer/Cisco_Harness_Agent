@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-interface-0021",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "SW2",
+              "interface": "GigabitEthernet0/1",
+              "vlan_id": 50
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW2\ninterface GigabitEthernet0/1\n switchport mode access\n switchport access vlan 50\nexit\nend\n```\n"
+  }
+}

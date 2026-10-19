@@ -1,0 +1,12 @@
+{
+  "run_id": "ambiguous-vlan40",
+  "context": "data/contexts/campus-small-01.json",
+  "context_sha256": "9150933aa542a8bd7a4c9e0cb251b589232ee751b6599c1c998dfc7575ae817c",
+  "role": "network_admin",
+  "intent": "Thêm VLAN 40 cho khách",
+  "label": {
+    "subset": "ambiguous",
+    "expected_verdict": "clarify",
+    "expected_tool_calls": []
+  }
+}

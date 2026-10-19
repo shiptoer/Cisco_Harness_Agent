@@ -1,0 +1,3606 @@
+{
+  "benchmark_version": "bm-1.0",
+  "generator_version": "bm-1.0",
+  "seed": 42,
+  "per_tool": 4,
+  "multi_per_template": 2,
+  "test_fraction": 0.3,
+  "role": "security_admin",
+  "contexts": {
+    "campus-small-01": {
+      "source": "campus-small-01.json",
+      "file": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+      "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+    },
+    "smb-01": {
+      "source": "smb-01-collected-ref-l2.json",
+      "file": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+      "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+    }
+  },
+  "counts": {
+    "cases": 108,
+    "single_op": 88,
+    "multi_op": 20,
+    "dev": 78,
+    "test": 30,
+    "by_context": {
+      "campus-small-01": 54,
+      "smb-01": 54
+    },
+    "families": 76,
+    "templates": 38
+  },
+  "templates": {
+    "create_vlan.t1": {
+      "split": "dev",
+      "tools": [
+        "create_vlan"
+      ],
+      "vi": "Tạo VLAN {vid} tên {name} trên {dev}",
+      "en": "Create VLAN {vid} named {name} on {dev}"
+    },
+    "create_vlan.t2": {
+      "split": "dev",
+      "tools": [
+        "create_vlan"
+      ],
+      "vi": "Trên switch {dev}, thêm VLAN {vid} với tên {name}",
+      "en": "On switch {dev}, add VLAN {vid} with the name {name}"
+    },
+    "create_vlan.t3": {
+      "split": "test",
+      "tools": [
+        "create_vlan"
+      ],
+      "vi": "Khai báo VLAN mới {vid} ({name}) cho {dev}",
+      "en": "Define a new VLAN {vid} ({name}) on {dev}"
+    },
+    "set_access_vlan.t1": {
+      "split": "test",
+      "tools": [
+        "set_access_vlan"
+      ],
+      "vi": "Gán cổng {itf} của {dev} vào VLAN {vid}",
+      "en": "Assign interface {itf} on {dev} to VLAN {vid}"
+    },
+    "set_access_vlan.t2": {
+      "split": "dev",
+      "tools": [
+        "set_access_vlan"
+      ],
+      "vi": "Chuyển {dev} {itf} sang chế độ access, VLAN {vid}",
+      "en": "Put {dev} {itf} in access mode on VLAN {vid}"
+    },
+    "set_access_vlan.t3": {
+      "split": "dev",
+      "tools": [
+        "set_access_vlan"
+      ],
+      "vi": "Trên {dev}, cổng {itf} phải thuộc VLAN {vid}",
+      "en": "On {dev}, port {itf} must be an access port in VLAN {vid}"
+    },
+    "set_trunk.t1": {
+      "split": "test",
+      "tools": [
+        "set_trunk"
+      ],
+      "vi": "Cấu hình {dev} {itf} làm trunk cho VLAN {vlist}, native VLAN {native}",
+      "en": "Configure {dev} {itf} as a trunk allowing VLANs {vlist} with native VLAN {native}"
+    },
+    "set_trunk.t2": {
+      "split": "dev",
+      "tools": [
+        "set_trunk"
+      ],
+      "vi": "Biến cổng {itf} trên {dev} thành trunk 802.1Q, chỉ cho phép VLAN {vlist}, native {native}",
+      "en": "Make port {itf} on {dev} an 802.1Q trunk that only allows VLANs {vlist}, native {native}"
+    },
+    "set_trunk.t3": {
+      "split": "dev",
+      "tools": [
+        "set_trunk"
+      ],
+      "vi": "Trên {dev}, mở trunk ở {itf} mang VLAN {vlist} (native VLAN {native})",
+      "en": "On {dev}, enable trunking on {itf} carrying VLANs {vlist} (native VLAN {native})"
+    },
+    "set_interface_ip.t1": {
+      "split": "test",
+      "tools": [
+        "set_interface_ip"
+      ],
+      "vi": "Đặt IP {cidr} cho {dev} {itf}",
+      "en": "Assign IP {cidr} to {dev} {itf}"
+    },
+    "set_interface_ip.t2": {
+      "split": "dev",
+      "tools": [
+        "set_interface_ip"
+      ],
+      "vi": "Cấu hình địa chỉ {ip} mask {mask} trên cổng {itf} của {dev}",
+      "en": "Configure address {ip} mask {mask} on interface {itf} of {dev}"
+    },
+    "set_interface_ip.t3": {
+      "split": "dev",
+      "tools": [
+        "set_interface_ip"
+      ],
+      "vi": "Trên router {dev}, interface {itf} dùng địa chỉ {cidr}",
+      "en": "On router {dev}, interface {itf} should use address {cidr}"
+    },
+    "set_interface_state.t1": {
+      "split": "test",
+      "tools": [
+        "set_interface_state"
+      ],
+      "vi": "{verb_vi} cổng {itf} trên {dev}",
+      "en": "{verb_en} interface {itf} on {dev}"
+    },
+    "set_interface_state.t2": {
+      "split": "dev",
+      "tools": [
+        "set_interface_state"
+      ],
+      "vi": "Trên {dev}, {act_vi} interface {itf}",
+      "en": "On {dev}, {act_en} interface {itf}"
+    },
+    "set_interface_state.t3": {
+      "split": "dev",
+      "tools": [
+        "set_interface_state"
+      ],
+      "vi": "Yêu cầu: {verb_vi} {dev} {itf}",
+      "en": "Request: {verb_en} {dev} {itf}"
+    },
+    "set_interface_description.t1": {
+      "split": "dev",
+      "tools": [
+        "set_interface_description"
+      ],
+      "vi": "Đặt description cho {dev} {itf} là '{text}'",
+      "en": "Set the description of {dev} {itf} to '{text}'"
+    },
+    "set_interface_description.t2": {
+      "split": "dev",
+      "tools": [
+        "set_interface_description"
+      ],
+      "vi": "Ghi chú cổng {itf} trên {dev}: '{text}'",
+      "en": "Label port {itf} on {dev} as '{text}'"
+    },
+    "set_interface_description.t3": {
+      "split": "test",
+      "tools": [
+        "set_interface_description"
+      ],
+      "vi": "Trên {dev}, mô tả của interface {itf} cần là '{text}'",
+      "en": "On {dev}, the description of interface {itf} should read '{text}'"
+    },
+    "add_static_route.t1": {
+      "split": "dev",
+      "tools": [
+        "add_static_route"
+      ],
+      "vi": "Thêm static route trên {dev} tới {prefix} qua {nh}",
+      "en": "Add a static route on {dev} to {prefix} via {nh}"
+    },
+    "add_static_route.t2": {
+      "split": "dev",
+      "tools": [
+        "add_static_route"
+      ],
+      "vi": "Trên {dev}, định tuyến mạng {net} {mask} qua next-hop {nh}",
+      "en": "On {dev}, route network {net} {mask} through next hop {nh}"
+    },
+    "add_static_route.t3": {
+      "split": "test",
+      "tools": [
+        "add_static_route"
+      ],
+      "vi": "{dev} cần route tĩnh đến {prefix}, next-hop {nh}",
+      "en": "{dev} needs a static route to {prefix} with next hop {nh}"
+    },
+    "remove_static_route.t1": {
+      "split": "test",
+      "tools": [
+        "remove_static_route"
+      ],
+      "vi": "Xoá static route {prefix} qua {nh} trên {dev}",
+      "en": "Remove the static route {prefix} via {nh} on {dev}"
+    },
+    "remove_static_route.t2": {
+      "split": "dev",
+      "tools": [
+        "remove_static_route"
+      ],
+      "vi": "Trên {dev}, gỡ route tĩnh tới {prefix} (next-hop {nh})",
+      "en": "On {dev}, delete the static route to {prefix} (next hop {nh})"
+    },
+    "remove_static_route.t3": {
+      "split": "dev",
+      "tools": [
+        "remove_static_route"
+      ],
+      "vi": "Route {prefix} qua {nh} trên {dev} không còn dùng, hãy xoá",
+      "en": "The route {prefix} via {nh} on {dev} is no longer used, remove it"
+    },
+    "add_acl_entry.t1": {
+      "split": "dev",
+      "tools": [
+        "add_acl_entry"
+      ],
+      "vi": "Thêm vào ACL {acl} trên {dev} dòng {seq}: {action} {proto} từ {src} tới host {dst} cổng {port}",
+      "en": "Add line {seq} to ACL {acl} on {dev}: {action} {proto} from {src} to host {dst} port {port}"
+    },
+    "add_acl_entry.t2": {
+      "split": "dev",
+      "tools": [
+        "add_acl_entry"
+      ],
+      "vi": "Trên {dev}, ACL {acl} cần thêm dòng {seq} {action_vi} {proto} từ {src} đến host {dst} port {port}",
+      "en": "On {dev}, ACL {acl} needs line {seq} to {action_en} {proto} from {src} to host {dst} port {port}"
+    },
+    "add_acl_entry.t3": {
+      "split": "test",
+      "tools": [
+        "add_acl_entry"
+      ],
+      "vi": "ACL {acl} của {dev}: dòng {seq} {action_vi} {proto} {src} -> host {dst}, cổng đích {port}",
+      "en": "ACL {acl} of {dev}: line {seq} should {action_en} {proto} {src} -> host {dst}, destination port {port}"
+    },
+    "apply_acl.t1": {
+      "split": "test",
+      "tools": [
+        "apply_acl"
+      ],
+      "vi": "Áp ACL {acl} theo {dir_vi} lên {dev} {itf}",
+      "en": "Apply ACL {acl} {dir_en} on {dev} {itf}"
+    },
+    "apply_acl.t2": {
+      "split": "dev",
+      "tools": [
+        "apply_acl"
+      ],
+      "vi": "Trên {dev}, gắn access-list {acl} vào interface {itf}, {dir_vi}",
+      "en": "On {dev}, attach access-list {acl} to interface {itf}, {dir_en}"
+    },
+    "apply_acl.t3": {
+      "split": "dev",
+      "tools": [
+        "apply_acl"
+      ],
+      "vi": "Interface {itf} của {dev} phải lọc lưu lượng {dir_vi} bằng ACL {acl}",
+      "en": "Interface {itf} of {dev} must filter {dir_en} traffic with ACL {acl}"
+    },
+    "set_aaa_login.t1": {
+      "split": "dev",
+      "tools": [
+        "set_aaa_login"
+      ],
+      "vi": "Cấu hình login authentication list {list} trên {dev} dùng {m_vi}{key_vi}",
+      "en": "Configure login authentication list {list} on {dev} using {m_en}{key_en}"
+    },
+    "set_aaa_login.t2": {
+      "split": "dev",
+      "tools": [
+        "set_aaa_login"
+      ],
+      "vi": "Trên {dev}, method list đăng nhập {list} xác thực bằng {m_vi}{key_vi}",
+      "en": "On {dev}, the login method list {list} should authenticate with {m_en}{key_en}"
+    },
+    "set_aaa_login.t3": {
+      "split": "test",
+      "tools": [
+        "set_aaa_login"
+      ],
+      "vi": "Đăng nhập VTY của {dev} dùng list {list}: {m_vi}{key_vi}",
+      "en": "VTY logins on {dev} use list {list}: {m_en}{key_en}"
+    },
+    "multi.vlan_access": {
+      "split": "dev",
+      "tools": [
+        "create_vlan",
+        "set_access_vlan"
+      ],
+      "vi": "Tạo VLAN {vid} tên {name} trên {dev} và gán cổng {itf} vào VLAN {vid}",
+      "en": "Create VLAN {vid} named {name} on {dev} and put interface {itf} into VLAN {vid}"
+    },
+    "multi.vlan_access_desc": {
+      "split": "test",
+      "tools": [
+        "create_vlan",
+        "set_access_vlan",
+        "set_interface_description"
+      ],
+      "vi": "Trên {dev}: tạo VLAN {vid} ({name}), chuyển {itf} vào VLAN {vid} và đặt description '{text}'",
+      "en": "On {dev}: create VLAN {vid} ({name}), move {itf} into VLAN {vid} and set its description to '{text}'"
+    },
+    "multi.acl_new_apply": {
+      "split": "test",
+      "tools": [
+        "add_acl_entry",
+        "apply_acl"
+      ],
+      "vi": "Trên {dev}, tạo ACL {acl} với dòng {seq} {action_vi} {proto} từ {src} tới host {dst} cổng {port}, rồi áp ACL {acl} {dir_vi} lên {itf}",
+      "en": "On {dev}, create ACL {acl} with line {seq} to {action_en} {proto} from {src} to host {dst} port {port}, then apply ACL {acl} {dir_en} on {itf}"
+    },
+    "multi.ip_enable": {
+      "split": "dev",
+      "tools": [
+        "set_interface_ip",
+        "set_interface_state"
+      ],
+      "vi": "Đặt IP {cidr} cho {dev} {itf} rồi bật cổng đó lên",
+      "en": "Assign IP {cidr} to {dev} {itf} and bring the interface up"
+    },
+    "multi.route_replace": {
+      "split": "dev",
+      "tools": [
+        "remove_static_route",
+        "add_static_route"
+      ],
+      "vi": "Trên {dev}, xoá route {old} qua {nh} và thay bằng route {prefix} qua {nh}",
+      "en": "On {dev}, remove the route {old} via {nh} and replace it with a route to {prefix} via {nh}"
+    }
+  },
+  "families": {
+    "create_vlan.t1@campus-small-01": {
+      "template": "create_vlan.t1",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-create_vlan-0001",
+        "clean-create_vlan-0004"
+      ]
+    },
+    "create_vlan.t2@campus-small-01": {
+      "template": "create_vlan.t2",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-create_vlan-0002"
+      ]
+    },
+    "create_vlan.t3@campus-small-01": {
+      "template": "create_vlan.t3",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-create_vlan-0003"
+      ]
+    },
+    "set_access_vlan.t2@campus-small-01": {
+      "template": "set_access_vlan.t2",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_access_vlan-0005",
+        "clean-set_access_vlan-0008"
+      ]
+    },
+    "set_access_vlan.t3@campus-small-01": {
+      "template": "set_access_vlan.t3",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_access_vlan-0006"
+      ]
+    },
+    "set_access_vlan.t1@campus-small-01": {
+      "template": "set_access_vlan.t1",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-set_access_vlan-0007"
+      ]
+    },
+    "set_trunk.t2@campus-small-01": {
+      "template": "set_trunk.t2",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_trunk-0009",
+        "clean-set_trunk-0012"
+      ]
+    },
+    "set_trunk.t3@campus-small-01": {
+      "template": "set_trunk.t3",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_trunk-0010"
+      ]
+    },
+    "set_trunk.t1@campus-small-01": {
+      "template": "set_trunk.t1",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-set_trunk-0011"
+      ]
+    },
+    "set_interface_ip.t2@campus-small-01": {
+      "template": "set_interface_ip.t2",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_ip-0013",
+        "clean-set_interface_ip-0016"
+      ]
+    },
+    "set_interface_ip.t3@campus-small-01": {
+      "template": "set_interface_ip.t3",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_ip-0014"
+      ]
+    },
+    "set_interface_ip.t1@campus-small-01": {
+      "template": "set_interface_ip.t1",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-set_interface_ip-0015"
+      ]
+    },
+    "set_interface_state.t2@campus-small-01": {
+      "template": "set_interface_state.t2",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_state-0017",
+        "clean-set_interface_state-0020"
+      ]
+    },
+    "set_interface_state.t3@campus-small-01": {
+      "template": "set_interface_state.t3",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_state-0018"
+      ]
+    },
+    "set_interface_state.t1@campus-small-01": {
+      "template": "set_interface_state.t1",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-set_interface_state-0019"
+      ]
+    },
+    "set_interface_description.t1@campus-small-01": {
+      "template": "set_interface_description.t1",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_description-0021",
+        "clean-set_interface_description-0024"
+      ]
+    },
+    "set_interface_description.t2@campus-small-01": {
+      "template": "set_interface_description.t2",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_description-0022"
+      ]
+    },
+    "set_interface_description.t3@campus-small-01": {
+      "template": "set_interface_description.t3",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-set_interface_description-0023"
+      ]
+    },
+    "add_static_route.t1@campus-small-01": {
+      "template": "add_static_route.t1",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-add_static_route-0025",
+        "clean-add_static_route-0028"
+      ]
+    },
+    "add_static_route.t2@campus-small-01": {
+      "template": "add_static_route.t2",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-add_static_route-0026"
+      ]
+    },
+    "add_static_route.t3@campus-small-01": {
+      "template": "add_static_route.t3",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-add_static_route-0027"
+      ]
+    },
+    "remove_static_route.t2@campus-small-01": {
+      "template": "remove_static_route.t2",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-remove_static_route-0029",
+        "clean-remove_static_route-0032"
+      ]
+    },
+    "remove_static_route.t3@campus-small-01": {
+      "template": "remove_static_route.t3",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-remove_static_route-0030"
+      ]
+    },
+    "remove_static_route.t1@campus-small-01": {
+      "template": "remove_static_route.t1",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-remove_static_route-0031"
+      ]
+    },
+    "add_acl_entry.t1@campus-small-01": {
+      "template": "add_acl_entry.t1",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-add_acl_entry-0033",
+        "clean-add_acl_entry-0036"
+      ]
+    },
+    "add_acl_entry.t2@campus-small-01": {
+      "template": "add_acl_entry.t2",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-add_acl_entry-0034"
+      ]
+    },
+    "add_acl_entry.t3@campus-small-01": {
+      "template": "add_acl_entry.t3",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-add_acl_entry-0035"
+      ]
+    },
+    "apply_acl.t2@campus-small-01": {
+      "template": "apply_acl.t2",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-apply_acl-0037",
+        "clean-apply_acl-0040"
+      ]
+    },
+    "apply_acl.t3@campus-small-01": {
+      "template": "apply_acl.t3",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-apply_acl-0038"
+      ]
+    },
+    "apply_acl.t1@campus-small-01": {
+      "template": "apply_acl.t1",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-apply_acl-0039"
+      ]
+    },
+    "set_aaa_login.t1@campus-small-01": {
+      "template": "set_aaa_login.t1",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_aaa_login-0041",
+        "clean-set_aaa_login-0044"
+      ]
+    },
+    "set_aaa_login.t2@campus-small-01": {
+      "template": "set_aaa_login.t2",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_aaa_login-0042"
+      ]
+    },
+    "set_aaa_login.t3@campus-small-01": {
+      "template": "set_aaa_login.t3",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-set_aaa_login-0043"
+      ]
+    },
+    "multi.vlan_access@campus-small-01": {
+      "template": "multi.vlan_access",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-multi_vlan_access-0045",
+        "clean-multi_vlan_access-0046"
+      ]
+    },
+    "multi.vlan_access_desc@campus-small-01": {
+      "template": "multi.vlan_access_desc",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-multi_vlan_access_desc-0047",
+        "clean-multi_vlan_access_desc-0048"
+      ]
+    },
+    "multi.acl_new_apply@campus-small-01": {
+      "template": "multi.acl_new_apply",
+      "context_id": "campus-small-01",
+      "split": "test",
+      "cases": [
+        "clean-multi_acl_new_apply-0049",
+        "clean-multi_acl_new_apply-0050"
+      ]
+    },
+    "multi.ip_enable@campus-small-01": {
+      "template": "multi.ip_enable",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-multi_ip_enable-0051",
+        "clean-multi_ip_enable-0052"
+      ]
+    },
+    "multi.route_replace@campus-small-01": {
+      "template": "multi.route_replace",
+      "context_id": "campus-small-01",
+      "split": "dev",
+      "cases": [
+        "clean-multi_route_replace-0053",
+        "clean-multi_route_replace-0054"
+      ]
+    },
+    "create_vlan.t1@smb-01": {
+      "template": "create_vlan.t1",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-create_vlan-0055",
+        "clean-create_vlan-0058"
+      ]
+    },
+    "create_vlan.t2@smb-01": {
+      "template": "create_vlan.t2",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-create_vlan-0056"
+      ]
+    },
+    "create_vlan.t3@smb-01": {
+      "template": "create_vlan.t3",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-create_vlan-0057"
+      ]
+    },
+    "set_access_vlan.t2@smb-01": {
+      "template": "set_access_vlan.t2",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_access_vlan-0059",
+        "clean-set_access_vlan-0062"
+      ]
+    },
+    "set_access_vlan.t3@smb-01": {
+      "template": "set_access_vlan.t3",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_access_vlan-0060"
+      ]
+    },
+    "set_access_vlan.t1@smb-01": {
+      "template": "set_access_vlan.t1",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-set_access_vlan-0061"
+      ]
+    },
+    "set_trunk.t2@smb-01": {
+      "template": "set_trunk.t2",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_trunk-0063",
+        "clean-set_trunk-0066"
+      ]
+    },
+    "set_trunk.t3@smb-01": {
+      "template": "set_trunk.t3",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_trunk-0064"
+      ]
+    },
+    "set_trunk.t1@smb-01": {
+      "template": "set_trunk.t1",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-set_trunk-0065"
+      ]
+    },
+    "set_interface_ip.t2@smb-01": {
+      "template": "set_interface_ip.t2",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_ip-0067",
+        "clean-set_interface_ip-0070"
+      ]
+    },
+    "set_interface_ip.t3@smb-01": {
+      "template": "set_interface_ip.t3",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_ip-0068"
+      ]
+    },
+    "set_interface_ip.t1@smb-01": {
+      "template": "set_interface_ip.t1",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-set_interface_ip-0069"
+      ]
+    },
+    "set_interface_state.t2@smb-01": {
+      "template": "set_interface_state.t2",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_state-0071",
+        "clean-set_interface_state-0074"
+      ]
+    },
+    "set_interface_state.t3@smb-01": {
+      "template": "set_interface_state.t3",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_state-0072"
+      ]
+    },
+    "set_interface_state.t1@smb-01": {
+      "template": "set_interface_state.t1",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-set_interface_state-0073"
+      ]
+    },
+    "set_interface_description.t1@smb-01": {
+      "template": "set_interface_description.t1",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_description-0075",
+        "clean-set_interface_description-0078"
+      ]
+    },
+    "set_interface_description.t2@smb-01": {
+      "template": "set_interface_description.t2",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_interface_description-0076"
+      ]
+    },
+    "set_interface_description.t3@smb-01": {
+      "template": "set_interface_description.t3",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-set_interface_description-0077"
+      ]
+    },
+    "add_static_route.t1@smb-01": {
+      "template": "add_static_route.t1",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-add_static_route-0079",
+        "clean-add_static_route-0082"
+      ]
+    },
+    "add_static_route.t2@smb-01": {
+      "template": "add_static_route.t2",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-add_static_route-0080"
+      ]
+    },
+    "add_static_route.t3@smb-01": {
+      "template": "add_static_route.t3",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-add_static_route-0081"
+      ]
+    },
+    "remove_static_route.t2@smb-01": {
+      "template": "remove_static_route.t2",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-remove_static_route-0083",
+        "clean-remove_static_route-0086"
+      ]
+    },
+    "remove_static_route.t3@smb-01": {
+      "template": "remove_static_route.t3",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-remove_static_route-0084"
+      ]
+    },
+    "remove_static_route.t1@smb-01": {
+      "template": "remove_static_route.t1",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-remove_static_route-0085"
+      ]
+    },
+    "add_acl_entry.t1@smb-01": {
+      "template": "add_acl_entry.t1",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-add_acl_entry-0087",
+        "clean-add_acl_entry-0090"
+      ]
+    },
+    "add_acl_entry.t2@smb-01": {
+      "template": "add_acl_entry.t2",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-add_acl_entry-0088"
+      ]
+    },
+    "add_acl_entry.t3@smb-01": {
+      "template": "add_acl_entry.t3",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-add_acl_entry-0089"
+      ]
+    },
+    "apply_acl.t2@smb-01": {
+      "template": "apply_acl.t2",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-apply_acl-0091",
+        "clean-apply_acl-0094"
+      ]
+    },
+    "apply_acl.t3@smb-01": {
+      "template": "apply_acl.t3",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-apply_acl-0092"
+      ]
+    },
+    "apply_acl.t1@smb-01": {
+      "template": "apply_acl.t1",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-apply_acl-0093"
+      ]
+    },
+    "set_aaa_login.t1@smb-01": {
+      "template": "set_aaa_login.t1",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_aaa_login-0095",
+        "clean-set_aaa_login-0098"
+      ]
+    },
+    "set_aaa_login.t2@smb-01": {
+      "template": "set_aaa_login.t2",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-set_aaa_login-0096"
+      ]
+    },
+    "set_aaa_login.t3@smb-01": {
+      "template": "set_aaa_login.t3",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-set_aaa_login-0097"
+      ]
+    },
+    "multi.vlan_access@smb-01": {
+      "template": "multi.vlan_access",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-multi_vlan_access-0099",
+        "clean-multi_vlan_access-0100"
+      ]
+    },
+    "multi.vlan_access_desc@smb-01": {
+      "template": "multi.vlan_access_desc",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-multi_vlan_access_desc-0101",
+        "clean-multi_vlan_access_desc-0102"
+      ]
+    },
+    "multi.acl_new_apply@smb-01": {
+      "template": "multi.acl_new_apply",
+      "context_id": "smb-01",
+      "split": "test",
+      "cases": [
+        "clean-multi_acl_new_apply-0103",
+        "clean-multi_acl_new_apply-0104"
+      ]
+    },
+    "multi.ip_enable@smb-01": {
+      "template": "multi.ip_enable",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-multi_ip_enable-0105",
+        "clean-multi_ip_enable-0106"
+      ]
+    },
+    "multi.route_replace@smb-01": {
+      "template": "multi.route_replace",
+      "context_id": "smb-01",
+      "split": "dev",
+      "cases": [
+        "clean-multi_route_replace-0107",
+        "clean-multi_route_replace-0108"
+      ]
+    }
+  },
+  "cases": {
+    "clean-create_vlan-0001": {
+      "file": "clean-create_vlan-0001.json",
+      "fake_scenario": "scenarios/clean-create_vlan-0001.json",
+      "group": "benchmark",
+      "sha256": "67b4c24dfa22af2cb21c4ebd0f388e434a05771884d7106dc916c8c3bd7e6f5c",
+      "scenario_sha256": "941b581d6c1b9b9d015d1d371c51fdfa97879fed186a83861f1f94285d573c01",
+      "split": "dev",
+      "family": "create_vlan.t1@campus-small-01",
+      "template": "create_vlan.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "create_vlan"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Tạo VLAN 559 tên LAB trên SW1",
+      "intent_en": "Create VLAN 559 named LAB on SW1",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-create_vlan-0001/SW1.cfg",
+          "sha256": "4b85dffee3e388ad8aa9c5eb0be6a2052ea257e7a5f29bb9b4ea72645fc54a70"
+        }
+      }
+    },
+    "clean-create_vlan-0002": {
+      "file": "clean-create_vlan-0002.json",
+      "fake_scenario": "scenarios/clean-create_vlan-0002.json",
+      "group": "benchmark",
+      "sha256": "f9d5ecce8ac1ac78bcbdd06a54d6ec3c2171c8c3116f6ba51422d8bde0b719f1",
+      "scenario_sha256": "eebe9384c715f873a629aeba1d5b3f84d9eb89424ea4ab6745b20a39d57bad1d",
+      "split": "dev",
+      "family": "create_vlan.t2@campus-small-01",
+      "template": "create_vlan.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "create_vlan"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên switch SW2, thêm VLAN 415 với tên BACKUP",
+      "intent_en": "On switch SW2, add VLAN 415 with the name BACKUP",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-create_vlan-0002/SW2.cfg",
+          "sha256": "829e672d20d3b5b2757c1a19c1c8dc140fe948561db5086c6c6e9428d81dfada"
+        }
+      }
+    },
+    "clean-create_vlan-0003": {
+      "file": "clean-create_vlan-0003.json",
+      "fake_scenario": "scenarios/clean-create_vlan-0003.json",
+      "group": "benchmark",
+      "sha256": "27c5a23eeaf18914d284df2dffbab86d0ad075406dd8ed90f28b2b44ab47a87e",
+      "scenario_sha256": "319621efa4643cdac1a60c807d719ecda00ea4b700efad261a9e3d197ea47a42",
+      "split": "test",
+      "family": "create_vlan.t3@campus-small-01",
+      "template": "create_vlan.t3",
+      "context_id": "campus-small-01",
+      "tools": [
+        "create_vlan"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Khai báo VLAN mới 873 (GUEST2) cho SW2",
+      "intent_en": "Define a new VLAN 873 (GUEST2) on SW2",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-create_vlan-0003/SW2.cfg",
+          "sha256": "bc8949738233d352bf79fc998127b3136715aaa0573b3666c86d42a0ae126d5b"
+        }
+      }
+    },
+    "clean-create_vlan-0004": {
+      "file": "clean-create_vlan-0004.json",
+      "fake_scenario": "scenarios/clean-create_vlan-0004.json",
+      "group": "benchmark",
+      "sha256": "a4bff077f1ae6d534d8840486309805778fdd617542225f5a014a5c4d1a26c3a",
+      "scenario_sha256": "4b51a46902345796871cc0ea5f56aa42913925987be5e7f71ae1fdf15ca2fa17",
+      "split": "dev",
+      "family": "create_vlan.t1@campus-small-01",
+      "template": "create_vlan.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "create_vlan"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Tạo VLAN 349 tên IOT trên SW2",
+      "intent_en": "Create VLAN 349 named IOT on SW2",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-create_vlan-0004/SW2.cfg",
+          "sha256": "77be01084679ff04b9260f306a249db6ff79cf79d684a0ebae704aaf11210fa4"
+        }
+      }
+    },
+    "clean-set_access_vlan-0005": {
+      "file": "clean-set_access_vlan-0005.json",
+      "fake_scenario": "scenarios/clean-set_access_vlan-0005.json",
+      "group": "benchmark",
+      "sha256": "3f13e07ee509fc80ae8a37ac25e2ecae0df2175d70c5583476642103d8c75af2",
+      "scenario_sha256": "d74d42d8ed8d3aa6884d9304423f3d2e1af16c617404100aa0f572100bd501e1",
+      "split": "dev",
+      "family": "set_access_vlan.t2@campus-small-01",
+      "template": "set_access_vlan.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_access_vlan"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Chuyển SW1 GigabitEthernet1/3 sang chế độ access, VLAN 20",
+      "intent_en": "Put SW1 GigabitEthernet1/3 in access mode on VLAN 20",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-set_access_vlan-0005/SW1.cfg",
+          "sha256": "1635c978f531074e1ba7b4a312b8e79601b829ca471ded57c3b8bc312e9f5de9"
+        }
+      }
+    },
+    "clean-set_access_vlan-0006": {
+      "file": "clean-set_access_vlan-0006.json",
+      "fake_scenario": "scenarios/clean-set_access_vlan-0006.json",
+      "group": "benchmark",
+      "sha256": "3c0f7b240950149098b3168a6aca66a2a05604876ad6fc4b2aa9dd7d4a26d980",
+      "scenario_sha256": "5d64a7d6627e4eea5f212b335db5874abc1259c099fe0fa827d49a65d4d5e5c4",
+      "split": "dev",
+      "family": "set_access_vlan.t3@campus-small-01",
+      "template": "set_access_vlan.t3",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_access_vlan"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Trên SW1, cổng GigabitEthernet0/3 phải thuộc VLAN 10",
+      "intent_en": "On SW1, port GigabitEthernet0/3 must be an access port in VLAN 10",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-set_access_vlan-0006/SW1.cfg",
+          "sha256": "269c0b8be43a6eae8a9a891991da9e18fb4f8beb51cabcbe43a8c67e11c6516e"
+        }
+      }
+    },
+    "clean-set_access_vlan-0007": {
+      "file": "clean-set_access_vlan-0007.json",
+      "fake_scenario": "scenarios/clean-set_access_vlan-0007.json",
+      "group": "benchmark",
+      "sha256": "29a5c4e75f861e2e572f48e01d6739f34c0003bf20a4f537047b796699d445e2",
+      "scenario_sha256": "95446db05046367b9728a73d6688bf3eae3b8071919e8b7ed3d18bd10ac7c88c",
+      "split": "test",
+      "family": "set_access_vlan.t1@campus-small-01",
+      "template": "set_access_vlan.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_access_vlan"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Gán cổng GigabitEthernet0/2 của SW2 vào VLAN 50",
+      "intent_en": "Assign interface GigabitEthernet0/2 on SW2 to VLAN 50",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-set_access_vlan-0007/SW2.cfg",
+          "sha256": "9639e3d13a69e4f2dc9078032335cd9952c2ae57a32bc71253db6d496956e6db"
+        }
+      }
+    },
+    "clean-set_access_vlan-0008": {
+      "file": "clean-set_access_vlan-0008.json",
+      "fake_scenario": "scenarios/clean-set_access_vlan-0008.json",
+      "group": "benchmark",
+      "sha256": "175dcc35bada65aef4f74be6887be6f6b539247fed5986a08a3a903386feb60e",
+      "scenario_sha256": "4e1a73f4e7d3712cb2326cf25083b9c5ab428e9fdd50174259da9fcd3c0f81c5",
+      "split": "dev",
+      "family": "set_access_vlan.t2@campus-small-01",
+      "template": "set_access_vlan.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_access_vlan"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Chuyển SW1 GigabitEthernet1/0 sang chế độ access, VLAN 50",
+      "intent_en": "Put SW1 GigabitEthernet1/0 in access mode on VLAN 50",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-set_access_vlan-0008/SW1.cfg",
+          "sha256": "9963a7cbf5298025495497218c9fb4454909f4b0438869d6229cdfd67a1244be"
+        }
+      }
+    },
+    "clean-set_trunk-0009": {
+      "file": "clean-set_trunk-0009.json",
+      "fake_scenario": "scenarios/clean-set_trunk-0009.json",
+      "group": "benchmark",
+      "sha256": "96c1deb71556b008d1e8b58ea56e7423e41e90a6eda88e6d8bdadb04c48037b7",
+      "scenario_sha256": "c631d9af22d7310957c0915bc1c673cba38c3a2fce8fc8cce3af74f07103778c",
+      "split": "dev",
+      "family": "set_trunk.t2@campus-small-01",
+      "template": "set_trunk.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_trunk"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Biến cổng GigabitEthernet1/1 trên SW1 thành trunk 802.1Q, chỉ cho phép VLAN 10, 20, 50, native 999",
+      "intent_en": "Make port GigabitEthernet1/1 on SW1 an 802.1Q trunk that only allows VLANs 10, 20, 50, native 999",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-set_trunk-0009/SW1.cfg",
+          "sha256": "0e23d2dc2cfc6eaea9c38092a6fc70f56a5c4ccaf9163e6fdbede07e78ed24a4"
+        }
+      }
+    },
+    "clean-set_trunk-0010": {
+      "file": "clean-set_trunk-0010.json",
+      "fake_scenario": "scenarios/clean-set_trunk-0010.json",
+      "group": "benchmark",
+      "sha256": "61a2cdfd4df7da5b80d0464bdef60ff4b51ee9e05824d9676eafdacf7026385a",
+      "scenario_sha256": "5f558304a916a2a39f214f242a7499dc20e497dfbbca2b6523c443ef3b5daa8c",
+      "split": "dev",
+      "family": "set_trunk.t3@campus-small-01",
+      "template": "set_trunk.t3",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_trunk"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Trên SW1, mở trunk ở GigabitEthernet1/1 mang VLAN 10, 50 (native VLAN 999)",
+      "intent_en": "On SW1, enable trunking on GigabitEthernet1/1 carrying VLANs 10, 50 (native VLAN 999)",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-set_trunk-0010/SW1.cfg",
+          "sha256": "81d71862c3b52370b257d6adc243493d5d05b82d58a2973aded44d7d51cf9dea"
+        }
+      }
+    },
+    "clean-set_trunk-0011": {
+      "file": "clean-set_trunk-0011.json",
+      "fake_scenario": "scenarios/clean-set_trunk-0011.json",
+      "group": "benchmark",
+      "sha256": "c7732ca9e7dd0c0129d3ded4cd2b0f80111b77142d924c59d2f1303e00f0dc80",
+      "scenario_sha256": "a490259290ce4beae7f1de462d8e4a753e0df65f3ca48885a5e462078e04376d",
+      "split": "test",
+      "family": "set_trunk.t1@campus-small-01",
+      "template": "set_trunk.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_trunk"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Cấu hình SW2 GigabitEthernet1/2 làm trunk cho VLAN 10, 50, 99, native VLAN 999",
+      "intent_en": "Configure SW2 GigabitEthernet1/2 as a trunk allowing VLANs 10, 50, 99 with native VLAN 999",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-set_trunk-0011/SW2.cfg",
+          "sha256": "aa502578119c981d7186d7ae43a7ac3d2440b4edded10735689e054fb80ff35c"
+        }
+      }
+    },
+    "clean-set_trunk-0012": {
+      "file": "clean-set_trunk-0012.json",
+      "fake_scenario": "scenarios/clean-set_trunk-0012.json",
+      "group": "benchmark",
+      "sha256": "2b0c363cca9e5230119cc7892bd1a409f0902e73fc9325f2a1efcce6d7347952",
+      "scenario_sha256": "e5049dbb239753d8040d92cd176f7de53dabc46b69ed9bd37865b16c87992393",
+      "split": "dev",
+      "family": "set_trunk.t2@campus-small-01",
+      "template": "set_trunk.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_trunk"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Biến cổng GigabitEthernet1/2 trên SW2 thành trunk 802.1Q, chỉ cho phép VLAN 20, 50, 99, native 999",
+      "intent_en": "Make port GigabitEthernet1/2 on SW2 an 802.1Q trunk that only allows VLANs 20, 50, 99, native 999",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-set_trunk-0012/SW2.cfg",
+          "sha256": "0e505c151096294ffe8c069e9e70ea4a5721712b1f66f05676b5f9aa3dd4efd4"
+        }
+      }
+    },
+    "clean-set_interface_ip-0013": {
+      "file": "clean-set_interface_ip-0013.json",
+      "fake_scenario": "scenarios/clean-set_interface_ip-0013.json",
+      "group": "benchmark",
+      "sha256": "f17058e25eba89118195702ace1402ee17a902fb8aaa306ad20f220bf06a443e",
+      "scenario_sha256": "0de253a1d6104a710f8820cac6ae31a90b04c256254e43c4ed2f9869f37fc1b0",
+      "split": "dev",
+      "family": "set_interface_ip.t2@campus-small-01",
+      "template": "set_interface_ip.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_ip"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Cấu hình địa chỉ 10.130.10.1 mask 255.255.255.252 trên cổng GigabitEthernet0/3 của R1",
+      "intent_en": "Configure address 10.130.10.1 mask 255.255.255.252 on interface GigabitEthernet0/3 of R1",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-set_interface_ip-0013/R1.cfg",
+          "sha256": "7df53dd9fd5ba977c69a54e939916c94bc5c6113d91fe348f987a1811e6f3bf1"
+        }
+      }
+    },
+    "clean-set_interface_ip-0014": {
+      "file": "clean-set_interface_ip-0014.json",
+      "fake_scenario": "scenarios/clean-set_interface_ip-0014.json",
+      "group": "benchmark",
+      "sha256": "b79ffa5a1977307695597d319044815ba5a807e7a74ca91b71cd856db0d52efc",
+      "scenario_sha256": "0f4ddd83ad85c7d6a147f006083e1a31867957f4ea50b03ddc31b145368e4733",
+      "split": "dev",
+      "family": "set_interface_ip.t3@campus-small-01",
+      "template": "set_interface_ip.t3",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_ip"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên router R1, interface GigabitEthernet0/2 dùng địa chỉ 10.119.15.1/29",
+      "intent_en": "On router R1, interface GigabitEthernet0/2 should use address 10.119.15.1/29",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-set_interface_ip-0014/R1.cfg",
+          "sha256": "6248d61b9c8a5c20cc3b5a85629c47c8ff454a8424b2f5356225da3f234b37b7"
+        }
+      }
+    },
+    "clean-set_interface_ip-0015": {
+      "file": "clean-set_interface_ip-0015.json",
+      "fake_scenario": "scenarios/clean-set_interface_ip-0015.json",
+      "group": "benchmark",
+      "sha256": "cd6ba4707891cb9504c241715059cdf99ba71eb676134f828e3f6abb11ba9019",
+      "scenario_sha256": "a65f565e2cc1de60b9064d194a82e7c521219c7c6f573c85b73b083c041db0fa",
+      "split": "test",
+      "family": "set_interface_ip.t1@campus-small-01",
+      "template": "set_interface_ip.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_ip"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Đặt IP 10.108.10.1/29 cho R1 GigabitEthernet0/3",
+      "intent_en": "Assign IP 10.108.10.1/29 to R1 GigabitEthernet0/3",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-set_interface_ip-0015/R1.cfg",
+          "sha256": "28795505a6fef5aec7d2693910701e0e5db3e40aac77b9da2947241c8121762d"
+        }
+      }
+    },
+    "clean-set_interface_ip-0016": {
+      "file": "clean-set_interface_ip-0016.json",
+      "fake_scenario": "scenarios/clean-set_interface_ip-0016.json",
+      "group": "benchmark",
+      "sha256": "efa7390d35fec1bde858be3afbb9df563b3fa0e182e39d2470ca5f831face5a7",
+      "scenario_sha256": "63d7edbc62704ec8c484d49e924db4968b690a75c2cdb6ae8faee5fa0c80946b",
+      "split": "dev",
+      "family": "set_interface_ip.t2@campus-small-01",
+      "template": "set_interface_ip.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_ip"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Cấu hình địa chỉ 10.135.2.1 mask 255.255.255.0 trên cổng GigabitEthernet0/2 của R1",
+      "intent_en": "Configure address 10.135.2.1 mask 255.255.255.0 on interface GigabitEthernet0/2 of R1",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-set_interface_ip-0016/R1.cfg",
+          "sha256": "78a95aaa6f31a325ea2757ca16e05960a0f894d1e8d680f54bdb91b5fdf63fd6"
+        }
+      }
+    },
+    "clean-set_interface_state-0017": {
+      "file": "clean-set_interface_state-0017.json",
+      "fake_scenario": "scenarios/clean-set_interface_state-0017.json",
+      "group": "benchmark",
+      "sha256": "d5c0e1999fd453f063102d2d7ed1070488acee7ead02849b3cbb27e0d2670f05",
+      "scenario_sha256": "0d50aeb91a1738c7c08b565c390e79091f2ebac7ac419eb3fb72f6dbdaa4da40",
+      "split": "dev",
+      "family": "set_interface_state.t2@campus-small-01",
+      "template": "set_interface_state.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_state"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Trên R1, bật (no shutdown) interface GigabitEthernet0/3",
+      "intent_en": "On R1, bring up interface GigabitEthernet0/3",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-set_interface_state-0017/R1.cfg",
+          "sha256": "997281121234e854906699242880834859539369f04b621982b8f31e0a78cc14"
+        }
+      }
+    },
+    "clean-set_interface_state-0018": {
+      "file": "clean-set_interface_state-0018.json",
+      "fake_scenario": "scenarios/clean-set_interface_state-0018.json",
+      "group": "benchmark",
+      "sha256": "0bc074637cb549b71c52f5b76c04e4d6e603fd4112dacbe57498f23555fe7ce6",
+      "scenario_sha256": "1e3c6aa9d09fadb9ac67607bb6cc5d77b939fedb5a5c2fd76a92461da0407e16",
+      "split": "dev",
+      "family": "set_interface_state.t3@campus-small-01",
+      "template": "set_interface_state.t3",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_state"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Yêu cầu: Bật SW1 GigabitEthernet1/3",
+      "intent_en": "Request: Enable SW1 GigabitEthernet1/3",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-set_interface_state-0018/SW1.cfg",
+          "sha256": "77b0a7033f0fc9d584a57a54f0e413a5ba820232ec9aa901dbe5f4fe56ef5e39"
+        }
+      }
+    },
+    "clean-set_interface_state-0019": {
+      "file": "clean-set_interface_state-0019.json",
+      "fake_scenario": "scenarios/clean-set_interface_state-0019.json",
+      "group": "benchmark",
+      "sha256": "3fe74baa92fc803e5afd72af929682ec1616eb0592d21a84be36f43655097345",
+      "scenario_sha256": "1b0ef9e484e5339c67728dce691ed26e01cf174a8daa137bf0f1f6cb8f9a01d1",
+      "split": "test",
+      "family": "set_interface_state.t1@campus-small-01",
+      "template": "set_interface_state.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_state"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Tắt cổng GigabitEthernet0/2 trên SW1",
+      "intent_en": "Shut down interface GigabitEthernet0/2 on SW1",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-set_interface_state-0019/SW1.cfg",
+          "sha256": "28c8e6e0b4ebd44e58a1c1fe814e8ea146e5b54163e90c362866c5d7fe56ab31"
+        }
+      }
+    },
+    "clean-set_interface_state-0020": {
+      "file": "clean-set_interface_state-0020.json",
+      "fake_scenario": "scenarios/clean-set_interface_state-0020.json",
+      "group": "benchmark",
+      "sha256": "4c310fa987225bf976d39d292224d3d610a1f9e8bca9ffa8a065799eaaa6557f",
+      "scenario_sha256": "869c261ccded5fa0ab576771d45ed21cd79c4eefd6d39d7aa50a16218cee6c09",
+      "split": "dev",
+      "family": "set_interface_state.t2@campus-small-01",
+      "template": "set_interface_state.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_state"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Trên SW2, bật (no shutdown) interface GigabitEthernet1/1",
+      "intent_en": "On SW2, bring up interface GigabitEthernet1/1",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-set_interface_state-0020/SW2.cfg",
+          "sha256": "0361c1b9eb795dba75d7a348c54d24bb21449cebd7574819daac456464019c74"
+        }
+      }
+    },
+    "clean-set_interface_description-0021": {
+      "file": "clean-set_interface_description-0021.json",
+      "fake_scenario": "scenarios/clean-set_interface_description-0021.json",
+      "group": "benchmark",
+      "sha256": "11e51d137a57bd069a8202df725d2a6959e7c1c4a5371921ad15f4fe7a7ce26f",
+      "scenario_sha256": "7ac5323787d0f895cbdd612ae80363ca0299e918ba3309f5efdda5ca8f5bd2eb",
+      "split": "dev",
+      "family": "set_interface_description.t1@campus-small-01",
+      "template": "set_interface_description.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_description"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Đặt description cho R1 GigabitEthernet0/3 là 'VoIP phone 12'",
+      "intent_en": "Set the description of R1 GigabitEthernet0/3 to 'VoIP phone 12'",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-set_interface_description-0021/R1.cfg",
+          "sha256": "6a10eeeb23ebbd2bf9d8e54adea470c5f5eefffdbe0531b0b5e906ccd731deb2"
+        }
+      }
+    },
+    "clean-set_interface_description-0022": {
+      "file": "clean-set_interface_description-0022.json",
+      "fake_scenario": "scenarios/clean-set_interface_description-0022.json",
+      "group": "benchmark",
+      "sha256": "35de78519ce9fb6ebaef8c0ea0b33d3a43459fc45e1cdfed018d03052a20b732",
+      "scenario_sha256": "9ab610866241cfc6855e3bbda02fdc05a023ed17a52192658d2b5ce96e04343b",
+      "split": "dev",
+      "family": "set_interface_description.t2@campus-small-01",
+      "template": "set_interface_description.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_description"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Ghi chú cổng GigabitEthernet0/2 trên R1: 'Camera lobby'",
+      "intent_en": "Label port GigabitEthernet0/2 on R1 as 'Camera lobby'",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-set_interface_description-0022/R1.cfg",
+          "sha256": "760917dba00752fa8bedfac914c5ee69497bf0dfd909b8b2ab1915476cb139e5"
+        }
+      }
+    },
+    "clean-set_interface_description-0023": {
+      "file": "clean-set_interface_description-0023.json",
+      "fake_scenario": "scenarios/clean-set_interface_description-0023.json",
+      "group": "benchmark",
+      "sha256": "79c2409cb4caf9190022c6314d1c319a819a0bbd9039821780a107a8fa322bdc",
+      "scenario_sha256": "2e3a17eb759e1b9d0ce0fdcb7a7f244e12e33e8081971ff5d11a60dde807503e",
+      "split": "test",
+      "family": "set_interface_description.t3@campus-small-01",
+      "template": "set_interface_description.t3",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_description"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Trên SW1, mô tả của interface GigabitEthernet1/1 cần là 'Printer floor 2'",
+      "intent_en": "On SW1, the description of interface GigabitEthernet1/1 should read 'Printer floor 2'",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-set_interface_description-0023/SW1.cfg",
+          "sha256": "6c72defe79e33c59c21b2139b29bc0500481e976a4b2c7a17e2892c943d0debf"
+        }
+      }
+    },
+    "clean-set_interface_description-0024": {
+      "file": "clean-set_interface_description-0024.json",
+      "fake_scenario": "scenarios/clean-set_interface_description-0024.json",
+      "group": "benchmark",
+      "sha256": "459cf5c6d57db8f07f4e9d120d587f6dd8685592457d02f5dce0428ba2a37380",
+      "scenario_sha256": "542588fe13142dec40de09f5575762bde7eb4ab0b5608e32ce9b69a9cf493c25",
+      "split": "dev",
+      "family": "set_interface_description.t1@campus-small-01",
+      "template": "set_interface_description.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_description"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Đặt description cho R1 GigabitEthernet0/3 là 'Camera lobby'",
+      "intent_en": "Set the description of R1 GigabitEthernet0/3 to 'Camera lobby'",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-set_interface_description-0024/R1.cfg",
+          "sha256": "7ab9f3a534515c4a5602219a9f0b2eae11091965fd0a3791993c169bc7e9b6b6"
+        }
+      }
+    },
+    "clean-add_static_route-0025": {
+      "file": "clean-add_static_route-0025.json",
+      "fake_scenario": "scenarios/clean-add_static_route-0025.json",
+      "group": "benchmark",
+      "sha256": "2c698fc9541065428e6a67cc2a5c164a4fa2037325f1a7523e0af993d4ca00d8",
+      "scenario_sha256": "51e065924a85391ee224ca2bc7f1fd1fcfb58033083ece87df3df7744f518a7f",
+      "split": "dev",
+      "family": "add_static_route.t1@campus-small-01",
+      "template": "add_static_route.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "add_static_route"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Thêm static route trên SW1 tới 10.193.0.0/16 qua 10.0.12.1",
+      "intent_en": "Add a static route on SW1 to 10.193.0.0/16 via 10.0.12.1",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-add_static_route-0025/SW1.cfg",
+          "sha256": "a234b8ebe30a9cfe35093f494284b0043ce827353038ca89de0a0ee105128e30"
+        }
+      }
+    },
+    "clean-add_static_route-0026": {
+      "file": "clean-add_static_route-0026.json",
+      "fake_scenario": "scenarios/clean-add_static_route-0026.json",
+      "group": "benchmark",
+      "sha256": "bf15b782c20e536429caac451e1886a82f94ce772efde9070ea2c68340d63217",
+      "scenario_sha256": "0e3458234db770aa58b1c93c4f24fd8aa603378bc71011ae4b0d58748e366605",
+      "split": "dev",
+      "family": "add_static_route.t2@campus-small-01",
+      "template": "add_static_route.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "add_static_route"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Trên SW1, định tuyến mạng 10.148.0.0 255.255.0.0 qua next-hop 10.0.12.1",
+      "intent_en": "On SW1, route network 10.148.0.0 255.255.0.0 through next hop 10.0.12.1",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-add_static_route-0026/SW1.cfg",
+          "sha256": "12e324f8823a8f5641d75af3a4c8edd476eb2895320a1a42437ea985e0452d61"
+        }
+      }
+    },
+    "clean-add_static_route-0027": {
+      "file": "clean-add_static_route-0027.json",
+      "fake_scenario": "scenarios/clean-add_static_route-0027.json",
+      "group": "benchmark",
+      "sha256": "51c1a0332d2175ad02255859f0c9084aed34a4f02aa58bf67cc5569adaad86e0",
+      "scenario_sha256": "09deab50512607be976e2b65aac97e004078bf9561dffb35f6131319ae51af9c",
+      "split": "test",
+      "family": "add_static_route.t3@campus-small-01",
+      "template": "add_static_route.t3",
+      "context_id": "campus-small-01",
+      "tools": [
+        "add_static_route"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "SW1 cần route tĩnh đến 172.17.98.0/24, next-hop 10.0.12.1",
+      "intent_en": "SW1 needs a static route to 172.17.98.0/24 with next hop 10.0.12.1",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-add_static_route-0027/SW1.cfg",
+          "sha256": "8118207f750a47c90fd5f71049a8facfc972716438f80f02a1f01d4a3e91802e"
+        }
+      }
+    },
+    "clean-add_static_route-0028": {
+      "file": "clean-add_static_route-0028.json",
+      "fake_scenario": "scenarios/clean-add_static_route-0028.json",
+      "group": "benchmark",
+      "sha256": "2d83e22b1693dd32a90ca0629d696729d1b2c4dd7b53583bb6889775519cb0b0",
+      "scenario_sha256": "c67096f36a1e84e55b6dcae055e632ec5387f44a7cde2c809d2ca4c29dd40b4a",
+      "split": "dev",
+      "family": "add_static_route.t1@campus-small-01",
+      "template": "add_static_route.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "add_static_route"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Thêm static route trên R1 tới 10.142.0.0/16 qua 10.0.12.2",
+      "intent_en": "Add a static route on R1 to 10.142.0.0/16 via 10.0.12.2",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-add_static_route-0028/R1.cfg",
+          "sha256": "76d75737ec123d8ce7cfb5aae9d3de695ae446b70b71648498b67b9c51e85538"
+        }
+      }
+    },
+    "clean-remove_static_route-0029": {
+      "file": "clean-remove_static_route-0029.json",
+      "fake_scenario": "scenarios/clean-remove_static_route-0029.json",
+      "group": "benchmark",
+      "sha256": "8d0ac48643732f36f9212a7fff56d64b05da2ec8df9d0008b554271d0ab3da6a",
+      "scenario_sha256": "d21143b3819c10b00c0dde2c356178b1fd68fd9023f894825aa7c62976d9a71f",
+      "split": "dev",
+      "family": "remove_static_route.t2@campus-small-01",
+      "template": "remove_static_route.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "remove_static_route"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên R1, gỡ route tĩnh tới 10.99.0.0/24 (next-hop 10.0.12.2)",
+      "intent_en": "On R1, delete the static route to 10.99.0.0/24 (next hop 10.0.12.2)",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-remove_static_route-0029/R1.cfg",
+          "sha256": "6f879c6bb72e5045682a42e995304f87ad73f3d050dedfa8a49358695aac37e1"
+        }
+      }
+    },
+    "clean-remove_static_route-0030": {
+      "file": "clean-remove_static_route-0030.json",
+      "fake_scenario": "scenarios/clean-remove_static_route-0030.json",
+      "group": "benchmark",
+      "sha256": "9f8333fd5591d4a411f2c09235736120f3918a6beb9dfd02a6527f6ba4e0aae3",
+      "scenario_sha256": "2f0dcb7f517e77bc25b20d5e5e0bd2a8a438a7fa2675a920d743715eeba77352",
+      "split": "dev",
+      "family": "remove_static_route.t3@campus-small-01",
+      "template": "remove_static_route.t3",
+      "context_id": "campus-small-01",
+      "tools": [
+        "remove_static_route"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Route 10.10.0.0/16 qua 10.0.12.2 trên R1 không còn dùng, hãy xoá",
+      "intent_en": "The route 10.10.0.0/16 via 10.0.12.2 on R1 is no longer used, remove it",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-remove_static_route-0030/R1.cfg",
+          "sha256": "ad410dee7b1a8bbbee67caa8136bc789099991161f14b3f76e09c846716d3e9e"
+        }
+      }
+    },
+    "clean-remove_static_route-0031": {
+      "file": "clean-remove_static_route-0031.json",
+      "fake_scenario": "scenarios/clean-remove_static_route-0031.json",
+      "group": "benchmark",
+      "sha256": "0ea68e32a0c3f8f22015724bf292b756f92dac6876044d4de7b4b386e73e6cf9",
+      "scenario_sha256": "75a7e17b2b5467a02a801b1bde3e4a7ffd49c599169ff006de7b45253504fd27",
+      "split": "test",
+      "family": "remove_static_route.t1@campus-small-01",
+      "template": "remove_static_route.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "remove_static_route"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Xoá static route 0.0.0.0/0 qua 10.0.12.1 trên SW1",
+      "intent_en": "Remove the static route 0.0.0.0/0 via 10.0.12.1 on SW1",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-remove_static_route-0031/SW1.cfg",
+          "sha256": "a159846c7c7bfa9241caa9fd46c37ab9c6c9595797b14a20ed2abd71c860ec1e"
+        }
+      }
+    },
+    "clean-remove_static_route-0032": {
+      "file": "clean-remove_static_route-0032.json",
+      "fake_scenario": "scenarios/clean-remove_static_route-0032.json",
+      "group": "benchmark",
+      "sha256": "d9c13452a937f18bf0b80eae50937b50147506d11db609627e222e4f8672cc1a",
+      "scenario_sha256": "36df85f1e74f2192d74f61be4b18380c026030942432f646917dde4295c5fa18",
+      "split": "dev",
+      "family": "remove_static_route.t2@campus-small-01",
+      "template": "remove_static_route.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "remove_static_route"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên R1, gỡ route tĩnh tới 0.0.0.0/0 (next-hop 203.0.113.1)",
+      "intent_en": "On R1, delete the static route to 0.0.0.0/0 (next hop 203.0.113.1)",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-remove_static_route-0032/R1.cfg",
+          "sha256": "0fa9bba4fa812e74f6fbc7a6b84565e7dd4e98fcd0e1f8cc9696d804945b5e25"
+        }
+      }
+    },
+    "clean-add_acl_entry-0033": {
+      "file": "clean-add_acl_entry-0033.json",
+      "fake_scenario": "scenarios/clean-add_acl_entry-0033.json",
+      "group": "benchmark",
+      "sha256": "e5ae74a4e34a080d243209ced52cd708d2b225b394621f3d1beae58e04189095",
+      "scenario_sha256": "bd07a9e13f462f2a2334557983b3a1287de1220c3134e88ed6921f9b0536ace4",
+      "split": "dev",
+      "family": "add_acl_entry.t1@campus-small-01",
+      "template": "add_acl_entry.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "add_acl_entry"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Thêm vào ACL SERVERS-PROTECT trên SW1 dòng 630: permit tcp từ 10.65.20.0/24 tới host 10.10.50.40 cổng 443",
+      "intent_en": "Add line 630 to ACL SERVERS-PROTECT on SW1: permit tcp from 10.65.20.0/24 to host 10.10.50.40 port 443",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-add_acl_entry-0033/SW1.cfg",
+          "sha256": "f0692e5c0514ed3f4337b681bb730bfab5294a7d823fb70fc9c74227d13e73eb"
+        }
+      }
+    },
+    "clean-add_acl_entry-0034": {
+      "file": "clean-add_acl_entry-0034.json",
+      "fake_scenario": "scenarios/clean-add_acl_entry-0034.json",
+      "group": "benchmark",
+      "sha256": "32956ed951602c4e70a9eaaef578ddbe86381183819a07fee754de85a009418e",
+      "scenario_sha256": "2c2fd081d1b883db304b0c3a8b00961929e8dfe949b6de0a0785ef95c0db2fd2",
+      "split": "dev",
+      "family": "add_acl_entry.t2@campus-small-01",
+      "template": "add_acl_entry.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "add_acl_entry"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên SW1, ACL SERVERS-PROTECT cần thêm dòng 450 chặn tcp từ 10.56.10.0/24 đến host 10.10.50.57 port 8080",
+      "intent_en": "On SW1, ACL SERVERS-PROTECT needs line 450 to deny tcp from 10.56.10.0/24 to host 10.10.50.57 port 8080",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-add_acl_entry-0034/SW1.cfg",
+          "sha256": "e3f8f59558ecb17d3d06e9746f6dfe391ed1c49e6f1e061f09f39091ddc38878"
+        }
+      }
+    },
+    "clean-add_acl_entry-0035": {
+      "file": "clean-add_acl_entry-0035.json",
+      "fake_scenario": "scenarios/clean-add_acl_entry-0035.json",
+      "group": "benchmark",
+      "sha256": "924fbcf63a8098ae3ad89494e20d77c1e43291d6f7902215e118c272050d93d7",
+      "scenario_sha256": "809938abfe6871fee8ebfaa6d8bf5ecae7e2654f3f93b54ea57f48404fe49723",
+      "split": "test",
+      "family": "add_acl_entry.t3@campus-small-01",
+      "template": "add_acl_entry.t3",
+      "context_id": "campus-small-01",
+      "tools": [
+        "add_acl_entry"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "ACL EDGE-IN của R1: dòng 930 chặn tcp 10.71.0.0/24 -> host 10.10.50.58, cổng đích 443",
+      "intent_en": "ACL EDGE-IN of R1: line 930 should deny tcp 10.71.0.0/24 -> host 10.10.50.58, destination port 443",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-add_acl_entry-0035/R1.cfg",
+          "sha256": "d6d189a91dbc58ac8c3f96ec6d8002b0b6c83245cc6eb758b3489daade82a8d7"
+        }
+      }
+    },
+    "clean-add_acl_entry-0036": {
+      "file": "clean-add_acl_entry-0036.json",
+      "fake_scenario": "scenarios/clean-add_acl_entry-0036.json",
+      "group": "benchmark",
+      "sha256": "97ff9ea4d1e5636415df4dca235ce4cf3c7d9de65c653492438b9c346a2d4905",
+      "scenario_sha256": "1ef81cb627d83e3aab8feae93bb63d672738c76c4e4d6a3175356bd8fa1242bc",
+      "split": "dev",
+      "family": "add_acl_entry.t1@campus-small-01",
+      "template": "add_acl_entry.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "add_acl_entry"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Thêm vào ACL EDGE-IN trên R1 dòng 500: deny udp từ 10.69.0.0/24 tới host 10.10.50.20 cổng 53",
+      "intent_en": "Add line 500 to ACL EDGE-IN on R1: deny udp from 10.69.0.0/24 to host 10.10.50.20 port 53",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-add_acl_entry-0036/R1.cfg",
+          "sha256": "e6b8bf86068d15376ca68c933f1e24bf566ccb933dea25ebf24681ae59bf5f57"
+        }
+      }
+    },
+    "clean-apply_acl-0037": {
+      "file": "clean-apply_acl-0037.json",
+      "fake_scenario": "scenarios/clean-apply_acl-0037.json",
+      "group": "benchmark",
+      "sha256": "d0017e9335b6db1fd16539b17c15c20245919b117705c18b9143110f2d95d601",
+      "scenario_sha256": "63417badb755597ae017c1daa238b0e4e563d1a43f381ecbc2929167c359fa61",
+      "split": "dev",
+      "family": "apply_acl.t2@campus-small-01",
+      "template": "apply_acl.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "apply_acl"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên R1, gắn access-list EDGE-IN vào interface GigabitEthernet0/2, chiều ra (out)",
+      "intent_en": "On R1, attach access-list EDGE-IN to interface GigabitEthernet0/2, outbound",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-apply_acl-0037/R1.cfg",
+          "sha256": "e6018449582f6c00adfbfa829c655a8fb53f47825f7c9c1daafedb7fbb01e254"
+        }
+      }
+    },
+    "clean-apply_acl-0038": {
+      "file": "clean-apply_acl-0038.json",
+      "fake_scenario": "scenarios/clean-apply_acl-0038.json",
+      "group": "benchmark",
+      "sha256": "151880af376e5599f5f69badb5f6740cc5bceb12e458e0eeea74b445edf05ddb",
+      "scenario_sha256": "35b7c744aea417c2fba1fae50f0f3655ada0449603a23f2ecc64bffce15155e8",
+      "split": "dev",
+      "family": "apply_acl.t3@campus-small-01",
+      "template": "apply_acl.t3",
+      "context_id": "campus-small-01",
+      "tools": [
+        "apply_acl"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Interface Vlan50 của SW1 phải lọc lưu lượng chiều vào (in) bằng ACL SERVERS-PROTECT",
+      "intent_en": "Interface Vlan50 of SW1 must filter inbound traffic with ACL SERVERS-PROTECT",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-apply_acl-0038/SW1.cfg",
+          "sha256": "05873422a45465d415c1f9801a6276f4b84b2ea5efb9d4469fa55b1e46bdc1aa"
+        }
+      }
+    },
+    "clean-apply_acl-0039": {
+      "file": "clean-apply_acl-0039.json",
+      "fake_scenario": "scenarios/clean-apply_acl-0039.json",
+      "group": "benchmark",
+      "sha256": "ee18a9a364c610350981a3848078388526e64237651bcc6426e2dd1a0ac0d15c",
+      "scenario_sha256": "6385dd664a760b8bf4ab0957b3f2e0e4bceba927a3fb3f13e5879718f963d312",
+      "split": "test",
+      "family": "apply_acl.t1@campus-small-01",
+      "template": "apply_acl.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "apply_acl"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Áp ACL SERVERS-PROTECT theo chiều vào (in) lên SW1 Vlan10",
+      "intent_en": "Apply ACL SERVERS-PROTECT inbound on SW1 Vlan10",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-apply_acl-0039/SW1.cfg",
+          "sha256": "fed6dd7ae8c287416ef573578bacc928f77c4627fd53c22af0fdc6125e172ed8"
+        }
+      }
+    },
+    "clean-apply_acl-0040": {
+      "file": "clean-apply_acl-0040.json",
+      "fake_scenario": "scenarios/clean-apply_acl-0040.json",
+      "group": "benchmark",
+      "sha256": "aa4b46af37924478fa27bc6076dc43a431fba23c5a5d2c306497badc48261098",
+      "scenario_sha256": "dcbc28be837a42ca2582fa48995f03b95ded36434a48e241f5f151cf70b69ccf",
+      "split": "dev",
+      "family": "apply_acl.t2@campus-small-01",
+      "template": "apply_acl.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "apply_acl"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Trên SW1, gắn access-list SERVERS-PROTECT vào interface Vlan20, chiều ra (out)",
+      "intent_en": "On SW1, attach access-list SERVERS-PROTECT to interface Vlan20, outbound",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-apply_acl-0040/SW1.cfg",
+          "sha256": "8bef7e5abadc5af14602fef0794eec37907f02166f14c8332e9c73878b3bf902"
+        }
+      }
+    },
+    "clean-set_aaa_login-0041": {
+      "file": "clean-set_aaa_login-0041.json",
+      "fake_scenario": "scenarios/clean-set_aaa_login-0041.json",
+      "group": "benchmark",
+      "sha256": "697ac04a98f0f2d86ecb61fbeb4d01d64516e24d2cf2b9a77e97a59d0aba3a50",
+      "scenario_sha256": "7dfe07071b1ec2c87cfcc996445128428d1b756ea2f1f39d59202e66cc55134e",
+      "split": "dev",
+      "family": "set_aaa_login.t1@campus-small-01",
+      "template": "set_aaa_login.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_aaa_login"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Cấu hình login authentication list MGMT-LOGIN trên R1 dùng TACACS+, RADIUS rồi local, key tham chiếu tacacs_key",
+      "intent_en": "Configure login authentication list MGMT-LOGIN on R1 using TACACS+, then RADIUS, then local, key reference tacacs_key",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-set_aaa_login-0041/R1.cfg",
+          "sha256": "0f82764dfc3e42aa4a2ee05913c1f689b01a21e09b26f5805d34d18acebb7dd9"
+        }
+      }
+    },
+    "clean-set_aaa_login-0042": {
+      "file": "clean-set_aaa_login-0042.json",
+      "fake_scenario": "scenarios/clean-set_aaa_login-0042.json",
+      "group": "benchmark",
+      "sha256": "81af4d84bc76dc84f7e0c88bb516d540e7fbe42f5aea469836bfb1c3bf21f016",
+      "scenario_sha256": "760c0a2bb1712cd3dd15685b8340c5c6d22cad2af3fbe49be8caba642efe8a76",
+      "split": "dev",
+      "family": "set_aaa_login.t2@campus-small-01",
+      "template": "set_aaa_login.t2",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_aaa_login"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên SW2, method list đăng nhập VTY-AUTH xác thực bằng chỉ local",
+      "intent_en": "On SW2, the login method list VTY-AUTH should authenticate with local only",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-set_aaa_login-0042/SW2.cfg",
+          "sha256": "01e229c8914bba8b14993499c37094e8a33fba4b46b55e8767c492e16e8c2748"
+        }
+      }
+    },
+    "clean-set_aaa_login-0043": {
+      "file": "clean-set_aaa_login-0043.json",
+      "fake_scenario": "scenarios/clean-set_aaa_login-0043.json",
+      "group": "benchmark",
+      "sha256": "c94d28054ee30c6f21f2cdcbe188a93a036013822b4d1359cae772e25b20e3a7",
+      "scenario_sha256": "ef8d3faa2f866bb4149568e2df3b160dd56fbe9e2c6ece1bfe570aac1e0117d9",
+      "split": "test",
+      "family": "set_aaa_login.t3@campus-small-01",
+      "template": "set_aaa_login.t3",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_aaa_login"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Đăng nhập VTY của R1 dùng list SSH-LOGIN: chỉ local",
+      "intent_en": "VTY logins on R1 use list SSH-LOGIN: local only",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-set_aaa_login-0043/R1.cfg",
+          "sha256": "37286da657c10b1b16640357a7d8fbb6ed10da3813a60662ea826180b9c51392"
+        }
+      }
+    },
+    "clean-set_aaa_login-0044": {
+      "file": "clean-set_aaa_login-0044.json",
+      "fake_scenario": "scenarios/clean-set_aaa_login-0044.json",
+      "group": "benchmark",
+      "sha256": "6cc0ba497cedc087c1e34e7a4784c667003825f3c640976e39c55092bef46e16",
+      "scenario_sha256": "c64dd6e89a88edea1f558e8fa0c1393f85d02b8c76a7235b9fae88564c3776e1",
+      "split": "dev",
+      "family": "set_aaa_login.t1@campus-small-01",
+      "template": "set_aaa_login.t1",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_aaa_login"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Cấu hình login authentication list ADMIN-LOGIN trên SW2 dùng chỉ local",
+      "intent_en": "Configure login authentication list ADMIN-LOGIN on SW2 using local only",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-set_aaa_login-0044/SW2.cfg",
+          "sha256": "e035b8060f6abc67422b77e290f7b6552ce0cc424bef8b3f33a3d3be6732baaa"
+        }
+      }
+    },
+    "clean-multi_vlan_access-0045": {
+      "file": "clean-multi_vlan_access-0045.json",
+      "fake_scenario": "scenarios/clean-multi_vlan_access-0045.json",
+      "group": "benchmark",
+      "sha256": "6103153a78cc322e4ade63ee1c175eeda8b74f881518df2352143ba5f5896332",
+      "scenario_sha256": "43ab99f6acdab30767d24004bc644ad792dd8404fb0f051eadb950e8de842047",
+      "split": "dev",
+      "family": "multi.vlan_access@campus-small-01",
+      "template": "multi.vlan_access",
+      "context_id": "campus-small-01",
+      "tools": [
+        "create_vlan",
+        "set_access_vlan"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Tạo VLAN 560 tên LAB trên SW2 và gán cổng GigabitEthernet1/0 vào VLAN 560",
+      "intent_en": "Create VLAN 560 named LAB on SW2 and put interface GigabitEthernet1/0 into VLAN 560",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-multi_vlan_access-0045/SW2.cfg",
+          "sha256": "6295de3b3e1dbece7b08a78313e04e2ec6abf1e956cbe55c7a3f0011fe4dbcbc"
+        }
+      }
+    },
+    "clean-multi_vlan_access-0046": {
+      "file": "clean-multi_vlan_access-0046.json",
+      "fake_scenario": "scenarios/clean-multi_vlan_access-0046.json",
+      "group": "benchmark",
+      "sha256": "03aa3cbc7958fbd010a235436ff3c9296f7a01d561fc4417ccf36dcc9cc7ee02",
+      "scenario_sha256": "9b85d59b24657e98d18cd2c891dfe4383714b7edd73dcb85a619eb5b8e349601",
+      "split": "dev",
+      "family": "multi.vlan_access@campus-small-01",
+      "template": "multi.vlan_access",
+      "context_id": "campus-small-01",
+      "tools": [
+        "create_vlan",
+        "set_access_vlan"
+      ],
+      "multi_op": true,
+      "lang": "en",
+      "intent_vi": "Tạo VLAN 324 tên LAB trên SW1 và gán cổng GigabitEthernet1/3 vào VLAN 324",
+      "intent_en": "Create VLAN 324 named LAB on SW1 and put interface GigabitEthernet1/3 into VLAN 324",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-multi_vlan_access-0046/SW1.cfg",
+          "sha256": "9335c463785e7bb98460a07613a3cee13b3379bb1329b9dd189d6a5504f4fc84"
+        }
+      }
+    },
+    "clean-multi_vlan_access_desc-0047": {
+      "file": "clean-multi_vlan_access_desc-0047.json",
+      "fake_scenario": "scenarios/clean-multi_vlan_access_desc-0047.json",
+      "group": "benchmark",
+      "sha256": "ebaad5d2a322e5f8054e38daa1de49565356248d34766a4754172a8e65347481",
+      "scenario_sha256": "74fd3900e9a4964dba0b1a61bff52f3a4f6a6d43f3614c80a6a9dc3392e4e895",
+      "split": "test",
+      "family": "multi.vlan_access_desc@campus-small-01",
+      "template": "multi.vlan_access_desc",
+      "context_id": "campus-small-01",
+      "tools": [
+        "create_vlan",
+        "set_access_vlan",
+        "set_interface_description"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Trên SW2: tạo VLAN 68 (VOICE), chuyển GigabitEthernet0/3 vào VLAN 68 và đặt description 'Meeting room B'",
+      "intent_en": "On SW2: create VLAN 68 (VOICE), move GigabitEthernet0/3 into VLAN 68 and set its description to 'Meeting room B'",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-multi_vlan_access_desc-0047/SW2.cfg",
+          "sha256": "c903b7b6161a4e3212b8a97233d0a591ee40ebb27df548dc289ced39afcb0d3b"
+        }
+      }
+    },
+    "clean-multi_vlan_access_desc-0048": {
+      "file": "clean-multi_vlan_access_desc-0048.json",
+      "fake_scenario": "scenarios/clean-multi_vlan_access_desc-0048.json",
+      "group": "benchmark",
+      "sha256": "569afa890b7cec800b662ceeaca78815045e6d49e198eb998c99585e17b177fb",
+      "scenario_sha256": "47fad0e218b5e5914e5c0cd24bf156e70208ee89f195913618f8208e293da565",
+      "split": "test",
+      "family": "multi.vlan_access_desc@campus-small-01",
+      "template": "multi.vlan_access_desc",
+      "context_id": "campus-small-01",
+      "tools": [
+        "create_vlan",
+        "set_access_vlan",
+        "set_interface_description"
+      ],
+      "multi_op": true,
+      "lang": "en",
+      "intent_vi": "Trên SW2: tạo VLAN 976 (LAB), chuyển GigabitEthernet1/1 vào VLAN 976 và đặt description 'Meeting room B'",
+      "intent_en": "On SW2: create VLAN 976 (LAB), move GigabitEthernet1/1 into VLAN 976 and set its description to 'Meeting room B'",
+      "gold": {
+        "SW2": {
+          "file": "gold/clean-multi_vlan_access_desc-0048/SW2.cfg",
+          "sha256": "d17123d169ece37ea082cfde138733743d6fa6e792eedd9fb2e8ea303cd54eba"
+        }
+      }
+    },
+    "clean-multi_acl_new_apply-0049": {
+      "file": "clean-multi_acl_new_apply-0049.json",
+      "fake_scenario": "scenarios/clean-multi_acl_new_apply-0049.json",
+      "group": "benchmark",
+      "sha256": "7c479c67468ef27d749a29cf9113484e7d75dca62de8ed4ca446f4028e102e44",
+      "scenario_sha256": "e68476098a762cb97842bce49924951036076219effd2c3be6579d71ccb3c4ed",
+      "split": "test",
+      "family": "multi.acl_new_apply@campus-small-01",
+      "template": "multi.acl_new_apply",
+      "context_id": "campus-small-01",
+      "tools": [
+        "add_acl_entry",
+        "apply_acl"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Trên SW1, tạo ACL PRINT-ACL với dòng 10 chặn udp từ 10.39.10.0/24 tới host 10.10.50.34 cổng 514, rồi áp ACL PRINT-ACL chiều ra (out) lên Vlan10",
+      "intent_en": "On SW1, create ACL PRINT-ACL with line 10 to deny udp from 10.39.10.0/24 to host 10.10.50.34 port 514, then apply ACL PRINT-ACL outbound on Vlan10",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-multi_acl_new_apply-0049/SW1.cfg",
+          "sha256": "d3ba85ae5990393d83a9bfea48b73a23142f3ff5b6e54f152ffce8250a754cf3"
+        }
+      }
+    },
+    "clean-multi_acl_new_apply-0050": {
+      "file": "clean-multi_acl_new_apply-0050.json",
+      "fake_scenario": "scenarios/clean-multi_acl_new_apply-0050.json",
+      "group": "benchmark",
+      "sha256": "5b7f03cd3114a97e135fa0e25fa4426cce9e7c4238d9ef17f0bd99d5e2914a28",
+      "scenario_sha256": "cc55c6850a1167e3f4c660e0510104ac1fccafc6d89594f0f8de346b5fd27b53",
+      "split": "test",
+      "family": "multi.acl_new_apply@campus-small-01",
+      "template": "multi.acl_new_apply",
+      "context_id": "campus-small-01",
+      "tools": [
+        "add_acl_entry",
+        "apply_acl"
+      ],
+      "multi_op": true,
+      "lang": "en",
+      "intent_vi": "Trên SW1, tạo ACL VOIP-FILTER với dòng 10 chặn tcp từ 10.64.10.0/24 tới host 10.10.50.37 cổng 8080, rồi áp ACL VOIP-FILTER chiều vào (in) lên Vlan10",
+      "intent_en": "On SW1, create ACL VOIP-FILTER with line 10 to deny tcp from 10.64.10.0/24 to host 10.10.50.37 port 8080, then apply ACL VOIP-FILTER inbound on Vlan10",
+      "gold": {
+        "SW1": {
+          "file": "gold/clean-multi_acl_new_apply-0050/SW1.cfg",
+          "sha256": "8e82d74ad76a26b08e4fb287c58877eff897e7cb3f39eedd89950a5b8cb72e80"
+        }
+      }
+    },
+    "clean-multi_ip_enable-0051": {
+      "file": "clean-multi_ip_enable-0051.json",
+      "fake_scenario": "scenarios/clean-multi_ip_enable-0051.json",
+      "group": "benchmark",
+      "sha256": "907a9d55e802c512b31c56d45319da6b8600eb622a301b7553fd64e5356b4123",
+      "scenario_sha256": "0ac41127ffc30493c1775df777c68c49db7ce84e3d053895774584634c119525",
+      "split": "dev",
+      "family": "multi.ip_enable@campus-small-01",
+      "template": "multi.ip_enable",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_ip",
+        "set_interface_state"
+      ],
+      "multi_op": true,
+      "lang": "en",
+      "intent_vi": "Đặt IP 10.140.4.1/29 cho R1 GigabitEthernet0/3 rồi bật cổng đó lên",
+      "intent_en": "Assign IP 10.140.4.1/29 to R1 GigabitEthernet0/3 and bring the interface up",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-multi_ip_enable-0051/R1.cfg",
+          "sha256": "e2734348976bfb65651243212cd124efa1efa64df5038a7400e47e24cfdbc652"
+        }
+      }
+    },
+    "clean-multi_ip_enable-0052": {
+      "file": "clean-multi_ip_enable-0052.json",
+      "fake_scenario": "scenarios/clean-multi_ip_enable-0052.json",
+      "group": "benchmark",
+      "sha256": "20e3a2ab36acbb699379e238dd75a17c16e4f713e8c55c2eb3f28243c8dc0018",
+      "scenario_sha256": "ed993529a61be50960cac1ae6d91278b70318b3c82c47e9084782c6c83bfaf48",
+      "split": "dev",
+      "family": "multi.ip_enable@campus-small-01",
+      "template": "multi.ip_enable",
+      "context_id": "campus-small-01",
+      "tools": [
+        "set_interface_ip",
+        "set_interface_state"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Đặt IP 10.161.8.1/30 cho R1 GigabitEthernet0/2 rồi bật cổng đó lên",
+      "intent_en": "Assign IP 10.161.8.1/30 to R1 GigabitEthernet0/2 and bring the interface up",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-multi_ip_enable-0052/R1.cfg",
+          "sha256": "b8f89221d4bf380967b949cb96452d189a368491ae09fcfc0457715adb1438e4"
+        }
+      }
+    },
+    "clean-multi_route_replace-0053": {
+      "file": "clean-multi_route_replace-0053.json",
+      "fake_scenario": "scenarios/clean-multi_route_replace-0053.json",
+      "group": "benchmark",
+      "sha256": "d7dd859ae0cbd018caad674f3e70ff1e35631b8453b95df30782b782754b6435",
+      "scenario_sha256": "621ca220930712b822dced6be3dc1bb44c70006804c966a827dd452b8fe3233a",
+      "split": "dev",
+      "family": "multi.route_replace@campus-small-01",
+      "template": "multi.route_replace",
+      "context_id": "campus-small-01",
+      "tools": [
+        "remove_static_route",
+        "add_static_route"
+      ],
+      "multi_op": true,
+      "lang": "en",
+      "intent_vi": "Trên R1, xoá route 10.10.0.0/16 qua 10.0.12.2 và thay bằng route 172.22.124.0/24 qua 10.0.12.2",
+      "intent_en": "On R1, remove the route 10.10.0.0/16 via 10.0.12.2 and replace it with a route to 172.22.124.0/24 via 10.0.12.2",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-multi_route_replace-0053/R1.cfg",
+          "sha256": "ee1a8cee22b654703d37160af83e5db891eeaf1509b9aac741688b9d55f2c2bf"
+        }
+      }
+    },
+    "clean-multi_route_replace-0054": {
+      "file": "clean-multi_route_replace-0054.json",
+      "fake_scenario": "scenarios/clean-multi_route_replace-0054.json",
+      "group": "benchmark",
+      "sha256": "2090b511f6be8d9d2a24ac0c9021e7cd7cea546b0a1f3e04deaba47becbe316c",
+      "scenario_sha256": "fbc711a29df1c0c6394829f45386616d42d3193bafad29642f717143154f3205",
+      "split": "dev",
+      "family": "multi.route_replace@campus-small-01",
+      "template": "multi.route_replace",
+      "context_id": "campus-small-01",
+      "tools": [
+        "remove_static_route",
+        "add_static_route"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Trên R1, xoá route 10.10.0.0/16 qua 10.0.12.2 và thay bằng route 10.184.0.0/16 qua 10.0.12.2",
+      "intent_en": "On R1, remove the route 10.10.0.0/16 via 10.0.12.2 and replace it with a route to 10.184.0.0/16 via 10.0.12.2",
+      "gold": {
+        "R1": {
+          "file": "gold/clean-multi_route_replace-0054/R1.cfg",
+          "sha256": "80de8a2d4feabf1daa72a1129ac3a7a9fd4a15c46973ddded26ab2b6863549ac"
+        }
+      }
+    },
+    "clean-create_vlan-0055": {
+      "file": "clean-create_vlan-0055.json",
+      "fake_scenario": "scenarios/clean-create_vlan-0055.json",
+      "group": "benchmark",
+      "sha256": "da9f62a0711d075649b9ad706948543da4efabcd3c0352d9fe50768b830de500",
+      "scenario_sha256": "459bacc75ed05e8a7743346ff777d12da7a54d27edbb71c6df1ac06bb4d8dc65",
+      "split": "dev",
+      "family": "create_vlan.t1@smb-01",
+      "template": "create_vlan.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "create_vlan"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Tạo VLAN 694 tên WIFI trên CORE1",
+      "intent_en": "Create VLAN 694 named WIFI on CORE1",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-create_vlan-0055/CORE1.cfg",
+          "sha256": "e10e6ee92776411ecce1a70f6bb7d8a8418d06436e1e08d06cef0a37ad8bceb4"
+        }
+      }
+    },
+    "clean-create_vlan-0056": {
+      "file": "clean-create_vlan-0056.json",
+      "fake_scenario": "scenarios/clean-create_vlan-0056.json",
+      "group": "benchmark",
+      "sha256": "b20a888113e8138e921170fba57ce8436b51253ee2e0e4cfe614392b167953f9",
+      "scenario_sha256": "f459621fe282ca9e180154a52ac5d2451ca597373a08f72aaaadf3647488f50f",
+      "split": "dev",
+      "family": "create_vlan.t2@smb-01",
+      "template": "create_vlan.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "create_vlan"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên switch ACC3, thêm VLAN 185 với tên GUEST2",
+      "intent_en": "On switch ACC3, add VLAN 185 with the name GUEST2",
+      "gold": {
+        "ACC3": {
+          "file": "gold/clean-create_vlan-0056/ACC3.cfg",
+          "sha256": "72855ff0aa9710a6bb0dd2ce07ed38ec4c57e76f834276b74351dfcd15917cbd"
+        }
+      }
+    },
+    "clean-create_vlan-0057": {
+      "file": "clean-create_vlan-0057.json",
+      "fake_scenario": "scenarios/clean-create_vlan-0057.json",
+      "group": "benchmark",
+      "sha256": "e16bed3c371a8b237cd5d45a545d481acb1ffadaaf2ef7d75c8435ee878572a2",
+      "scenario_sha256": "a4e4eba523ebf8d025596d03bba8d292177699d51049ac50e7af0cd524ee082a",
+      "split": "test",
+      "family": "create_vlan.t3@smb-01",
+      "template": "create_vlan.t3",
+      "context_id": "smb-01",
+      "tools": [
+        "create_vlan"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Khai báo VLAN mới 592 (GUEST2) cho CORE1",
+      "intent_en": "Define a new VLAN 592 (GUEST2) on CORE1",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-create_vlan-0057/CORE1.cfg",
+          "sha256": "a256304c46c83f645b8f5add800ca2e21e173168c52b4167109cbd090a31b2ab"
+        }
+      }
+    },
+    "clean-create_vlan-0058": {
+      "file": "clean-create_vlan-0058.json",
+      "fake_scenario": "scenarios/clean-create_vlan-0058.json",
+      "group": "benchmark",
+      "sha256": "970d8f137bb73ffd34dd543759e118793cb5ac6fb89adb72885a9996edf32a1c",
+      "scenario_sha256": "94404295a3d0e7f68c2c8d5f05b84a55a4043bffe901f1a2e13b08b9a9dcb416",
+      "split": "dev",
+      "family": "create_vlan.t1@smb-01",
+      "template": "create_vlan.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "create_vlan"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Tạo VLAN 786 tên PRINTERS trên CORE1",
+      "intent_en": "Create VLAN 786 named PRINTERS on CORE1",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-create_vlan-0058/CORE1.cfg",
+          "sha256": "a4d08b10275da984bc4c034272bed02dc87e97bb8adc27bc22a3dbb0e3b4813f"
+        }
+      }
+    },
+    "clean-set_access_vlan-0059": {
+      "file": "clean-set_access_vlan-0059.json",
+      "fake_scenario": "scenarios/clean-set_access_vlan-0059.json",
+      "group": "benchmark",
+      "sha256": "611fb9de4be121619e201447e98adacec3d26b5933921a69299bcbe7985a3bb4",
+      "scenario_sha256": "05d525a674397dd4af9aa54c84a75c85de304d1d26eb2f9bf26b773b45434dfa",
+      "split": "dev",
+      "family": "set_access_vlan.t2@smb-01",
+      "template": "set_access_vlan.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "set_access_vlan"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Chuyển ACC2 Ethernet1/0 sang chế độ access, VLAN 30",
+      "intent_en": "Put ACC2 Ethernet1/0 in access mode on VLAN 30",
+      "gold": {
+        "ACC2": {
+          "file": "gold/clean-set_access_vlan-0059/ACC2.cfg",
+          "sha256": "0aec6faf286d80f19eca4c7fec85499a2400c2a628b8638760b64e3b6010a2d5"
+        }
+      }
+    },
+    "clean-set_access_vlan-0060": {
+      "file": "clean-set_access_vlan-0060.json",
+      "fake_scenario": "scenarios/clean-set_access_vlan-0060.json",
+      "group": "benchmark",
+      "sha256": "4a48b7c1f0bb95f3a3f1f80c94c8599c22ebdcf78aee201b0a4591f172e57074",
+      "scenario_sha256": "42c063853fe19d2b1ba8a1786755e8afd710a0147a9b36440b1147574d31c8f9",
+      "split": "dev",
+      "family": "set_access_vlan.t3@smb-01",
+      "template": "set_access_vlan.t3",
+      "context_id": "smb-01",
+      "tools": [
+        "set_access_vlan"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên ACC1, cổng Ethernet0/2 phải thuộc VLAN 60",
+      "intent_en": "On ACC1, port Ethernet0/2 must be an access port in VLAN 60",
+      "gold": {
+        "ACC1": {
+          "file": "gold/clean-set_access_vlan-0060/ACC1.cfg",
+          "sha256": "c12e6c9b9f86d2f4b9bc76f9feb5bc20aefb698e20454d7d920fc716498b3d78"
+        }
+      }
+    },
+    "clean-set_access_vlan-0061": {
+      "file": "clean-set_access_vlan-0061.json",
+      "fake_scenario": "scenarios/clean-set_access_vlan-0061.json",
+      "group": "benchmark",
+      "sha256": "b188a3b3699d8ecf59fb9502d5ed6cf37a4bb1e569c5755070d66c17cb68d259",
+      "scenario_sha256": "e849a883827757185771abd80931946c51fd3e45efc63aeefe84b573a7f34825",
+      "split": "test",
+      "family": "set_access_vlan.t1@smb-01",
+      "template": "set_access_vlan.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "set_access_vlan"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Gán cổng Ethernet1/2 của CORE1 vào VLAN 50",
+      "intent_en": "Assign interface Ethernet1/2 on CORE1 to VLAN 50",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-set_access_vlan-0061/CORE1.cfg",
+          "sha256": "f6ea2f40d58f36374a8906b3548bcf3807d1ed02312fa3dc8e03f18085402c18"
+        }
+      }
+    },
+    "clean-set_access_vlan-0062": {
+      "file": "clean-set_access_vlan-0062.json",
+      "fake_scenario": "scenarios/clean-set_access_vlan-0062.json",
+      "group": "benchmark",
+      "sha256": "b0a62314d5bc664408cc2fae4f4b4177651b31784382afaeea08e2e8b3b590f4",
+      "scenario_sha256": "361aad6aa4f60c3ff3b450e2bfe39a0550241a442a39b53878dfcdb06ecd8227",
+      "split": "dev",
+      "family": "set_access_vlan.t2@smb-01",
+      "template": "set_access_vlan.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "set_access_vlan"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Chuyển ACC-BR1 Ethernet1/1 sang chế độ access, VLAN 110",
+      "intent_en": "Put ACC-BR1 Ethernet1/1 in access mode on VLAN 110",
+      "gold": {
+        "ACC-BR1": {
+          "file": "gold/clean-set_access_vlan-0062/ACC-BR1.cfg",
+          "sha256": "e39df97f7599479eb14de3d3e04a06a2dc0742c0ccc1a670abc83ea2aece89d0"
+        }
+      }
+    },
+    "clean-set_trunk-0063": {
+      "file": "clean-set_trunk-0063.json",
+      "fake_scenario": "scenarios/clean-set_trunk-0063.json",
+      "group": "benchmark",
+      "sha256": "d96d9583472d37f12904f540717a9703e5d3445a1440b346fcce113c2cba79c5",
+      "scenario_sha256": "8bbc4d228d0593c9e234764fd986c1fa91b10252525110dbebff12cc4609ef07",
+      "split": "dev",
+      "family": "set_trunk.t2@smb-01",
+      "template": "set_trunk.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "set_trunk"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Biến cổng Ethernet1/2 trên CORE1 thành trunk 802.1Q, chỉ cho phép VLAN 10, 20, 60, native 50",
+      "intent_en": "Make port Ethernet1/2 on CORE1 an 802.1Q trunk that only allows VLANs 10, 20, 60, native 50",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-set_trunk-0063/CORE1.cfg",
+          "sha256": "3054b136352b1c698e1b6bd65a81b80fe5115eb3c816d6fb1376ad4190296502"
+        }
+      }
+    },
+    "clean-set_trunk-0064": {
+      "file": "clean-set_trunk-0064.json",
+      "fake_scenario": "scenarios/clean-set_trunk-0064.json",
+      "group": "benchmark",
+      "sha256": "81b3edefa3490ba2b25617304ec3820ebe279a17d6c6d1e4cd6f017b77253c06",
+      "scenario_sha256": "12db48f0b890bdcd779494c4f6782e6e0883d624e8139f1ce55846a77b7c98ed",
+      "split": "dev",
+      "family": "set_trunk.t3@smb-01",
+      "template": "set_trunk.t3",
+      "context_id": "smb-01",
+      "tools": [
+        "set_trunk"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên ACC2, mở trunk ở Ethernet1/0 mang VLAN 30, 40 (native VLAN 40)",
+      "intent_en": "On ACC2, enable trunking on Ethernet1/0 carrying VLANs 30, 40 (native VLAN 40)",
+      "gold": {
+        "ACC2": {
+          "file": "gold/clean-set_trunk-0064/ACC2.cfg",
+          "sha256": "b0d9c26e89418f5d92bad2da992f036527ea1eb6dc5cf5b904d0a2838cf1f58a"
+        }
+      }
+    },
+    "clean-set_trunk-0065": {
+      "file": "clean-set_trunk-0065.json",
+      "fake_scenario": "scenarios/clean-set_trunk-0065.json",
+      "group": "benchmark",
+      "sha256": "2d8ec0525c21efe7237dc714b7c23a81a4a9c329bcf15e2efa201a36fadbd7b9",
+      "scenario_sha256": "cbc02e24c17bc2ccbda2a6fa842e590abc6fc6c7e6ca5908888690d7a73b42e6",
+      "split": "test",
+      "family": "set_trunk.t1@smb-01",
+      "template": "set_trunk.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "set_trunk"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Cấu hình CORE1 Ethernet1/0 làm trunk cho VLAN 20, 30, native VLAN 50",
+      "intent_en": "Configure CORE1 Ethernet1/0 as a trunk allowing VLANs 20, 30 with native VLAN 50",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-set_trunk-0065/CORE1.cfg",
+          "sha256": "216a53b9bdc81614c995a700b86a71331c24df0d2390731ddbe8133a146b1ed4"
+        }
+      }
+    },
+    "clean-set_trunk-0066": {
+      "file": "clean-set_trunk-0066.json",
+      "fake_scenario": "scenarios/clean-set_trunk-0066.json",
+      "group": "benchmark",
+      "sha256": "0a68bc2d675047237bc11adbf43f1fd590ef87f347609665ec5999f45d814758",
+      "scenario_sha256": "3221648d15f1cb4204d0420bea1831381532c43be89b1c98750f5a6bba3af704",
+      "split": "dev",
+      "family": "set_trunk.t2@smb-01",
+      "template": "set_trunk.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "set_trunk"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Biến cổng Ethernet0/3 trên ACC2 thành trunk 802.1Q, chỉ cho phép VLAN 30, 40, native 30",
+      "intent_en": "Make port Ethernet0/3 on ACC2 an 802.1Q trunk that only allows VLANs 30, 40, native 30",
+      "gold": {
+        "ACC2": {
+          "file": "gold/clean-set_trunk-0066/ACC2.cfg",
+          "sha256": "ab1732eeb511bac4bf9af7f1e9bbbab392e59624649bf8d722ab9016fd3c9fb1"
+        }
+      }
+    },
+    "clean-set_interface_ip-0067": {
+      "file": "clean-set_interface_ip-0067.json",
+      "fake_scenario": "scenarios/clean-set_interface_ip-0067.json",
+      "group": "benchmark",
+      "sha256": "7a2d090c48e9c535566155286550d7570825ac9b3a89048655d38f889dcf3be2",
+      "scenario_sha256": "d5e6d761a197d6172d895b99f8e5ca1b13dee774023dc17fa093c3aa36c4a000",
+      "split": "dev",
+      "family": "set_interface_ip.t2@smb-01",
+      "template": "set_interface_ip.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_ip"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Cấu hình địa chỉ 10.192.12.1 mask 255.255.255.0 trên cổng Ethernet1/0 của R-EDGE1",
+      "intent_en": "Configure address 10.192.12.1 mask 255.255.255.0 on interface Ethernet1/0 of R-EDGE1",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-set_interface_ip-0067/R-EDGE1.cfg",
+          "sha256": "375666400e1f3dbd8b6aa5bc754b89c1f3ba900f01c3caf8e4b4bdd1e91e838c"
+        }
+      }
+    },
+    "clean-set_interface_ip-0068": {
+      "file": "clean-set_interface_ip-0068.json",
+      "fake_scenario": "scenarios/clean-set_interface_ip-0068.json",
+      "group": "benchmark",
+      "sha256": "21656ce507838cac6c6c5ab2da8e6bb84f1f7d3b816ffd6fa6a1784cc8bf820c",
+      "scenario_sha256": "3eb285bb3da071d99d9583aaf0ce5fec397236e6918789b8cde3ac99f4d26588",
+      "split": "dev",
+      "family": "set_interface_ip.t3@smb-01",
+      "template": "set_interface_ip.t3",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_ip"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên router R-EDGE1, interface Ethernet1/3 dùng địa chỉ 10.118.7.1/24",
+      "intent_en": "On router R-EDGE1, interface Ethernet1/3 should use address 10.118.7.1/24",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-set_interface_ip-0068/R-EDGE1.cfg",
+          "sha256": "5c05517bf40303c97c5d919aea240c21c9353ebbb7ee678bd81a3832c1d0641e"
+        }
+      }
+    },
+    "clean-set_interface_ip-0069": {
+      "file": "clean-set_interface_ip-0069.json",
+      "fake_scenario": "scenarios/clean-set_interface_ip-0069.json",
+      "group": "benchmark",
+      "sha256": "fcc163b331918605b5f22b5ba2019eabc0ded7e0c676ea176c61dbfa42e9d2d1",
+      "scenario_sha256": "31ffe07bca4c564f19f71ec77a4c7a7efb13ddd034709ee859e9767d1cc798ba",
+      "split": "test",
+      "family": "set_interface_ip.t1@smb-01",
+      "template": "set_interface_ip.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_ip"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Đặt IP 10.169.13.1/24 cho R-BR1 Ethernet0/2",
+      "intent_en": "Assign IP 10.169.13.1/24 to R-BR1 Ethernet0/2",
+      "gold": {
+        "R-BR1": {
+          "file": "gold/clean-set_interface_ip-0069/R-BR1.cfg",
+          "sha256": "8ceeb6eebd4c180636c95c52737606032658455da59a5e1657a0bff211acbf48"
+        }
+      }
+    },
+    "clean-set_interface_ip-0070": {
+      "file": "clean-set_interface_ip-0070.json",
+      "fake_scenario": "scenarios/clean-set_interface_ip-0070.json",
+      "group": "benchmark",
+      "sha256": "1e19a03a761f68ca114d3f31303cf82750427bbd73d14d8fc61abf4fb55e2da5",
+      "scenario_sha256": "fb4509c1ce94981223434673cbd0a6ebf283d481e0a20495196c5bbb157e2cd4",
+      "split": "dev",
+      "family": "set_interface_ip.t2@smb-01",
+      "template": "set_interface_ip.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_ip"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Cấu hình địa chỉ 10.126.8.1 mask 255.255.255.248 trên cổng Ethernet0/2 của R-BR1",
+      "intent_en": "Configure address 10.126.8.1 mask 255.255.255.248 on interface Ethernet0/2 of R-BR1",
+      "gold": {
+        "R-BR1": {
+          "file": "gold/clean-set_interface_ip-0070/R-BR1.cfg",
+          "sha256": "efb13ef46a2cfa04532e0193c35be07f5d835c414d62b7501cf66322a9c867fb"
+        }
+      }
+    },
+    "clean-set_interface_state-0071": {
+      "file": "clean-set_interface_state-0071.json",
+      "fake_scenario": "scenarios/clean-set_interface_state-0071.json",
+      "group": "benchmark",
+      "sha256": "591c530aa87628958c4ff4c08c889065b034087ad371512a55066d20ffa0761b",
+      "scenario_sha256": "3fa27fb99551ea64198fc41cb7d7a5822b77f593913a02da79cee9b62636d3ec",
+      "split": "dev",
+      "family": "set_interface_state.t2@smb-01",
+      "template": "set_interface_state.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_state"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên ACC-BR1, bật (no shutdown) interface Ethernet1/2",
+      "intent_en": "On ACC-BR1, bring up interface Ethernet1/2",
+      "gold": {
+        "ACC-BR1": {
+          "file": "gold/clean-set_interface_state-0071/ACC-BR1.cfg",
+          "sha256": "156737676c478c88b0c579ff6da1ecd83b2fb74914addec58615dc7214feb8fd"
+        }
+      }
+    },
+    "clean-set_interface_state-0072": {
+      "file": "clean-set_interface_state-0072.json",
+      "fake_scenario": "scenarios/clean-set_interface_state-0072.json",
+      "group": "benchmark",
+      "sha256": "8053e40e3e303500b09e568a997c744616acb71f989c9a8f6a755519b65c7fac",
+      "scenario_sha256": "7853fd150dddadcc76bdd2e664d3dcf8db7515327774679a748ff715e339635b",
+      "split": "dev",
+      "family": "set_interface_state.t3@smb-01",
+      "template": "set_interface_state.t3",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_state"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Yêu cầu: Bật ACC-BR1 Ethernet0/3",
+      "intent_en": "Request: Enable ACC-BR1 Ethernet0/3",
+      "gold": {
+        "ACC-BR1": {
+          "file": "gold/clean-set_interface_state-0072/ACC-BR1.cfg",
+          "sha256": "dca1997ce054162ce71aa1a823b8e00b6e37cf2a456723f956c766ac16ad69db"
+        }
+      }
+    },
+    "clean-set_interface_state-0073": {
+      "file": "clean-set_interface_state-0073.json",
+      "fake_scenario": "scenarios/clean-set_interface_state-0073.json",
+      "group": "benchmark",
+      "sha256": "2fa425bb5678424250c3937a9ad835d1ffd11b130b2d716ddb7571a9193105e0",
+      "scenario_sha256": "5f1efc99e86e3782d89ef96d2afb417a34ce9e72a4fa46d8085b632d425931e2",
+      "split": "test",
+      "family": "set_interface_state.t1@smb-01",
+      "template": "set_interface_state.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_state"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Tắt cổng Ethernet0/3 trên ACC3",
+      "intent_en": "Shut down interface Ethernet0/3 on ACC3",
+      "gold": {
+        "ACC3": {
+          "file": "gold/clean-set_interface_state-0073/ACC3.cfg",
+          "sha256": "406ed07a1d24c54b3129a531d432a4cee17280c0a00b6430c295cd6667cb5c7e"
+        }
+      }
+    },
+    "clean-set_interface_state-0074": {
+      "file": "clean-set_interface_state-0074.json",
+      "fake_scenario": "scenarios/clean-set_interface_state-0074.json",
+      "group": "benchmark",
+      "sha256": "329e1631404df1644bb0bab85329bcbbbb91ad3a87a57f5ad6f22272ebe6bd68",
+      "scenario_sha256": "df4a7a437af46f0dcd9139f6e3d261b676f5b47aab3d699c282df24d18dc41b1",
+      "split": "dev",
+      "family": "set_interface_state.t2@smb-01",
+      "template": "set_interface_state.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_state"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Trên ACC2, tắt (shutdown) interface Ethernet0/1",
+      "intent_en": "On ACC2, administratively shut interface Ethernet0/1",
+      "gold": {
+        "ACC2": {
+          "file": "gold/clean-set_interface_state-0074/ACC2.cfg",
+          "sha256": "e3a7c2550b47e978e519a51fef75ace266d62bfc34fb5612e9345c280a712c23"
+        }
+      }
+    },
+    "clean-set_interface_description-0075": {
+      "file": "clean-set_interface_description-0075.json",
+      "fake_scenario": "scenarios/clean-set_interface_description-0075.json",
+      "group": "benchmark",
+      "sha256": "02fbb8ae23097c0c8003b565a8d2e8230cf8940983872418954fcef123b4348a",
+      "scenario_sha256": "6a2525ad079dae727ac6c3d6a71861ae29f131ab3f17994997d9a95d2209bd1e",
+      "split": "dev",
+      "family": "set_interface_description.t1@smb-01",
+      "template": "set_interface_description.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_description"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Đặt description cho ACC1 Ethernet1/2 là 'Spare port, rack 4'",
+      "intent_en": "Set the description of ACC1 Ethernet1/2 to 'Spare port, rack 4'",
+      "gold": {
+        "ACC1": {
+          "file": "gold/clean-set_interface_description-0075/ACC1.cfg",
+          "sha256": "0aef743241ff60aff6edfeac47ace20fd6867a53cc265f620c8686d9e6299f7b"
+        }
+      }
+    },
+    "clean-set_interface_description-0076": {
+      "file": "clean-set_interface_description-0076.json",
+      "fake_scenario": "scenarios/clean-set_interface_description-0076.json",
+      "group": "benchmark",
+      "sha256": "5148c52e09a3ca55268e35aa74dc68b1f127a676036c87315c99247701e68872",
+      "scenario_sha256": "8cd6f9ef398934a9c80f53758dc307e2746ce00a11ed22124ceb0e5b2a820cb9",
+      "split": "dev",
+      "family": "set_interface_description.t2@smb-01",
+      "template": "set_interface_description.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_description"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Ghi chú cổng Ethernet1/2 trên ACC3: 'Lab PC, temporary'",
+      "intent_en": "Label port Ethernet1/2 on ACC3 as 'Lab PC, temporary'",
+      "gold": {
+        "ACC3": {
+          "file": "gold/clean-set_interface_description-0076/ACC3.cfg",
+          "sha256": "1223b80c0647e493bb2018fa16d40f18848451c7efb74dd3ac7fb10f5f1bd288"
+        }
+      }
+    },
+    "clean-set_interface_description-0077": {
+      "file": "clean-set_interface_description-0077.json",
+      "fake_scenario": "scenarios/clean-set_interface_description-0077.json",
+      "group": "benchmark",
+      "sha256": "25e50f9c344b26f0f79908a83ce04b054270be07b5ef5c7cff8df7a3930e9ddf",
+      "scenario_sha256": "2caedd89b60da37fb984e11e0e53c1967493feef798fd50dd2d901dbce9409e0",
+      "split": "test",
+      "family": "set_interface_description.t3@smb-01",
+      "template": "set_interface_description.t3",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_description"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên ACC3, mô tả của interface Ethernet1/2 cần là 'Camera lobby'",
+      "intent_en": "On ACC3, the description of interface Ethernet1/2 should read 'Camera lobby'",
+      "gold": {
+        "ACC3": {
+          "file": "gold/clean-set_interface_description-0077/ACC3.cfg",
+          "sha256": "653249159d59afd941bb50faa2a97af281e9dc471c80ddf92b10b5e9469ed343"
+        }
+      }
+    },
+    "clean-set_interface_description-0078": {
+      "file": "clean-set_interface_description-0078.json",
+      "fake_scenario": "scenarios/clean-set_interface_description-0078.json",
+      "group": "benchmark",
+      "sha256": "dffe37165bce64e5465b40f0a9980589d34a4896c1041dd3597ed8da2a15706f",
+      "scenario_sha256": "bbe40d66691111094ac89df4e3e3201891999ff56826a48e537cb810bc4f1a44",
+      "split": "dev",
+      "family": "set_interface_description.t1@smb-01",
+      "template": "set_interface_description.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_description"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Đặt description cho ACC3 Ethernet1/0 là 'Camera lobby'",
+      "intent_en": "Set the description of ACC3 Ethernet1/0 to 'Camera lobby'",
+      "gold": {
+        "ACC3": {
+          "file": "gold/clean-set_interface_description-0078/ACC3.cfg",
+          "sha256": "5a7b971ddb744f3cf454701899d55f7781395cac7ccfe0d184b0511f4042c6cb"
+        }
+      }
+    },
+    "clean-add_static_route-0079": {
+      "file": "clean-add_static_route-0079.json",
+      "fake_scenario": "scenarios/clean-add_static_route-0079.json",
+      "group": "benchmark",
+      "sha256": "54519cc9ebc1e3acfbaf97ed87aa403d1af1d6267533663481065d37f26b36c5",
+      "scenario_sha256": "97255448c09eb572d87993aa3180a37c0e73cbce28118d2cc10658a2d4cbaf6d",
+      "split": "dev",
+      "family": "add_static_route.t1@smb-01",
+      "template": "add_static_route.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "add_static_route"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Thêm static route trên R-EDGE1 tới 172.28.44.0/24 qua 10.255.0.6",
+      "intent_en": "Add a static route on R-EDGE1 to 172.28.44.0/24 via 10.255.0.6",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-add_static_route-0079/R-EDGE1.cfg",
+          "sha256": "7aff770c1f49c1faa16ae222bd9a7cbdeef885131464bdcd3a8ed27279aabdae"
+        }
+      }
+    },
+    "clean-add_static_route-0080": {
+      "file": "clean-add_static_route-0080.json",
+      "fake_scenario": "scenarios/clean-add_static_route-0080.json",
+      "group": "benchmark",
+      "sha256": "89a917844451f8b48974eb994ef01496337368ad3ac2536a776287a2260ee72d",
+      "scenario_sha256": "4bece45d1aefa5a77998e96fa8021dcd2700c5fbea035feb45705ab20ad9b23e",
+      "split": "dev",
+      "family": "add_static_route.t2@smb-01",
+      "template": "add_static_route.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "add_static_route"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Trên CORE1, định tuyến mạng 10.102.0.0 255.255.0.0 qua next-hop 10.255.0.1",
+      "intent_en": "On CORE1, route network 10.102.0.0 255.255.0.0 through next hop 10.255.0.1",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-add_static_route-0080/CORE1.cfg",
+          "sha256": "5516d7e50613929c3319e7a2be9156de18876ca92b1725fc91f459852ae3ee3d"
+        }
+      }
+    },
+    "clean-add_static_route-0081": {
+      "file": "clean-add_static_route-0081.json",
+      "fake_scenario": "scenarios/clean-add_static_route-0081.json",
+      "group": "benchmark",
+      "sha256": "47f73ecf5d57c798a93fe654f8aed678fe643ebe9c08eec5e123212daa98d2c8",
+      "scenario_sha256": "76b41387644cdf2ee25cecd940650edcd82b5b18ae0dde91cc6cdb6de832297e",
+      "split": "test",
+      "family": "add_static_route.t3@smb-01",
+      "template": "add_static_route.t3",
+      "context_id": "smb-01",
+      "tools": [
+        "add_static_route"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "R-EDGE1 cần route tĩnh đến 172.23.112.0/24, next-hop 10.255.0.2",
+      "intent_en": "R-EDGE1 needs a static route to 172.23.112.0/24 with next hop 10.255.0.2",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-add_static_route-0081/R-EDGE1.cfg",
+          "sha256": "877f9997cca5c34ad458fd4a1f873768806cf122e50e0e29be800a248289a6b8"
+        }
+      }
+    },
+    "clean-add_static_route-0082": {
+      "file": "clean-add_static_route-0082.json",
+      "fake_scenario": "scenarios/clean-add_static_route-0082.json",
+      "group": "benchmark",
+      "sha256": "f12ed4e1ee1bbf0288c5d6de9c7cae89d225be8c1f527e1b341c66bbe5c58ff9",
+      "scenario_sha256": "6c6795cd3535330e261e611b58d7f611eaf2f3c96a5052ad5058b2d2af81b07f",
+      "split": "dev",
+      "family": "add_static_route.t1@smb-01",
+      "template": "add_static_route.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "add_static_route"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Thêm static route trên R-EDGE1 tới 172.30.45.0/24 qua 203.0.113.2",
+      "intent_en": "Add a static route on R-EDGE1 to 172.30.45.0/24 via 203.0.113.2",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-add_static_route-0082/R-EDGE1.cfg",
+          "sha256": "546ab2a81b53179dcdb625f191f2a02eab6be9b9407a7f2a60a290a375c1f7e4"
+        }
+      }
+    },
+    "clean-remove_static_route-0083": {
+      "file": "clean-remove_static_route-0083.json",
+      "fake_scenario": "scenarios/clean-remove_static_route-0083.json",
+      "group": "benchmark",
+      "sha256": "08ce80ccb2b43961e32ad5c3707a3b3faf2794eaeadfb570afe4e7220bf9f47f",
+      "scenario_sha256": "87c29072e73b76d2c1445e2dfa63e0d41d0be3af29e14588c6449d7ab956ba5c",
+      "split": "dev",
+      "family": "remove_static_route.t2@smb-01",
+      "template": "remove_static_route.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "remove_static_route"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên R-EDGE1, gỡ route tĩnh tới 10.255.0.8/30 (next-hop 10.255.0.6)",
+      "intent_en": "On R-EDGE1, delete the static route to 10.255.0.8/30 (next hop 10.255.0.6)",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-remove_static_route-0083/R-EDGE1.cfg",
+          "sha256": "a3a502fb9d61e475613b1993c5df46d6878161b285429fbbb7f9ee7910b81a24"
+        }
+      }
+    },
+    "clean-remove_static_route-0084": {
+      "file": "clean-remove_static_route-0084.json",
+      "fake_scenario": "scenarios/clean-remove_static_route-0084.json",
+      "group": "benchmark",
+      "sha256": "be503807305c50af0cf8717190e25ecc83016c00f054c7db6cbd44167e045357",
+      "scenario_sha256": "e7dd92b737682e994b71e690f0788b9c8224422091319427e49ef3957583d8eb",
+      "split": "dev",
+      "family": "remove_static_route.t3@smb-01",
+      "template": "remove_static_route.t3",
+      "context_id": "smb-01",
+      "tools": [
+        "remove_static_route"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Route 0.0.0.0/0 qua 10.255.0.5 trên R-BR1 không còn dùng, hãy xoá",
+      "intent_en": "The route 0.0.0.0/0 via 10.255.0.5 on R-BR1 is no longer used, remove it",
+      "gold": {
+        "R-BR1": {
+          "file": "gold/clean-remove_static_route-0084/R-BR1.cfg",
+          "sha256": "7e16c2c3a19b28dc68fe6104cd012ab5ce9f1de3e206dc9df668ab119e675658"
+        }
+      }
+    },
+    "clean-remove_static_route-0085": {
+      "file": "clean-remove_static_route-0085.json",
+      "fake_scenario": "scenarios/clean-remove_static_route-0085.json",
+      "group": "benchmark",
+      "sha256": "3de45d5e27d3329f4f0b13d0502120a4ec6d5e0f00d2a4322bd60bc6f0a68b22",
+      "scenario_sha256": "5cba2de99028c1549ca4781e716eb07d7c323d2c3be415071dde7627f4dad8d6",
+      "split": "test",
+      "family": "remove_static_route.t1@smb-01",
+      "template": "remove_static_route.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "remove_static_route"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Xoá static route 0.0.0.0/0 qua 203.0.113.2 trên R-EDGE1",
+      "intent_en": "Remove the static route 0.0.0.0/0 via 203.0.113.2 on R-EDGE1",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-remove_static_route-0085/R-EDGE1.cfg",
+          "sha256": "8c71ebfe2753fdb4da1bf16f7815a8b0f47937ef185770e12fd6dab285537c6e"
+        }
+      }
+    },
+    "clean-remove_static_route-0086": {
+      "file": "clean-remove_static_route-0086.json",
+      "fake_scenario": "scenarios/clean-remove_static_route-0086.json",
+      "group": "benchmark",
+      "sha256": "c895eb40f0ad3ac13c8097377971accf5cee02578884459164fa5cfd573559a5",
+      "scenario_sha256": "f69ee34f25b6f5b86f2173e97ea74f93235440a5b06eacb6bcfea9b3b7a9fa23",
+      "split": "dev",
+      "family": "remove_static_route.t2@smb-01",
+      "template": "remove_static_route.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "remove_static_route"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Trên R-EDGE1, gỡ route tĩnh tới 10.20.0.0/16 (next-hop 10.255.0.6)",
+      "intent_en": "On R-EDGE1, delete the static route to 10.20.0.0/16 (next hop 10.255.0.6)",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-remove_static_route-0086/R-EDGE1.cfg",
+          "sha256": "e2600ae06cae2c68bafc305500920d409dbee3b192578f2eff8e3ecbcfd11f30"
+        }
+      }
+    },
+    "clean-add_acl_entry-0087": {
+      "file": "clean-add_acl_entry-0087.json",
+      "fake_scenario": "scenarios/clean-add_acl_entry-0087.json",
+      "group": "benchmark",
+      "sha256": "18550a86abb42909e337a168ad99e4d517eb702e59cd836d6fcc0b2dffe648c7",
+      "scenario_sha256": "f85ad1e556ea84bf303da9b8ed31cb036e0a11cc8c8b4a00a7dde041f486aea7",
+      "split": "dev",
+      "family": "add_acl_entry.t1@smb-01",
+      "template": "add_acl_entry.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "add_acl_entry"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Thêm vào ACL ACL-MGMT-VTY trên ACC-BR1 dòng 50: deny udp từ 10.72.10.0/24 tới host 10.10.50.23 cổng 514",
+      "intent_en": "Add line 50 to ACL ACL-MGMT-VTY on ACC-BR1: deny udp from 10.72.10.0/24 to host 10.10.50.23 port 514",
+      "gold": {
+        "ACC-BR1": {
+          "file": "gold/clean-add_acl_entry-0087/ACC-BR1.cfg",
+          "sha256": "8d59c90496c91af65e855f78fddc2fca0412815dd7e306a17a19665e40d1c017"
+        }
+      }
+    },
+    "clean-add_acl_entry-0088": {
+      "file": "clean-add_acl_entry-0088.json",
+      "fake_scenario": "scenarios/clean-add_acl_entry-0088.json",
+      "group": "benchmark",
+      "sha256": "f31465bdb797c6789bb02ba92882b648c38176b66935bf096d821297e5d7eee8",
+      "scenario_sha256": "7fa47cc74c365dbb44f5c6608cfbc0d5e7841793824b689d9724bf53945b6c5e",
+      "split": "dev",
+      "family": "add_acl_entry.t2@smb-01",
+      "template": "add_acl_entry.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "add_acl_entry"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Trên ACC3, ACL ACL-MGMT-VTY cần thêm dòng 160 chặn tcp từ 10.29.20.0/24 đến host 10.10.50.29 port 8080",
+      "intent_en": "On ACC3, ACL ACL-MGMT-VTY needs line 160 to deny tcp from 10.29.20.0/24 to host 10.10.50.29 port 8080",
+      "gold": {
+        "ACC3": {
+          "file": "gold/clean-add_acl_entry-0088/ACC3.cfg",
+          "sha256": "1e3349860d6ca4e4cb6b23a9bb5194b6e18da9269718fc44a9ceece0f92f6305"
+        }
+      }
+    },
+    "clean-add_acl_entry-0089": {
+      "file": "clean-add_acl_entry-0089.json",
+      "fake_scenario": "scenarios/clean-add_acl_entry-0089.json",
+      "group": "benchmark",
+      "sha256": "8f579b83d04abd565955ddbcb7fb6e04bc94a3ef9ce9033e3c744e7c21820532",
+      "scenario_sha256": "2b68dae69aadc71eb9a04d9515cdbeee68c6be2e6fa6a9d6f2e7ff07bac8d184",
+      "split": "test",
+      "family": "add_acl_entry.t3@smb-01",
+      "template": "add_acl_entry.t3",
+      "context_id": "smb-01",
+      "tools": [
+        "add_acl_entry"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "ACL ACL-MGMT-VTY của ACC3: dòng 300 cho phép tcp 10.17.10.0/24 -> host 10.10.50.59, cổng đích 443",
+      "intent_en": "ACL ACL-MGMT-VTY of ACC3: line 300 should permit tcp 10.17.10.0/24 -> host 10.10.50.59, destination port 443",
+      "gold": {
+        "ACC3": {
+          "file": "gold/clean-add_acl_entry-0089/ACC3.cfg",
+          "sha256": "344080f7b316ae988592c18452c9ba14353217625e818cc2a3ea4dda4cc02daf"
+        }
+      }
+    },
+    "clean-add_acl_entry-0090": {
+      "file": "clean-add_acl_entry-0090.json",
+      "fake_scenario": "scenarios/clean-add_acl_entry-0090.json",
+      "group": "benchmark",
+      "sha256": "af6f295db8eb8a29a1ee0cadf1746309a2ae84c68dc38f27fcddce2fa09b3009",
+      "scenario_sha256": "4e2f1bc0036802a1cde318ed88df1807fac62698afdd83a5726db82d1945b2aa",
+      "split": "dev",
+      "family": "add_acl_entry.t1@smb-01",
+      "template": "add_acl_entry.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "add_acl_entry"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Thêm vào ACL ACL-MGMT-VTY trên ACC1 dòng 350: deny udp từ 10.14.10.0/24 tới host 10.10.50.46 cổng 514",
+      "intent_en": "Add line 350 to ACL ACL-MGMT-VTY on ACC1: deny udp from 10.14.10.0/24 to host 10.10.50.46 port 514",
+      "gold": {
+        "ACC1": {
+          "file": "gold/clean-add_acl_entry-0090/ACC1.cfg",
+          "sha256": "597e852054438a91d5c88dbe337eabc91b2d66c9cbaa0c1245f842e993949b40"
+        }
+      }
+    },
+    "clean-apply_acl-0091": {
+      "file": "clean-apply_acl-0091.json",
+      "fake_scenario": "scenarios/clean-apply_acl-0091.json",
+      "group": "benchmark",
+      "sha256": "91912f1070a84697748c451542d4171ed7ae1eb7c728e790756323f119b280ce",
+      "scenario_sha256": "72459928f6552ed6201ac4a58fbe568308faf4ab672dde389aed12b9675190eb",
+      "split": "dev",
+      "family": "apply_acl.t2@smb-01",
+      "template": "apply_acl.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "apply_acl"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên CORE1, gắn access-list ACL-SERVERS-OUT vào interface Vlan30, chiều ra (out)",
+      "intent_en": "On CORE1, attach access-list ACL-SERVERS-OUT to interface Vlan30, outbound",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-apply_acl-0091/CORE1.cfg",
+          "sha256": "5f4605c083882a1f6a6f0891aae35352a9e6621f92a58e69ddfb3e413824406e"
+        }
+      }
+    },
+    "clean-apply_acl-0092": {
+      "file": "clean-apply_acl-0092.json",
+      "fake_scenario": "scenarios/clean-apply_acl-0092.json",
+      "group": "benchmark",
+      "sha256": "f6a333cd6cfae240812ba7f4357cb17bb2e35f42b42e7c5df497cef2dda67e71",
+      "scenario_sha256": "707a8947159154aa50baa9232fd2bc3eb4c4b1d1785457495fdf98411bbbd358",
+      "split": "dev",
+      "family": "apply_acl.t3@smb-01",
+      "template": "apply_acl.t3",
+      "context_id": "smb-01",
+      "tools": [
+        "apply_acl"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Interface Vlan20 của CORE1 phải lọc lưu lượng chiều vào (in) bằng ACL ACL-SERVERS-OUT",
+      "intent_en": "Interface Vlan20 of CORE1 must filter inbound traffic with ACL ACL-SERVERS-OUT",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-apply_acl-0092/CORE1.cfg",
+          "sha256": "0f9fa8e350e88f29470bf3b82e6691cc34372a07a75c364674635d031a8fd210"
+        }
+      }
+    },
+    "clean-apply_acl-0093": {
+      "file": "clean-apply_acl-0093.json",
+      "fake_scenario": "scenarios/clean-apply_acl-0093.json",
+      "group": "benchmark",
+      "sha256": "86bea42cc37b541a7967dd31ee7c458c925d383a0358f3c811e4235790468660",
+      "scenario_sha256": "e1ac6679c3b6b074215ccd269258130423a5f938a2eac9987e92bcced5df9744",
+      "split": "test",
+      "family": "apply_acl.t1@smb-01",
+      "template": "apply_acl.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "apply_acl"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Áp ACL ACL-SERVERS-OUT theo chiều ra (out) lên CORE1 Vlan60",
+      "intent_en": "Apply ACL ACL-SERVERS-OUT outbound on CORE1 Vlan60",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-apply_acl-0093/CORE1.cfg",
+          "sha256": "db93443563e0ddf0e74968cef911937232e1da802fd70169a9eda69fb320d57f"
+        }
+      }
+    },
+    "clean-apply_acl-0094": {
+      "file": "clean-apply_acl-0094.json",
+      "fake_scenario": "scenarios/clean-apply_acl-0094.json",
+      "group": "benchmark",
+      "sha256": "8aa39e202683afef6f16e1d00522484f6be3c5e94458aed78789e6b30d065bf2",
+      "scenario_sha256": "3e2a4c6ec547f1968f63fc4daaa7d866d4f8c57e8e507828a89e0804628fedd1",
+      "split": "dev",
+      "family": "apply_acl.t2@smb-01",
+      "template": "apply_acl.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "apply_acl"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên CORE1, gắn access-list ACL-GUEST-IN vào interface Vlan30, chiều ra (out)",
+      "intent_en": "On CORE1, attach access-list ACL-GUEST-IN to interface Vlan30, outbound",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-apply_acl-0094/CORE1.cfg",
+          "sha256": "09d5025506cd40e888177ed69792ea0e73b56d5277657abca1e4863fd8d9aa3d"
+        }
+      }
+    },
+    "clean-set_aaa_login-0095": {
+      "file": "clean-set_aaa_login-0095.json",
+      "fake_scenario": "scenarios/clean-set_aaa_login-0095.json",
+      "group": "benchmark",
+      "sha256": "6ebc7976f83d1548bc511d615b0e6082025d59a5d42c17efc18c7e8293038eff",
+      "scenario_sha256": "df686be7336c0456da88ea1627c7cc613c5ef480f2aa8dea2902d7a2317dae40",
+      "split": "dev",
+      "family": "set_aaa_login.t1@smb-01",
+      "template": "set_aaa_login.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "set_aaa_login"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Cấu hình login authentication list VTY-AUTH trên ACC3 dùng TACACS+, RADIUS rồi local, key tham chiếu tacacs_key",
+      "intent_en": "Configure login authentication list VTY-AUTH on ACC3 using TACACS+, then RADIUS, then local, key reference tacacs_key",
+      "gold": {
+        "ACC3": {
+          "file": "gold/clean-set_aaa_login-0095/ACC3.cfg",
+          "sha256": "7ee5c6ae1ca88ce289c3658e5de1425e2e55aa92069bd414def22d827ed3db2b"
+        }
+      }
+    },
+    "clean-set_aaa_login-0096": {
+      "file": "clean-set_aaa_login-0096.json",
+      "fake_scenario": "scenarios/clean-set_aaa_login-0096.json",
+      "group": "benchmark",
+      "sha256": "d81a7805914c485ff6ed21fa8364e74a94153d2d61cb69df11ecaa802670e083",
+      "scenario_sha256": "ac8383ce666f33d1053aaf830ddb8bf2a00106897da91ffa91c0b6739862268f",
+      "split": "dev",
+      "family": "set_aaa_login.t2@smb-01",
+      "template": "set_aaa_login.t2",
+      "context_id": "smb-01",
+      "tools": [
+        "set_aaa_login"
+      ],
+      "multi_op": false,
+      "lang": "vi",
+      "intent_vi": "Trên ACC-BR1, method list đăng nhập ADMIN-LOGIN xác thực bằng TACACS+ rồi local, key tham chiếu tacacs_key",
+      "intent_en": "On ACC-BR1, the login method list ADMIN-LOGIN should authenticate with TACACS+ then local, key reference tacacs_key",
+      "gold": {
+        "ACC-BR1": {
+          "file": "gold/clean-set_aaa_login-0096/ACC-BR1.cfg",
+          "sha256": "de6581458d479dd3dd8b8c6ff728dd08f06d1179d7b0fa4030650aab983ff6f4"
+        }
+      }
+    },
+    "clean-set_aaa_login-0097": {
+      "file": "clean-set_aaa_login-0097.json",
+      "fake_scenario": "scenarios/clean-set_aaa_login-0097.json",
+      "group": "benchmark",
+      "sha256": "a9e50e2bba8bc1ac9b9a7f6791c695fa531186d54a6deaf85a401daad178253f",
+      "scenario_sha256": "250f6a0e5c92d5e9bbcdd8eec4918fb21bb26c69f90bc86fabe9b52bdf90fcc7",
+      "split": "test",
+      "family": "set_aaa_login.t3@smb-01",
+      "template": "set_aaa_login.t3",
+      "context_id": "smb-01",
+      "tools": [
+        "set_aaa_login"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Đăng nhập VTY của ACC-BR1 dùng list ADMIN-LOGIN: RADIUS rồi local",
+      "intent_en": "VTY logins on ACC-BR1 use list ADMIN-LOGIN: RADIUS then local",
+      "gold": {
+        "ACC-BR1": {
+          "file": "gold/clean-set_aaa_login-0097/ACC-BR1.cfg",
+          "sha256": "2f151efce857809007061416615e12cc20dce3ed37df5f6d13670737a7666426"
+        }
+      }
+    },
+    "clean-set_aaa_login-0098": {
+      "file": "clean-set_aaa_login-0098.json",
+      "fake_scenario": "scenarios/clean-set_aaa_login-0098.json",
+      "group": "benchmark",
+      "sha256": "47b89ef33f7ec39c07237dac9f3a0f3a95d9a8da6d30f1d165d7f4a8ab5e9483",
+      "scenario_sha256": "6aeabc41f2217027b67f1136c86aca2e65147217ab8ed1b82a85a99b5b280c57",
+      "split": "dev",
+      "family": "set_aaa_login.t1@smb-01",
+      "template": "set_aaa_login.t1",
+      "context_id": "smb-01",
+      "tools": [
+        "set_aaa_login"
+      ],
+      "multi_op": false,
+      "lang": "en",
+      "intent_vi": "Cấu hình login authentication list ADMIN-LOGIN trên ACC1 dùng chỉ local",
+      "intent_en": "Configure login authentication list ADMIN-LOGIN on ACC1 using local only",
+      "gold": {
+        "ACC1": {
+          "file": "gold/clean-set_aaa_login-0098/ACC1.cfg",
+          "sha256": "e035b8060f6abc67422b77e290f7b6552ce0cc424bef8b3f33a3d3be6732baaa"
+        }
+      }
+    },
+    "clean-multi_vlan_access-0099": {
+      "file": "clean-multi_vlan_access-0099.json",
+      "fake_scenario": "scenarios/clean-multi_vlan_access-0099.json",
+      "group": "benchmark",
+      "sha256": "5a98f3bde9364c65df0deecb11b59960a6a1ab6108e8448e3828ee0e7d704d1b",
+      "scenario_sha256": "ea01ba050851664eaf45085e88e85d807b313734a6365053f57f246b60c945c5",
+      "split": "dev",
+      "family": "multi.vlan_access@smb-01",
+      "template": "multi.vlan_access",
+      "context_id": "smb-01",
+      "tools": [
+        "create_vlan",
+        "set_access_vlan"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Tạo VLAN 243 tên STAFF2 trên ACC2 và gán cổng Ethernet1/2 vào VLAN 243",
+      "intent_en": "Create VLAN 243 named STAFF2 on ACC2 and put interface Ethernet1/2 into VLAN 243",
+      "gold": {
+        "ACC2": {
+          "file": "gold/clean-multi_vlan_access-0099/ACC2.cfg",
+          "sha256": "4d53e10af60009351d662f6a6d521a2b36ebcf2ca3b2cee4fb9b0a7d14c0fadd"
+        }
+      }
+    },
+    "clean-multi_vlan_access-0100": {
+      "file": "clean-multi_vlan_access-0100.json",
+      "fake_scenario": "scenarios/clean-multi_vlan_access-0100.json",
+      "group": "benchmark",
+      "sha256": "b45866bef30154a2a55bc301071592536a2bd013df0587d8457c018d95832652",
+      "scenario_sha256": "b2a8880f78ccca22f92a20e37e907fb18ed75e3de20f53bf33b616e6617f9579",
+      "split": "dev",
+      "family": "multi.vlan_access@smb-01",
+      "template": "multi.vlan_access",
+      "context_id": "smb-01",
+      "tools": [
+        "create_vlan",
+        "set_access_vlan"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Tạo VLAN 112 tên LAB trên ACC-BR1 và gán cổng Ethernet0/3 vào VLAN 112",
+      "intent_en": "Create VLAN 112 named LAB on ACC-BR1 and put interface Ethernet0/3 into VLAN 112",
+      "gold": {
+        "ACC-BR1": {
+          "file": "gold/clean-multi_vlan_access-0100/ACC-BR1.cfg",
+          "sha256": "2c6bc1fa8b58bef7ca2b182667b35ec0c6b68333077142388021197f75dea5ce"
+        }
+      }
+    },
+    "clean-multi_vlan_access_desc-0101": {
+      "file": "clean-multi_vlan_access_desc-0101.json",
+      "fake_scenario": "scenarios/clean-multi_vlan_access_desc-0101.json",
+      "group": "benchmark",
+      "sha256": "e5d407ab3f36166634700ade446aebe3fa1a9da9ef8b593997fefbe61c021e3c",
+      "scenario_sha256": "dcc13cb490e6c68f67a659dfcfee1346d8c2f8762415e5a560b217b64cfe566b",
+      "split": "test",
+      "family": "multi.vlan_access_desc@smb-01",
+      "template": "multi.vlan_access_desc",
+      "context_id": "smb-01",
+      "tools": [
+        "create_vlan",
+        "set_access_vlan",
+        "set_interface_description"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Trên ACC1: tạo VLAN 177 (WIFI), chuyển Ethernet0/2 vào VLAN 177 và đặt description 'HR-PC-07'",
+      "intent_en": "On ACC1: create VLAN 177 (WIFI), move Ethernet0/2 into VLAN 177 and set its description to 'HR-PC-07'",
+      "gold": {
+        "ACC1": {
+          "file": "gold/clean-multi_vlan_access_desc-0101/ACC1.cfg",
+          "sha256": "1525675aff807e08d688dc7689aaa06e39f0b1682d09304f6fb4ded8dfad5618"
+        }
+      }
+    },
+    "clean-multi_vlan_access_desc-0102": {
+      "file": "clean-multi_vlan_access_desc-0102.json",
+      "fake_scenario": "scenarios/clean-multi_vlan_access_desc-0102.json",
+      "group": "benchmark",
+      "sha256": "a7eacd5b8de878686abbc15ab0412718b6f363da1287cb8d85d7d80f53f32df5",
+      "scenario_sha256": "1f1cdfe13f0751d4d2f52e6eda0c76286a16d9e619768d911f8f99a7aae1a32b",
+      "split": "test",
+      "family": "multi.vlan_access_desc@smb-01",
+      "template": "multi.vlan_access_desc",
+      "context_id": "smb-01",
+      "tools": [
+        "create_vlan",
+        "set_access_vlan",
+        "set_interface_description"
+      ],
+      "multi_op": true,
+      "lang": "en",
+      "intent_vi": "Trên ACC3: tạo VLAN 97 (WIFI), chuyển Ethernet1/0 vào VLAN 97 và đặt description 'Lab PC, temporary'",
+      "intent_en": "On ACC3: create VLAN 97 (WIFI), move Ethernet1/0 into VLAN 97 and set its description to 'Lab PC, temporary'",
+      "gold": {
+        "ACC3": {
+          "file": "gold/clean-multi_vlan_access_desc-0102/ACC3.cfg",
+          "sha256": "01cf740ec47f8bcec31c6e0cca0e9423912e7a77731b1ed2e1239aa879e9d434"
+        }
+      }
+    },
+    "clean-multi_acl_new_apply-0103": {
+      "file": "clean-multi_acl_new_apply-0103.json",
+      "fake_scenario": "scenarios/clean-multi_acl_new_apply-0103.json",
+      "group": "benchmark",
+      "sha256": "9ef15a844f4cdcf2424def504545b4c256e51840c6d821ad78bc1a759c0287f8",
+      "scenario_sha256": "397a4801d89ee5978c6c37b4e12d10dd44bfb0fdab2c69b41fc30b2c72a77a18",
+      "split": "test",
+      "family": "multi.acl_new_apply@smb-01",
+      "template": "multi.acl_new_apply",
+      "context_id": "smb-01",
+      "tools": [
+        "add_acl_entry",
+        "apply_acl"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Trên R-EDGE1, tạo ACL LAB-IN với dòng 10 cho phép tcp từ 10.21.30.0/24 tới host 10.10.50.22 cổng 443, rồi áp ACL LAB-IN chiều ra (out) lên Ethernet1/3",
+      "intent_en": "On R-EDGE1, create ACL LAB-IN with line 10 to permit tcp from 10.21.30.0/24 to host 10.10.50.22 port 443, then apply ACL LAB-IN outbound on Ethernet1/3",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-multi_acl_new_apply-0103/R-EDGE1.cfg",
+          "sha256": "deffa7ce395a5135938c7e1156c65686f7c2e908eaebba83fca828d597583b53"
+        }
+      }
+    },
+    "clean-multi_acl_new_apply-0104": {
+      "file": "clean-multi_acl_new_apply-0104.json",
+      "fake_scenario": "scenarios/clean-multi_acl_new_apply-0104.json",
+      "group": "benchmark",
+      "sha256": "ee94237304dbf3f991fe771fc441ab0664799cbe3a99092d74e005a8b47eb2fd",
+      "scenario_sha256": "c69d272019ae74ef8d50a33695e53e5e93c71b1fe9ce1385bf9df56385fcdd63",
+      "split": "test",
+      "family": "multi.acl_new_apply@smb-01",
+      "template": "multi.acl_new_apply",
+      "context_id": "smb-01",
+      "tools": [
+        "add_acl_entry",
+        "apply_acl"
+      ],
+      "multi_op": true,
+      "lang": "en",
+      "intent_vi": "Trên CORE1, tạo ACL PRINT-ACL với dòng 10 chặn tcp từ 10.64.30.0/24 tới host 10.10.50.32 cổng 3389, rồi áp ACL PRINT-ACL chiều ra (out) lên Vlan60",
+      "intent_en": "On CORE1, create ACL PRINT-ACL with line 10 to deny tcp from 10.64.30.0/24 to host 10.10.50.32 port 3389, then apply ACL PRINT-ACL outbound on Vlan60",
+      "gold": {
+        "CORE1": {
+          "file": "gold/clean-multi_acl_new_apply-0104/CORE1.cfg",
+          "sha256": "cfce9cc9c24e5cfb4abf0514daed3165666ba5ebe72fe6006e33875938e9b76a"
+        }
+      }
+    },
+    "clean-multi_ip_enable-0105": {
+      "file": "clean-multi_ip_enable-0105.json",
+      "fake_scenario": "scenarios/clean-multi_ip_enable-0105.json",
+      "group": "benchmark",
+      "sha256": "b7351d7f7526a1d7a0c5ab2f3ab450bbaf78db5e2397b9529df2110ab420519f",
+      "scenario_sha256": "13d30de60a0f7c118f581b4c9365e97905e8a2c1c610f4bbb01b26d1c60871cf",
+      "split": "dev",
+      "family": "multi.ip_enable@smb-01",
+      "template": "multi.ip_enable",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_ip",
+        "set_interface_state"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Đặt IP 10.184.0.1/24 cho R-EDGE1 Ethernet1/0 rồi bật cổng đó lên",
+      "intent_en": "Assign IP 10.184.0.1/24 to R-EDGE1 Ethernet1/0 and bring the interface up",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-multi_ip_enable-0105/R-EDGE1.cfg",
+          "sha256": "bdb8e61180aefd8c5656fa06b262c2b4cd3f0985b643409fa23c9792a07278e4"
+        }
+      }
+    },
+    "clean-multi_ip_enable-0106": {
+      "file": "clean-multi_ip_enable-0106.json",
+      "fake_scenario": "scenarios/clean-multi_ip_enable-0106.json",
+      "group": "benchmark",
+      "sha256": "c714d7408df36ef4eac5855498f1ef54ae6786fcac628d7064121ca26f5e5db5",
+      "scenario_sha256": "1e8c9901e7e6a52ca645949246a71685dd094cd7716b2d9dd2d88554d4e3a398",
+      "split": "dev",
+      "family": "multi.ip_enable@smb-01",
+      "template": "multi.ip_enable",
+      "context_id": "smb-01",
+      "tools": [
+        "set_interface_ip",
+        "set_interface_state"
+      ],
+      "multi_op": true,
+      "lang": "en",
+      "intent_vi": "Đặt IP 10.100.2.1/30 cho R-BR1 Ethernet0/2 rồi bật cổng đó lên",
+      "intent_en": "Assign IP 10.100.2.1/30 to R-BR1 Ethernet0/2 and bring the interface up",
+      "gold": {
+        "R-BR1": {
+          "file": "gold/clean-multi_ip_enable-0106/R-BR1.cfg",
+          "sha256": "708ae78bfdcf6a1e0a2dac1339f68f1f4399fa5cceb47e4857567a1cc7417806"
+        }
+      }
+    },
+    "clean-multi_route_replace-0107": {
+      "file": "clean-multi_route_replace-0107.json",
+      "fake_scenario": "scenarios/clean-multi_route_replace-0107.json",
+      "group": "benchmark",
+      "sha256": "04e3ab0443bd5f8e51184c740c539829820ab95a51f0d6b35b5a79a7c5da6b09",
+      "scenario_sha256": "9a18f5abe83d4aece247f15051bcf22bd58866f91853bc43c141dd24ea45e38d",
+      "split": "dev",
+      "family": "multi.route_replace@smb-01",
+      "template": "multi.route_replace",
+      "context_id": "smb-01",
+      "tools": [
+        "remove_static_route",
+        "add_static_route"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Trên R-EDGE1, xoá route 10.10.0.0/16 qua 10.255.0.2 và thay bằng route 10.121.0.0/16 qua 10.255.0.2",
+      "intent_en": "On R-EDGE1, remove the route 10.10.0.0/16 via 10.255.0.2 and replace it with a route to 10.121.0.0/16 via 10.255.0.2",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-multi_route_replace-0107/R-EDGE1.cfg",
+          "sha256": "37feb86167a0becae9c4eb1fd9c8f83f3334b30cd80c94dca635f730a2652900"
+        }
+      }
+    },
+    "clean-multi_route_replace-0108": {
+      "file": "clean-multi_route_replace-0108.json",
+      "fake_scenario": "scenarios/clean-multi_route_replace-0108.json",
+      "group": "benchmark",
+      "sha256": "88018a9033a79a1b308d430043e73fb97a2bfa8b79becae83a05cc06376f1b40",
+      "scenario_sha256": "3c0a89e47c258b7f0018049e8c64e93923f39853be0db22d47cc9469228c9ff7",
+      "split": "dev",
+      "family": "multi.route_replace@smb-01",
+      "template": "multi.route_replace",
+      "context_id": "smb-01",
+      "tools": [
+        "remove_static_route",
+        "add_static_route"
+      ],
+      "multi_op": true,
+      "lang": "vi",
+      "intent_vi": "Trên R-EDGE1, xoá route 10.10.0.0/16 qua 10.255.0.2 và thay bằng route 172.28.132.0/24 qua 10.255.0.2",
+      "intent_en": "On R-EDGE1, remove the route 10.10.0.0/16 via 10.255.0.2 and replace it with a route to 172.28.132.0/24 via 10.255.0.2",
+      "gold": {
+        "R-EDGE1": {
+          "file": "gold/clean-multi_route_replace-0108/R-EDGE1.cfg",
+          "sha256": "7b1812c9e9f4c6f4701e51d6387f4bb458fe8d77297154e773dd58b6e531acfa"
+        }
+      }
+    }
+  }
+}

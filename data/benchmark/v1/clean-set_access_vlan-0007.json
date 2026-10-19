@@ -1,0 +1,25 @@
+{
+  "case_id": "clean-set_access_vlan-0007",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Assign interface GigabitEthernet0/2 on SW2 to VLAN 50",
+  "intent_template": "Assign interface GigabitEthernet0/2 on SW2 to VLAN 50",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_access_vlan",
+      "args": {
+        "device": "SW2",
+        "interface": "GigabitEthernet0/2",
+        "vlan_id": 50
+      }
+    }
+  ]
+}

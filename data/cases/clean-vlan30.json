@@ -1,0 +1,29 @@
+{
+  "run_id": "clean-vlan30",
+  "context": "data/contexts/campus-small-01.json",
+  "context_sha256": "9150933aa542a8bd7a4c9e0cb251b589232ee751b6599c1c998dfc7575ae817c",
+  "role": "network_admin",
+  "intent": "Tạo VLAN 30 tên FINANCE trên SW2 và gán cổng GigabitEthernet1/1 của SW2 vào VLAN 30",
+  "label": {
+    "subset": "clean",
+    "expected_verdict": "accept",
+    "expected_tool_calls": [
+      {
+        "tool": "create_vlan",
+        "args": {
+          "device": "SW2",
+          "vlan_id": 30,
+          "name": "FINANCE"
+        }
+      },
+      {
+        "tool": "set_access_vlan",
+        "args": {
+          "device": "SW2",
+          "interface": "GigabitEthernet1/1",
+          "vlan_id": 30
+        }
+      }
+    ]
+  }
+}

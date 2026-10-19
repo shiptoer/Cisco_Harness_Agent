@@ -1,0 +1,17 @@
+{
+  "case_id": "corrupted-vlan-0005",
+  "subset": "corrupted",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Tạo VLAN 133 tên DEV trên SW1 và gán cổng GigabitEthernet1/1 của SW1 vào VLAN 133",
+  "intent_template": "Create VLAN 133 named DEV on SW1 and put interface GigabitEthernet1/1 of SW1 into VLAN 133",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/83daab3b2eac60f206383a921fc12f13dece7ac1906a586111fba6189e8c54be.json",
+    "sha256": "83daab3b2eac60f206383a921fc12f13dece7ac1906a586111fba6189e8c54be"
+  },
+  "expected_verdict": "reject",
+  "expected_tool_calls": [],
+  "corruption": "CTX_RESERVED_VLAN_IN_USE"
+}

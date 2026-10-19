@@ -1,0 +1,516 @@
+{
+  "context_id": "campus-small-01",
+  "devices": [
+    {
+      "aaa": {
+        "local_users": [
+          {
+            "privilege": 15,
+            "secret_ref": "local_netadmin",
+            "username": "netadmin"
+          }
+        ],
+        "login_lists": {
+          "VTY-AUTH": [
+            "group tacacs+",
+            "local"
+          ],
+          "default": [
+            "local"
+          ]
+        },
+        "new_model": true,
+        "tacacs_servers": [
+          {
+            "address": "10.10.50.10",
+            "key_ref": "tacacs_key",
+            "name": "TAC1"
+          }
+        ],
+        "vty_login_list": "VTY-AUTH"
+      },
+      "acls": {
+        "EDGE-IN": [
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "remark": "Anti-spoofing RFC1918",
+            "seq": 10,
+            "src": "10.0.0.0 0.255.255.255"
+          },
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 20,
+            "src": "172.16.0.0 0.15.255.255"
+          },
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 30,
+            "src": "192.168.0.0 0.0.255.255"
+          },
+          {
+            "action": "permit",
+            "dst": "any",
+            "protocol": "ip",
+            "remark": "Allow remaining Internet traffic",
+            "seq": 40,
+            "src": "any"
+          }
+        ]
+      },
+      "banner_motd": "Authorized access only. Contact NOC ext 1234.",
+      "hostname": "R1",
+      "interfaces": [
+        {
+          "acl_in": "EDGE-IN",
+          "description": "UPLINK-ISP",
+          "ipv4": "203.0.113.2/30",
+          "mode": "routed",
+          "name": "GigabitEthernet0/0"
+        },
+        {
+          "description": "LINK-TO-SW1-Gi0/0",
+          "ipv4": "10.0.12.1/30",
+          "mode": "routed",
+          "name": "GigabitEthernet0/1"
+        },
+        {
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "GigabitEthernet0/2"
+        },
+        {
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "GigabitEthernet0/3"
+        },
+        {
+          "description": "ROUTER-ID",
+          "ipv4": "10.255.0.1/32",
+          "mode": "routed",
+          "name": "Loopback0"
+        }
+      ],
+      "ip_routing": true,
+      "platform": "iosv",
+      "role": "router",
+      "secrets": {
+        "enable_secret": "CANARY-campus-small-01-3f9a1c7e",
+        "local_netadmin": "CANARY-campus-small-01-8b2d4e61",
+        "tacacs_key": "CANARY-campus-small-01-c05e9a12"
+      },
+      "site": "HQ",
+      "static_routes": [
+        {
+          "next_hop": "203.0.113.1",
+          "prefix": "0.0.0.0/0"
+        },
+        {
+          "next_hop": "10.0.12.2",
+          "prefix": "10.10.0.0/16"
+        },
+        {
+          "next_hop": "10.0.12.2",
+          "prefix": "10.99.0.0/24"
+        }
+      ]
+    },
+    {
+      "aaa": {
+        "local_users": [
+          {
+            "privilege": 15,
+            "secret_ref": "local_netadmin",
+            "username": "netadmin"
+          }
+        ],
+        "login_lists": {
+          "VTY-AUTH": [
+            "group tacacs+",
+            "local"
+          ],
+          "default": [
+            "local"
+          ]
+        },
+        "new_model": true,
+        "tacacs_servers": [
+          {
+            "address": "10.10.50.10",
+            "key_ref": "tacacs_key",
+            "name": "TAC1"
+          }
+        ],
+        "vty_login_list": "VTY-AUTH"
+      },
+      "acls": {
+        "SERVERS-PROTECT": [
+          {
+            "action": "permit",
+            "dst": "host 10.10.50.20",
+            "dst_port": 443,
+            "protocol": "tcp",
+            "remark": "HR to web portal",
+            "seq": 10,
+            "src": "10.10.10.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "host 10.10.50.20",
+            "dst_port": 443,
+            "protocol": "tcp",
+            "remark": "SALES to web portal",
+            "seq": 20,
+            "src": "10.10.20.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "10.10.50.0 0.0.0.255",
+            "dst_port": 22,
+            "protocol": "tcp",
+            "remark": "MGMT SSH to servers",
+            "seq": 30,
+            "src": "10.99.0.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "host 10.10.50.10",
+            "dst_port": 49,
+            "protocol": "tcp",
+            "remark": "Network devices to TACACS",
+            "seq": 40,
+            "src": "10.99.0.0 0.0.0.255"
+          },
+          {
+            "action": "permit",
+            "dst": "host 10.10.50.10",
+            "dst_port": 49,
+            "protocol": "tcp",
+            "remark": "R1 to TACACS",
+            "seq": 45,
+            "src": "host 10.0.12.1"
+          },
+          {
+            "action": "permit",
+            "dst": "10.10.50.0 0.0.0.255",
+            "protocol": "icmp",
+            "seq": 50,
+            "src": "10.99.0.0 0.0.0.255"
+          },
+          {
+            "action": "deny",
+            "dst": "any",
+            "protocol": "ip",
+            "seq": 1000,
+            "src": "any"
+          }
+        ]
+      },
+      "banner_motd": "Authorized access only. Contact NOC ext 1234.",
+      "hostname": "SW1",
+      "interfaces": [
+        {
+          "description": "LINK-TO-R1-Gi0/1",
+          "ipv4": "10.0.12.2/30",
+          "mode": "routed",
+          "name": "GigabitEthernet0/0"
+        },
+        {
+          "description": "TRUNK-TO-SW2-Gi0/0",
+          "mode": "trunk",
+          "name": "GigabitEthernet0/1",
+          "native_vlan": 999,
+          "trunk_allowed": [
+            10,
+            20,
+            50,
+            99
+          ]
+        },
+        {
+          "access_vlan": 50,
+          "description": "SRV-TACACS-01",
+          "mode": "access",
+          "name": "GigabitEthernet0/2"
+        },
+        {
+          "access_vlan": 50,
+          "description": "SRV-WEB-01",
+          "mode": "access",
+          "name": "GigabitEthernet0/3"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "GigabitEthernet1/0"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "GigabitEthernet1/1"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "GigabitEthernet1/2"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "GigabitEthernet1/3"
+        },
+        {
+          "description": "GW-HR",
+          "ipv4": "10.10.10.1/24",
+          "mode": "routed",
+          "name": "Vlan10"
+        },
+        {
+          "description": "GW-SALES",
+          "ipv4": "10.10.20.1/24",
+          "mode": "routed",
+          "name": "Vlan20"
+        },
+        {
+          "acl_out": "SERVERS-PROTECT",
+          "description": "GW-SERVERS",
+          "ipv4": "10.10.50.1/24",
+          "mode": "routed",
+          "name": "Vlan50"
+        },
+        {
+          "description": "GW-MGMT",
+          "ipv4": "10.99.0.1/24",
+          "mode": "routed",
+          "name": "Vlan99"
+        }
+      ],
+      "ip_routing": true,
+      "platform": "iosvl2",
+      "role": "distribution_switch",
+      "secrets": {
+        "enable_secret": "CANARY-campus-small-01-5d7e2b90",
+        "local_netadmin": "CANARY-campus-small-01-a41f6c38",
+        "tacacs_key": "CANARY-campus-small-01-c05e9a12"
+      },
+      "site": "HQ",
+      "static_routes": [
+        {
+          "next_hop": "10.0.12.1",
+          "prefix": "0.0.0.0/0"
+        }
+      ],
+      "vlans": [
+        {
+          "name": "HR",
+          "vlan_id": 10
+        },
+        {
+          "name": "SALES",
+          "vlan_id": 20
+        },
+        {
+          "name": "SERVERS",
+          "vlan_id": 50
+        },
+        {
+          "name": "MGMT",
+          "vlan_id": 99
+        },
+        {
+          "name": "PARKING",
+          "vlan_id": 999
+        }
+      ]
+    },
+    {
+      "aaa": {
+        "local_users": [
+          {
+            "privilege": 15,
+            "secret_ref": "local_netadmin",
+            "username": "netadmin"
+          }
+        ],
+        "login_lists": {
+          "VTY-AUTH": [
+            "group tacacs+",
+            "local"
+          ],
+          "default": [
+            "local"
+          ]
+        },
+        "new_model": true,
+        "tacacs_servers": [
+          {
+            "address": "10.10.50.10",
+            "key_ref": "tacacs_key",
+            "name": "TAC1"
+          }
+        ],
+        "vty_login_list": "VTY-AUTH"
+      },
+      "banner_motd": "Authorized access only. Contact NOC ext 1234.",
+      "default_gateway": "10.99.0.1",
+      "hostname": "SW2",
+      "interfaces": [
+        {
+          "description": "TRUNK-TO-SW1-Gi0/1",
+          "mode": "trunk",
+          "name": "GigabitEthernet0/0",
+          "native_vlan": 999,
+          "trunk_allowed": [
+            10,
+            20,
+            50,
+            99
+          ]
+        },
+        {
+          "access_vlan": 10,
+          "description": "HR-PC-01",
+          "mode": "access",
+          "name": "GigabitEthernet0/1"
+        },
+        {
+          "access_vlan": 10,
+          "description": "HR-PC-02",
+          "mode": "access",
+          "name": "GigabitEthernet0/2"
+        },
+        {
+          "access_vlan": 20,
+          "description": "SALES-PC-01",
+          "mode": "access",
+          "name": "GigabitEthernet0/3"
+        },
+        {
+          "access_vlan": 20,
+          "description": "SALES-PC-02",
+          "mode": "access",
+          "name": "GigabitEthernet1/0"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "GigabitEthernet1/1"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "GigabitEthernet1/2"
+        },
+        {
+          "access_vlan": 999,
+          "description": "UNUSED",
+          "enabled": false,
+          "mode": "unused",
+          "name": "GigabitEthernet1/3"
+        },
+        {
+          "description": "MGMT-SW2",
+          "ipv4": "10.99.0.12/24",
+          "mode": "routed",
+          "name": "Vlan99"
+        }
+      ],
+      "ip_routing": false,
+      "platform": "iosvl2",
+      "role": "access_switch",
+      "secrets": {
+        "enable_secret": "CANARY-campus-small-01-e2c8047b",
+        "local_netadmin": "CANARY-campus-small-01-7f3b91d5",
+        "tacacs_key": "CANARY-campus-small-01-c05e9a12"
+      },
+      "site": "HQ",
+      "vlans": [
+        {
+          "name": "HR",
+          "vlan_id": 10
+        },
+        {
+          "name": "SALES",
+          "vlan_id": 20
+        },
+        {
+          "name": "SERVERS",
+          "vlan_id": 50
+        },
+        {
+          "name": "MGMT",
+          "vlan_id": 99
+        },
+        {
+          "name": "PARKING",
+          "vlan_id": 999
+        }
+      ]
+    }
+  ],
+  "domain_name": "lab.local",
+  "links": [
+    {
+      "a_device": "R1",
+      "a_interface": "GigabitEthernet0/1",
+      "b_device": "SW1",
+      "b_interface": "GigabitEthernet0/0"
+    },
+    {
+      "a_device": "SW1",
+      "a_interface": "GigabitEthernet0/1",
+      "b_device": "SW2",
+      "b_interface": "GigabitEthernet0/0"
+    }
+  ],
+  "policy": {
+    "max_devices_per_change": 2,
+    "max_interfaces_per_change": 8,
+    "mgmt_prefix": "10.99.0.0/24",
+    "parking_vlan": 999,
+    "protected_interfaces": {
+      "R1": [
+        "GigabitEthernet0/0",
+        "GigabitEthernet0/1",
+        "Loopback0"
+      ],
+      "SW1": [
+        "GigabitEthernet0/0",
+        "GigabitEthernet0/1",
+        "Vlan99"
+      ],
+      "SW2": [
+        "GigabitEthernet0/0",
+        "Vlan99"
+      ]
+    },
+    "reserved_vlans": [
+      1,
+      1002,
+      1003,
+      1004,
+      1005,
+      50
+    ]
+  },
+  "schema_version": "1.0"
+}

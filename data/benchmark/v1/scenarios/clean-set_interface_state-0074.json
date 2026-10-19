@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-set_interface_state-0074",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_state",
+            "args": {
+              "device": "ACC2",
+              "interface": "Ethernet0/1",
+              "enabled": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC2\ninterface Ethernet0/1\n shutdown\nexit\nend\n```\n"
+  }
+}

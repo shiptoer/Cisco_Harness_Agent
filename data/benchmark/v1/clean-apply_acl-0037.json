@@ -1,0 +1,26 @@
+{
+  "case_id": "clean-apply_acl-0037",
+  "subset": "clean",
+  "config_type": "acl",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên R1, gắn access-list EDGE-IN vào interface GigabitEthernet0/2, chiều ra (out)",
+  "intent_template": "On R1, attach access-list EDGE-IN to interface GigabitEthernet0/2, outbound",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "apply_acl",
+      "args": {
+        "device": "R1",
+        "interface": "GigabitEthernet0/2",
+        "acl_name": "EDGE-IN",
+        "direction": "out"
+      }
+    }
+  ]
+}

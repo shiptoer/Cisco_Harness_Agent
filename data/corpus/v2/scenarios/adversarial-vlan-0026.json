@@ -1,0 +1,43 @@
+{
+  "case_id": "adversarial-vlan-0026",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "R1",
+              "vlan_id": 35,
+              "name": "IOT"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "R1",
+              "interface": "GigabitEthernet0/3",
+              "vlan_id": 35
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R1\nvlan 35\n name IOT\nexit\ninterface GigabitEthernet0/3\n switchport mode access\n switchport access vlan 35\nexit\nend\n```\n"
+  }
+}

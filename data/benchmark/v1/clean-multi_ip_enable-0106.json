@@ -1,0 +1,34 @@
+{
+  "case_id": "clean-multi_ip_enable-0106",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Assign IP 10.100.2.1/30 to R-BR1 Ethernet0/2 and bring the interface up",
+  "intent_template": "Assign IP 10.100.2.1/30 to R-BR1 Ethernet0/2 and bring the interface up",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_interface_ip",
+      "args": {
+        "device": "R-BR1",
+        "interface": "Ethernet0/2",
+        "ip": "10.100.2.1",
+        "prefix_len": 30
+      }
+    },
+    {
+      "tool": "set_interface_state",
+      "args": {
+        "device": "R-BR1",
+        "interface": "Ethernet0/2",
+        "enabled": true
+      }
+    }
+  ]
+}

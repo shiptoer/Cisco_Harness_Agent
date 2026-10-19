@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-set_interface_description-0023",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_description",
+            "args": {
+              "device": "SW1",
+              "interface": "GigabitEthernet1/1",
+              "text": "Printer floor 2"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\ninterface GigabitEthernet1/1\n description Printer floor 2\nexit\nend\n```\n"
+  }
+}

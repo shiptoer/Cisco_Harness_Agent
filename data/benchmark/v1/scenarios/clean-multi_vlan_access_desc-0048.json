@@ -1,0 +1,51 @@
+{
+  "case_id": "clean-multi_vlan_access_desc-0048",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW2",
+              "vlan_id": 976,
+              "name": "LAB"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "SW2",
+              "interface": "GigabitEthernet1/1",
+              "vlan_id": 976
+            }
+          },
+          {
+            "tool": "set_interface_description",
+            "args": {
+              "device": "SW2",
+              "interface": "GigabitEthernet1/1",
+              "text": "Meeting room B"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW2\nvlan 976\n name LAB\nexit\ninterface GigabitEthernet1/1\n switchport mode access\n switchport access vlan 976\nexit\ninterface GigabitEthernet1/1\n description Meeting room B\nexit\nend\n```\n"
+  }
+}

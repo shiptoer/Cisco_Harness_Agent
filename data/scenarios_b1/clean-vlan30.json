@@ -1,0 +1,57 @@
+{
+  "expect": {
+    "status": "ok",
+    "verdict": "accept",
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": [
+      "dsh_home"
+    ]
+  },
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW2"
+      }
+    },
+    {
+      "tool": "get_interface",
+      "args": {
+        "hostname": "SW2",
+        "interface": "GigabitEthernet1/1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW2",
+              "vlan_id": 30,
+              "name": "FINANCE"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "SW2",
+              "interface": "GigabitEthernet1/1",
+              "vlan_id": 30
+            }
+          }
+        ],
+        "rationale": "VLAN 30 chưa có trên SW2; Gi1/1 đang unused"
+      }
+    }
+  ],
+  "tsa": "auto"
+}

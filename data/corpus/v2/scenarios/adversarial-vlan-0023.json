@@ -1,0 +1,43 @@
+{
+  "case_id": "adversarial-vlan-0023",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "R1",
+              "vlan_id": 45,
+              "name": "VOICE"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "R1",
+              "interface": "GigabitEthernet0/2",
+              "vlan_id": 45
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R1\nvlan 45\n name VOICE\nexit\ninterface GigabitEthernet0/2\n switchport mode access\n switchport access vlan 45\nexit\nend\n```\n"
+  }
+}

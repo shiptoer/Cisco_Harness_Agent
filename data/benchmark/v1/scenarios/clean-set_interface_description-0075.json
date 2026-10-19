@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-set_interface_description-0075",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_description",
+            "args": {
+              "device": "ACC1",
+              "interface": "Ethernet1/2",
+              "text": "Spare port, rack 4"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC1\ninterface Ethernet1/2\n description Spare port, rack 4\nexit\nend\n```\n"
+  }
+}

@@ -1,0 +1,70 @@
+﻿# Step 6: npx @deepseek-ai/dsh --profile headless  (2026-09-29T15:27:48)
+node v24.21.0, npm 11.19.0, DSH_HOME=D:\FPT\KLTN\Cisco-Harness-Agent\Cisco-Harness-Agent\spikes\dsh_mcp\.dsh_home
+
+## (a) npx in spike dir: --version  (cwd=D:\FPT\KLTN\Cisco-Harness-Agent\Cisco-Harness-Agent\spikes\dsh_mcp)
+0.2.0-rc.1
+exit=0
+
+## (a) npx in spike dir: --profile headless --help  (cwd=D:\FPT\KLTN\Cisco-Harness-Agent\Cisco-Harness-Agent\spikes\dsh_mcp)
+Usage: dsh --profile headless [options] [task...]
+
+Answer one task and exit; the answer goes to stdout and diagnostics to stderr.
+
+Arguments:
+  task               the task text; multiple words are joined by spaces, and `-`
+                     reads stdin
+
+Options:
+  --json             write newline-delimited run events to stdout instead of the
+                     final message
+  --session-id <id>  adopt the persisted Session with this id; an unknown id is
+                     an error
+  -h, --help         show this help
+
+Examples:
+  dsh --profile headless "run the tests"          answer one task and exit
+  echo "run the tests" | dsh --profile headless   read the task from stdin
+  dsh --profile headless --json "run the tests"   emit machine-readable run events
+  dsh --profile headless --session-id session-… "continue"   resume an existing Session
+
+exit=0
+
+## (a) npx in spike dir: headless run with patch, --json (no DEEPSEEK_API_KEY in this shell)  (cwd=D:\FPT\KLTN\Cisco-Harness-Agent\Cisco-Harness-Agent\spikes\dsh_mcp)
+{"type":"session","sessionId":"session-4a6e7108-cf2c-4706-be16-244cbd5f6e3f","cwd":"D:\\FPT\\KLTN\\Cisco-Harness-Agent\\Cisco-Harness-Agent\\spikes\\dsh_mcp"}
+{"type":"status","phase":"turn_start","turn":1}
+{"type":"status","phase":"step_start","turn":1,"step":1}
+{"type":"status","phase":"step_end","turn":1,"step":1}
+{"type":"status","phase":"turn_end","turn":1,"reason":{"kind":"error","error":{"message":"llm-deepseek: no API key for provider route \"deepseek-official\"; store DEEPSEEK_API_KEY through the credentials service (the web Models page writes it), or export DEEPSEEK_API_KEY in the launching environment","code":"MISSING_CREDENTIAL"}}}
+{"type":"final","text":""}
+dsh: MISSING_CREDENTIAL: llm-deepseek: no API key for provider route "deepseek-official"; store DEEPSEEK_API_KEY through the credentials service (the web Models page writes it), or export DEEPSEEK_API_KEY in the launching environment
+exit=1
+
+## (b) npx in empty dir (registry, dist-tag latest): --version  (cwd=C:\Users\DELL\AppData\Local\Temp\claude\npx-empty)
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+0.1.7-rc.2
+exit=0
+
+## (b) npx in empty dir (registry, pinned 0.2.0-rc.1): --profile headless --help  (cwd=C:\Users\DELL\AppData\Local\Temp\claude\npx-empty)
+npm warn deprecated node-domexception@1.0.0: Use your platform's native DOMException instead
+Usage: dsh --profile headless [options] [task...]
+
+Answer one task and exit; the answer goes to stdout and diagnostics to stderr.
+
+Arguments:
+  task               the task text; multiple words are joined by spaces, and `-`
+                     reads stdin
+
+Options:
+  --json             write newline-delimited run events to stdout instead of the
+                     final message
+  --session-id <id>  adopt the persisted Session with this id; an unknown id is
+                     an error
+  -h, --help         show this help
+
+Examples:
+  dsh --profile headless "run the tests"          answer one task and exit
+  echo "run the tests" | dsh --profile headless   read the task from stdin
+  dsh --profile headless --json "run the tests"   emit machine-readable run events
+  dsh --profile headless --session-id session-… "continue"   resume an existing Session
+
+exit=0

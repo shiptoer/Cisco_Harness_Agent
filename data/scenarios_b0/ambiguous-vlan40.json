@@ -1,0 +1,16 @@
+{
+  "expect": {
+    "status": "ok",
+    "verdict": "clarify",
+    "stopped_by": null,
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": [
+      "dsh_home"
+    ]
+  },
+  "b0": {
+    "final": "```clarify\nTạo VLAN 40 trên thiết bị nào (SW1, SW2 hay cả hai)?\n```\n"
+  }
+}

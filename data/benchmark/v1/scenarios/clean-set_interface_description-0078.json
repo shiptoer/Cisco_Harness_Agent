@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-set_interface_description-0078",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC3"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_description",
+            "args": {
+              "device": "ACC3",
+              "interface": "Ethernet1/0",
+              "text": "Camera lobby"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC3\ninterface Ethernet1/0\n description Camera lobby\nexit\nend\n```\n"
+  }
+}

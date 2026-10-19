@@ -1,0 +1,32 @@
+{
+  "expect": {
+    "status": "ok",
+    "verdict": "accept",
+    "stopped_by": null,
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": []
+  },
+  "cba": [
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_aaa_login",
+            "args": {
+              "device": "R1",
+              "list_name": "VTY-AUTH",
+              "methods": [
+                "local"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto"
+}

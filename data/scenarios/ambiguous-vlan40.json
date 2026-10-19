@@ -1,0 +1,23 @@
+{
+  "expect": {
+    "status": "ok",
+    "verdict": "clarify",
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": []
+  },
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "needs_clarification",
+        "clarification_question": "Tạo VLAN 40 trên thiết bị nào (SW1, SW2 hay cả hai)?"
+      }
+    }
+  ]
+}

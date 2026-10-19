@@ -1,0 +1,16 @@
+{
+  "expect": {
+    "status": "ok",
+    "verdict": "accept",
+    "stopped_by": null,
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": [
+      "dsh_home"
+    ]
+  },
+  "b0": {
+    "final": "```cisco SW1\nip access-list extended SERVERS-PROTECT\n 60 permit tcp 10.10.20.0 0.0.0.255 host 10.10.50.20 eq 22\nexit\nend\n```\n"
+  }
+}

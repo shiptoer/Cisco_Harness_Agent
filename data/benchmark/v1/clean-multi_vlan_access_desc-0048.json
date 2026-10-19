@@ -1,0 +1,41 @@
+{
+  "case_id": "clean-multi_vlan_access_desc-0048",
+  "subset": "clean",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "On SW2: create VLAN 976 (LAB), move GigabitEthernet1/1 into VLAN 976 and set its description to 'Meeting room B'",
+  "intent_template": "On SW2: create VLAN 976 (LAB), move GigabitEthernet1/1 into VLAN 976 and set its description to 'Meeting room B'",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "create_vlan",
+      "args": {
+        "device": "SW2",
+        "vlan_id": 976,
+        "name": "LAB"
+      }
+    },
+    {
+      "tool": "set_access_vlan",
+      "args": {
+        "device": "SW2",
+        "interface": "GigabitEthernet1/1",
+        "vlan_id": 976
+      }
+    },
+    {
+      "tool": "set_interface_description",
+      "args": {
+        "device": "SW2",
+        "interface": "GigabitEthernet1/1",
+        "text": "Meeting room B"
+      }
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "case_id": "clean-remove_static_route-0030",
+  "subset": "clean",
+  "config_type": "static_route",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Route 10.10.0.0/16 qua 10.0.12.2 trên R1 không còn dùng, hãy xoá",
+  "intent_template": "The route 10.10.0.0/16 via 10.0.12.2 on R1 is no longer used, remove it",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "remove_static_route",
+      "args": {
+        "device": "R1",
+        "prefix": "10.10.0.0/16",
+        "next_hop": "10.0.12.2"
+      }
+    }
+  ]
+}

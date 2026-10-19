@@ -1,0 +1,26 @@
+{
+  "case_id": "clean-set_interface_ip-0014",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên router R1, interface GigabitEthernet0/2 dùng địa chỉ 10.119.15.1/29",
+  "intent_template": "On router R1, interface GigabitEthernet0/2 should use address 10.119.15.1/29",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_interface_ip",
+      "args": {
+        "device": "R1",
+        "interface": "GigabitEthernet0/2",
+        "ip": "10.119.15.1",
+        "prefix_len": 29
+      }
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "case_id": "clean-multi_acl_new_apply-0103",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R-EDGE1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "add_acl_entry",
+            "args": {
+              "device": "R-EDGE1",
+              "acl_name": "LAB-IN",
+              "seq": 10,
+              "action": "permit",
+              "protocol": "tcp",
+              "src": "10.21.30.0/24",
+              "dst": "host 10.10.50.22",
+              "dst_port": "eq 443"
+            }
+          },
+          {
+            "tool": "apply_acl",
+            "args": {
+              "device": "R-EDGE1",
+              "interface": "Ethernet1/3",
+              "acl_name": "LAB-IN",
+              "direction": "out"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R-EDGE1\nip access-list extended LAB-IN\n 10 permit tcp 10.21.30.0 0.0.0.255 host 10.10.50.22 eq 443\nexit\ninterface Ethernet1/3\n ip access-group LAB-IN out\nexit\nend\n```\n"
+  }
+}

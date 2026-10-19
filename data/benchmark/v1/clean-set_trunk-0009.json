@@ -1,0 +1,30 @@
+{
+  "case_id": "clean-set_trunk-0009",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Biến cổng GigabitEthernet1/1 trên SW1 thành trunk 802.1Q, chỉ cho phép VLAN 10, 20, 50, native 999",
+  "intent_template": "Make port GigabitEthernet1/1 on SW1 an 802.1Q trunk that only allows VLANs 10, 20, 50, native 999",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_trunk",
+      "args": {
+        "device": "SW1",
+        "interface": "GigabitEthernet1/1",
+        "allowed_vlans": [
+          10,
+          20,
+          50
+        ],
+        "native_vlan": 999
+      }
+    }
+  ]
+}

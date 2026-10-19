@@ -1,0 +1,44 @@
+{
+  "case_id": "clean-multi_ip_enable-0051",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_ip",
+            "args": {
+              "device": "R1",
+              "interface": "GigabitEthernet0/3",
+              "ip": "10.140.4.1",
+              "prefix_len": 29
+            }
+          },
+          {
+            "tool": "set_interface_state",
+            "args": {
+              "device": "R1",
+              "interface": "GigabitEthernet0/3",
+              "enabled": true
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R1\ninterface GigabitEthernet0/3\n ip address 10.140.4.1 255.255.255.248\nexit\ninterface GigabitEthernet0/3\n no shutdown\nexit\nend\n```\n"
+  }
+}

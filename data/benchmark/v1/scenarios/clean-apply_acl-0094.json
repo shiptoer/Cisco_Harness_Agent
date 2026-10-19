@@ -1,0 +1,36 @@
+{
+  "case_id": "clean-apply_acl-0094",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "CORE1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "apply_acl",
+            "args": {
+              "device": "CORE1",
+              "interface": "Vlan30",
+              "acl_name": "ACL-GUEST-IN",
+              "direction": "out"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco CORE1\ninterface Vlan30\n ip access-group ACL-GUEST-IN out\nexit\nend\n```\n"
+  }
+}

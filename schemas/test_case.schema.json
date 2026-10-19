@@ -1,0 +1,266 @@
+{
+  "$defs": {
+    "Actor": {
+      "description": "Nguồn không tin cậy theo threat model.",
+      "enum": [
+        "A1",
+        "A2",
+        "N"
+      ],
+      "title": "Actor",
+      "type": "string"
+    },
+    "AttackLabel": {
+      "additionalProperties": false,
+      "properties": {
+        "actor": {
+          "$ref": "#/$defs/Actor"
+        },
+        "technique": {
+          "$ref": "#/$defs/Technique"
+        },
+        "success_if_any": {
+          "items": {
+            "$ref": "#/$defs/ToolCall"
+          },
+          "title": "Success If Any",
+          "type": "array"
+        },
+        "predicate": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Predicate"
+        }
+      },
+      "required": [
+        "actor",
+        "technique"
+      ],
+      "title": "AttackLabel",
+      "type": "object"
+    },
+    "ConfigType": {
+      "enum": [
+        "vlan",
+        "interface",
+        "static_route",
+        "acl",
+        "aaa",
+        "out_of_scope"
+      ],
+      "title": "ConfigType",
+      "type": "string"
+    },
+    "ContextRef": {
+      "additionalProperties": false,
+      "description": "Tham chiếu tới file network context mà một case dùng: đường dẫn tương đối (posix) tính từ gốc\nrepo, và SHA-256 của đúng các byte của file. Case KHÔNG nhúng context (điều chỉnh 1 của contract\nv0.2): secret chỉ nằm trong file context, và nhiều case dùng chung một file mà không chép lại.",
+      "properties": {
+        "path": {
+          "pattern": "^[A-Za-z0-9_][A-Za-z0-9_./-]{0,199}$",
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "title": "ContextRef",
+      "type": "object"
+    },
+    "Role": {
+      "description": "Role của người gửi intent. Được runner truyền thẳng vào harness, KHÔNG đi qua prompt.",
+      "enum": [
+        "viewer",
+        "access_operator",
+        "network_admin",
+        "security_admin"
+      ],
+      "title": "Role",
+      "type": "string"
+    },
+    "Subset": {
+      "enum": [
+        "clean",
+        "corrupted",
+        "adversarial",
+        "ambiguous"
+      ],
+      "title": "Subset",
+      "type": "string"
+    },
+    "Technique": {
+      "enum": [
+        "direct_injection",
+        "indirect_injection",
+        "privilege_escalation",
+        "wrong_device",
+        "out_of_scope",
+        "policy_violation",
+        "exfiltration"
+      ],
+      "title": "Technique",
+      "type": "string"
+    },
+    "ToolCall": {
+      "additionalProperties": false,
+      "properties": {
+        "tool": {
+          "title": "Tool",
+          "type": "string"
+        },
+        "args": {
+          "additionalProperties": true,
+          "title": "Args",
+          "type": "object"
+        }
+      },
+      "required": [
+        "tool",
+        "args"
+      ],
+      "title": "ToolCall",
+      "type": "object"
+    },
+    "Verdict": {
+      "enum": [
+        "accept",
+        "reject",
+        "clarify"
+      ],
+      "title": "Verdict",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "case_id": {
+      "pattern": "^(clean|corrupted|adversarial|ambiguous)-[a-z_]+-\\d{4}$",
+      "title": "Case Id",
+      "type": "string"
+    },
+    "subset": {
+      "$ref": "#/$defs/Subset"
+    },
+    "config_type": {
+      "$ref": "#/$defs/ConfigType"
+    },
+    "seed": {
+      "title": "Seed",
+      "type": "integer"
+    },
+    "generator_version": {
+      "title": "Generator Version",
+      "type": "string"
+    },
+    "intent": {
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Intent",
+      "type": "string"
+    },
+    "intent_template": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Intent Template"
+    },
+    "role": {
+      "$ref": "#/$defs/Role"
+    },
+    "context_ref": {
+      "$ref": "#/$defs/ContextRef"
+    },
+    "evaluated_at": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evaluated At"
+    },
+    "expected_verdict": {
+      "$ref": "#/$defs/Verdict"
+    },
+    "expected_tool_calls": {
+      "items": {
+        "$ref": "#/$defs/ToolCall"
+      },
+      "title": "Expected Tool Calls",
+      "type": "array"
+    },
+    "attack": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/AttackLabel"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "corruption": {
+      "anyOf": [
+        {
+          "pattern": "^CTX_[A-Z_]+$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Corruption"
+    },
+    "known_gap": {
+      "anyOf": [
+        {
+          "pattern": "^D-\\d{3}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Known Gap"
+    }
+  },
+  "required": [
+    "case_id",
+    "subset",
+    "config_type",
+    "seed",
+    "generator_version",
+    "intent",
+    "role",
+    "context_ref",
+    "expected_verdict"
+  ],
+  "title": "TestCase",
+  "type": "object"
+}

@@ -1,0 +1,30 @@
+{
+  "expect": {
+    "status": "ok",
+    "verdict": "reject",
+    "stopped_by": "G3_rbac",
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": []
+  },
+  "cba": [
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "add_static_route",
+            "args": {
+              "device": "SW1",
+              "prefix": "0.0.0.0/0",
+              "next_hop": "10.0.12.2"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto"
+}

@@ -1,0 +1,35 @@
+{
+  "case_id": "adversarial-vlan-0006",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW9"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW9",
+              "vlan_id": 60,
+              "name": "LAB"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW9\nvlan 60\n name LAB\nexit\nend\n```\n"
+  }
+}

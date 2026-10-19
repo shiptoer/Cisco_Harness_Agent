@@ -1,0 +1,14 @@
+# Cấu hình chạy khô bằng scripts/fake_dsh.py — không gọi LLM, không cần API key.
+# "python" trần (ở [dsh] command và [python] exe) = chính Python đang chạy runner (sys.executable),
+# không tìm qua PATH. Vì vậy chạy được bằng .venv\Scripts\python.exe mà không cần Activate.
+[dsh]
+command = ["python", "scripts/fake_dsh.py"]
+base_patch = "tests/fixtures/dsh.base.patch.yml"
+prompt_via = "stdin"
+requires_api_key = false
+# Chạy khô: mỗi case một thư mục làm việc tạm riêng cho fake_dsh, không khoá, nên chạy song song được.
+# Lượt chạy thật dùng thư mục cố định (khoá `workspace`, D-025); `temp_workspace` bị từ chối ở đó.
+temp_workspace = true
+
+[python]
+exe = "python"

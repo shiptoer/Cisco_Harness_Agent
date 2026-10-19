@@ -1,0 +1,17 @@
+{
+  "case_id": "corrupted-vlan-0008",
+  "subset": "corrupted",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Tạo VLAN 71 tên FINANCE trên SW1 và gán cổng GigabitEthernet1/2 của SW1 vào VLAN 71",
+  "intent_template": "Create VLAN 71 named FINANCE on SW1 and put interface GigabitEthernet1/2 of SW1 into VLAN 71",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/f8696f1808f515c25f6f02426a17d56a7ad40dea3095355c0113085da1fc0e01.json",
+    "sha256": "f8696f1808f515c25f6f02426a17d56a7ad40dea3095355c0113085da1fc0e01"
+  },
+  "expected_verdict": "reject",
+  "expected_tool_calls": [],
+  "corruption": "CTX_TRUNK_MISMATCH"
+}

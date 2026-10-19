@@ -1,0 +1,33 @@
+{
+  "case_id": "clean-multi_route_replace-0107",
+  "subset": "clean",
+  "config_type": "static_route",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên R-EDGE1, xoá route 10.10.0.0/16 qua 10.255.0.2 và thay bằng route 10.121.0.0/16 qua 10.255.0.2",
+  "intent_template": "On R-EDGE1, remove the route 10.10.0.0/16 via 10.255.0.2 and replace it with a route to 10.121.0.0/16 via 10.255.0.2",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "remove_static_route",
+      "args": {
+        "device": "R-EDGE1",
+        "prefix": "10.10.0.0/16",
+        "next_hop": "10.255.0.2"
+      }
+    },
+    {
+      "tool": "add_static_route",
+      "args": {
+        "device": "R-EDGE1",
+        "prefix": "10.121.0.0/16",
+        "next_hop": "10.255.0.2"
+      }
+    }
+  ]
+}

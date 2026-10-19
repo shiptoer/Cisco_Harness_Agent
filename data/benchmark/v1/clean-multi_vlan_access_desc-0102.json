@@ -1,0 +1,41 @@
+{
+  "case_id": "clean-multi_vlan_access_desc-0102",
+  "subset": "clean",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "On ACC3: create VLAN 97 (WIFI), move Ethernet1/0 into VLAN 97 and set its description to 'Lab PC, temporary'",
+  "intent_template": "On ACC3: create VLAN 97 (WIFI), move Ethernet1/0 into VLAN 97 and set its description to 'Lab PC, temporary'",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "create_vlan",
+      "args": {
+        "device": "ACC3",
+        "vlan_id": 97,
+        "name": "WIFI"
+      }
+    },
+    {
+      "tool": "set_access_vlan",
+      "args": {
+        "device": "ACC3",
+        "interface": "Ethernet1/0",
+        "vlan_id": 97
+      }
+    },
+    {
+      "tool": "set_interface_description",
+      "args": {
+        "device": "ACC3",
+        "interface": "Ethernet1/0",
+        "text": "Lab PC, temporary"
+      }
+    }
+  ]
+}

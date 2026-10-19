@@ -1,0 +1,25 @@
+{
+  "case_id": "clean-remove_static_route-0031",
+  "subset": "clean",
+  "config_type": "static_route",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Xoá static route 0.0.0.0/0 qua 10.0.12.1 trên SW1",
+  "intent_template": "Remove the static route 0.0.0.0/0 via 10.0.12.1 on SW1",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "remove_static_route",
+      "args": {
+        "device": "SW1",
+        "prefix": "0.0.0.0/0",
+        "next_hop": "10.0.12.1"
+      }
+    }
+  ]
+}

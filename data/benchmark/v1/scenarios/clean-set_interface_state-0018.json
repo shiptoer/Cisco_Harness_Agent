@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-set_interface_state-0018",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_state",
+            "args": {
+              "device": "SW1",
+              "interface": "GigabitEthernet1/3",
+              "enabled": true
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\ninterface GigabitEthernet1/3\n no shutdown\nexit\nend\n```\n"
+  }
+}

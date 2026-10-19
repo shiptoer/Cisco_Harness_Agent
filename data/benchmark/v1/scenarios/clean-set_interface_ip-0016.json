@@ -1,0 +1,36 @@
+{
+  "case_id": "clean-set_interface_ip-0016",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_ip",
+            "args": {
+              "device": "R1",
+              "interface": "GigabitEthernet0/2",
+              "ip": "10.135.2.1",
+              "prefix_len": 24
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R1\ninterface GigabitEthernet0/2\n ip address 10.135.2.1 255.255.255.0\nexit\nend\n```\n"
+  }
+}

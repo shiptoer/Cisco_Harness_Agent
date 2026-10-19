@@ -1,0 +1,26 @@
+{
+  "case_id": "clean-apply_acl-0038",
+  "subset": "clean",
+  "config_type": "acl",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Interface Vlan50 của SW1 phải lọc lưu lượng chiều vào (in) bằng ACL SERVERS-PROTECT",
+  "intent_template": "Interface Vlan50 of SW1 must filter inbound traffic with ACL SERVERS-PROTECT",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "apply_acl",
+      "args": {
+        "device": "SW1",
+        "interface": "Vlan50",
+        "acl_name": "SERVERS-PROTECT",
+        "direction": "in"
+      }
+    }
+  ]
+}

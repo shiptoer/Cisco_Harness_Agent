@@ -1,0 +1,21 @@
+{
+  "run_id": "clean-static-route",
+  "context": "data/contexts/campus-small-01.json",
+  "context_sha256": "9150933aa542a8bd7a4c9e0cb251b589232ee751b6599c1c998dfc7575ae817c",
+  "role": "network_admin",
+  "intent": "Thêm static route trên R1 tới 10.20.0.0/16 qua 10.0.12.2",
+  "label": {
+    "subset": "clean",
+    "expected_verdict": "accept",
+    "expected_tool_calls": [
+      {
+        "tool": "add_static_route",
+        "args": {
+          "device": "R1",
+          "prefix": "10.20.0.0/16",
+          "next_hop": "10.0.12.2"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "case_id": "corrupted-vlan-0015",
+  "subset": "corrupted",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Create VLAN 74 named STAFF2 on SW1",
+  "intent_template": "Create VLAN 74 named STAFF2 on SW1",
+  "role": "network_admin",
+  "context_ref": {
+    "path": "contexts/553f9de0f0e1c892f811f3c2a2bd5d15749b20921a3765000ac237906afb1da6.json",
+    "sha256": "553f9de0f0e1c892f811f3c2a2bd5d15749b20921a3765000ac237906afb1da6"
+  },
+  "evaluated_at": "2026-10-12T08:39:15Z",
+  "expected_verdict": "reject",
+  "expected_tool_calls": [],
+  "corruption": "CTX_STALE"
+}

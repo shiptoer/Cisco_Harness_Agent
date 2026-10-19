@@ -1,0 +1,27 @@
+{
+  "case_id": "clean-set_aaa_login-0043",
+  "subset": "clean",
+  "config_type": "aaa",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Đăng nhập VTY của R1 dùng list SSH-LOGIN: chỉ local",
+  "intent_template": "VTY logins on R1 use list SSH-LOGIN: local only",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_aaa_login",
+      "args": {
+        "device": "R1",
+        "list_name": "SSH-LOGIN",
+        "methods": [
+          "local"
+        ]
+      }
+    }
+  ]
+}

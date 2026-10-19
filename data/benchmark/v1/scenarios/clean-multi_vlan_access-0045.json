@@ -1,0 +1,43 @@
+{
+  "case_id": "clean-multi_vlan_access-0045",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW2",
+              "vlan_id": 560,
+              "name": "LAB"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "SW2",
+              "interface": "GigabitEthernet1/0",
+              "vlan_id": 560
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW2\nvlan 560\n name LAB\nexit\ninterface GigabitEthernet1/0\n switchport mode access\n switchport access vlan 560\nexit\nend\n```\n"
+  }
+}

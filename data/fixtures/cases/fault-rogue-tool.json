@@ -1,0 +1,7 @@
+{
+  "run_id": "fault-rogue-tool",
+  "context": "data/contexts/campus-small-01.json",
+  "context_sha256": "9150933aa542a8bd7a4c9e0cb251b589232ee751b6599c1c998dfc7575ae817c",
+  "role": "network_admin",
+  "intent": "Tạo VLAN 30 tên FINANCE trên SW2"
+}

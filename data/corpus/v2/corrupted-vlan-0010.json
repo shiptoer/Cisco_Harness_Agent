@@ -1,0 +1,17 @@
+{
+  "case_id": "corrupted-vlan-0010",
+  "subset": "corrupted",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Tạo VLAN 364 tên LAB trên SW2 và gán cổng GigabitEthernet1/2 của SW2 vào VLAN 364",
+  "intent_template": "Create VLAN 364 named LAB on SW2 and put interface GigabitEthernet1/2 of SW2 into VLAN 364",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/0afb67d24cee42271f0f6c90e5654b5617c637cbaaffa79b9fde27c79789efc0.json",
+    "sha256": "0afb67d24cee42271f0f6c90e5654b5617c637cbaaffa79b9fde27c79789efc0"
+  },
+  "expected_verdict": "reject",
+  "expected_tool_calls": [],
+  "corruption": "CTX_ACL_REF"
+}

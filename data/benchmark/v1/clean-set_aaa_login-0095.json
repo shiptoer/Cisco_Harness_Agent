@@ -1,0 +1,30 @@
+{
+  "case_id": "clean-set_aaa_login-0095",
+  "subset": "clean",
+  "config_type": "aaa",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Cấu hình login authentication list VTY-AUTH trên ACC3 dùng TACACS+, RADIUS rồi local, key tham chiếu tacacs_key",
+  "intent_template": "Configure login authentication list VTY-AUTH on ACC3 using TACACS+, then RADIUS, then local, key reference tacacs_key",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_aaa_login",
+      "args": {
+        "device": "ACC3",
+        "list_name": "VTY-AUTH",
+        "methods": [
+          "group tacacs+",
+          "group radius",
+          "local"
+        ],
+        "tacacs_key_ref": "tacacs_key"
+      }
+    }
+  ]
+}

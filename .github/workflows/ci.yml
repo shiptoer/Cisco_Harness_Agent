@@ -1,0 +1,37 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e ".[dev]"
+      # Ghim tường minh bản ruff mà `[dev]` khai (pyproject.toml): format giữa các bản ruff khác nhau có thể lệch.
+      - run: pip install "ruff==0.16.9" && ruff --version
+      - run: ruff check .
+      - run: ruff format --check src tests scripts
+      # Bộ đầy đủ (kể cả test `slow`), chạy song song bằng pytest-xdist. Cùng tập test với `pytest`.
+      - run: pytest -n auto
+      # Chạy khô bằng fake_dsh (không API key): mức thấp nhất và mức đủ harness. Lệch kỳ vọng fixture → mã thoát 1.
+      - run: python scripts/run_cases.py --config config/fake.toml --level B0
+      - run: python scripts/run_cases.py --config config/fake.toml --level B4
+
+  # Nhóm chạy thật trên Windows (CLAUDE.md §5): bắt sớm lỗi đường dẫn, xuống dòng, mã hoá. Bỏ test `slow`
+  # (sinh subprocess) để job ngắn; bộ đầy đủ chạy ở job `test`.
+  test-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install -e ".[dev]"
+      - run: pytest -m "not slow"

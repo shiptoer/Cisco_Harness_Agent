@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-vlan-0017",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW1",
+              "vlan_id": 883,
+              "name": "GUEST"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\nvlan 883\n name GUEST\nexit\nend\n```\n"
+  }
+}

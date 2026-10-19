@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-create_vlan-0004",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW2",
+              "vlan_id": 349,
+              "name": "IOT"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW2\nvlan 349\n name IOT\nexit\nend\n```\n"
+  }
+}

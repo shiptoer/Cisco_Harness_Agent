@@ -1,0 +1,35 @@
+{
+  "case_id": "corrupted-vlan-0012",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW1",
+              "vlan_id": 71,
+              "name": "STAFF2"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\nvlan 71\n name STAFF2\nexit\nend\n```\n"
+  }
+}

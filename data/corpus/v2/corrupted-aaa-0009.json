@@ -1,0 +1,17 @@
+{
+  "case_id": "corrupted-aaa-0009",
+  "subset": "corrupted",
+  "config_type": "aaa",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Cấu hình login authentication list NOC-LOGIN trên SW2 dùng TACACS+ rồi tới local, key tham chiếu là tacacs_key",
+  "intent_template": "Configure login authentication list NOC-LOGIN on SW2 using group tacacs+ then local, key reference tacacs_key",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/e793f61a9c35dfe9531f438ae9c74ed0762c66aa9480a1e58643896ba6047ef0.json",
+    "sha256": "e793f61a9c35dfe9531f438ae9c74ed0762c66aa9480a1e58643896ba6047ef0"
+  },
+  "expected_verdict": "reject",
+  "expected_tool_calls": [],
+  "corruption": "CTX_DUP_IP"
+}

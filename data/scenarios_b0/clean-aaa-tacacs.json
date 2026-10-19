@@ -1,0 +1,16 @@
+{
+  "expect": {
+    "status": "ok",
+    "verdict": "accept",
+    "stopped_by": null,
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": [
+      "dsh_home"
+    ]
+  },
+  "b0": {
+    "final": "```cisco R1\naaa new-model\n! TACACS+ key: <SECRET:tacacs_key>\naaa authentication login VTY-AUTH group tacacs+ local\nline vty 0 4\n login authentication VTY-AUTH\nexit\nend\n```\n"
+  }
+}

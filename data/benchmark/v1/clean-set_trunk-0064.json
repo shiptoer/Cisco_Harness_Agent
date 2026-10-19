@@ -1,0 +1,29 @@
+{
+  "case_id": "clean-set_trunk-0064",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên ACC2, mở trunk ở Ethernet1/0 mang VLAN 30, 40 (native VLAN 40)",
+  "intent_template": "On ACC2, enable trunking on Ethernet1/0 carrying VLANs 30, 40 (native VLAN 40)",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_trunk",
+      "args": {
+        "device": "ACC2",
+        "interface": "Ethernet1/0",
+        "allowed_vlans": [
+          30,
+          40
+        ],
+        "native_vlan": 40
+      }
+    }
+  ]
+}

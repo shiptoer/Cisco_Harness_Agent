@@ -1,0 +1,39 @@
+{
+  "case_id": "clean-set_trunk-0064",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_trunk",
+            "args": {
+              "device": "ACC2",
+              "interface": "Ethernet1/0",
+              "allowed_vlans": [
+                30,
+                40
+              ],
+              "native_vlan": 40
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC2\ninterface Ethernet1/0\n switchport trunk encapsulation dot1q\n switchport mode trunk\n switchport trunk allowed vlan 30,40\n switchport trunk native vlan 40\nexit\nend\n```\n"
+  }
+}

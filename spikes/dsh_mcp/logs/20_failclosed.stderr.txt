@@ -1,0 +1,17 @@
+The system cannot find the path specified.
+dsh: warning: 1 entry did not activate
+mcp-cisco (@deepseek-ai/dsh-mcp-client): Error: mcp-client(cisco): initial connection or tool synchronization failed
+    at Object.apply [as callback] (file:///D:/FPT/KLTN/Cisco-Harness-Agent/Cisco-Harness-Agent/spikes/dsh_mcp/node_modules/@deepseek-ai/dsh-mcp-client/lib/index.js:832:67)
+    at async Fiber._reload (file:///D:/FPT/KLTN/Cisco-Harness-Agent/cisco-harness-agent/spikes/dsh_mcp/node_modules/@deepseek-ai/cordis/lib/index.js:1356:5)
+SdkError: Connection closed
+    at Client._onclose (file:///D:/FPT/KLTN/Cisco-Harness-Agent/Cisco-Harness-Agent/spikes/dsh_mcp/node_modules/@modelcontextprotocol/client/dist/src-D_zzAWoS.mjs:5780:17)
+    at Client._onclose (file:///D:/FPT/KLTN/Cisco-Harness-Agent/Cisco-Harness-Agent/spikes/dsh_mcp/node_modules/@modelcontextprotocol/client/dist/index.mjs:4056:9)
+    at _transport.onclose (file:///D:/FPT/KLTN/Cisco-Harness-Agent/Cisco-Harness-Agent/spikes/dsh_mcp/node_modules/@modelcontextprotocol/client/dist/src-D_zzAWoS.mjs:5747:10)
+    at ChildProcess.<anonymous> (file:///D:/FPT/KLTN/Cisco-Harness-Agent/Cisco-Harness-Agent/spikes/dsh_mcp/node_modules/@modelcontextprotocol/client/dist/stdio.mjs:91:19)
+    at ChildProcess.emit (node:events:514:28)
+    at cp.emit (D:\FPT\KLTN\Cisco-Harness-Agent\Cisco-Harness-Agent\spikes\dsh_mcp\node_modules\cross-spawn\lib\enoent.js:34:29)
+    at maybeClose (node:internal/child_process:1141:16)
+    at Socket.<anonymous> (node:internal/child_process:498:11)
+    at Socket.emit (node:events:514:28)
+    at Pipe.<anonymous> (node:net:362:12)
+dsh exit=0

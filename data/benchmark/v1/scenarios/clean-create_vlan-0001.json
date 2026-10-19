@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-create_vlan-0001",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW1",
+              "vlan_id": 559,
+              "name": "LAB"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\nvlan 559\n name LAB\nexit\nend\n```\n"
+  }
+}

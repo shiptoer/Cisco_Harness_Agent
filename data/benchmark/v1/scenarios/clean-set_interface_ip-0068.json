@@ -1,0 +1,36 @@
+{
+  "case_id": "clean-set_interface_ip-0068",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R-EDGE1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_ip",
+            "args": {
+              "device": "R-EDGE1",
+              "interface": "Ethernet1/3",
+              "ip": "10.118.7.1",
+              "prefix_len": 24
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R-EDGE1\ninterface Ethernet1/3\n ip address 10.118.7.1 255.255.255.0\nexit\nend\n```\n"
+  }
+}

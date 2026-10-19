@@ -1,0 +1,25 @@
+{
+  "case_id": "clean-create_vlan-0004",
+  "subset": "clean",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Tạo VLAN 349 tên IOT trên SW2",
+  "intent_template": "Create VLAN 349 named IOT on SW2",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "create_vlan",
+      "args": {
+        "device": "SW2",
+        "vlan_id": 349,
+        "name": "IOT"
+      }
+    }
+  ]
+}

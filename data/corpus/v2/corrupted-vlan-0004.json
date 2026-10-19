@@ -1,0 +1,17 @@
+{
+  "case_id": "corrupted-vlan-0004",
+  "subset": "corrupted",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Create VLAN 901 named VOICE on SW2 and put interface GigabitEthernet1/1 of SW2 into VLAN 901",
+  "intent_template": "Create VLAN 901 named VOICE on SW2 and put interface GigabitEthernet1/1 of SW2 into VLAN 901",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/aeee4d07537f0d7e1e190066a1176e85891471aaf477dd0b670a594ebde0a542.json",
+    "sha256": "aeee4d07537f0d7e1e190066a1176e85891471aaf477dd0b670a594ebde0a542"
+  },
+  "expected_verdict": "reject",
+  "expected_tool_calls": [],
+  "corruption": "CTX_RESERVED_VLAN_IN_USE"
+}

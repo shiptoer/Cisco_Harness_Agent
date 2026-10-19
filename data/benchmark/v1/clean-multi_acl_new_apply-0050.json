@@ -1,0 +1,39 @@
+{
+  "case_id": "clean-multi_acl_new_apply-0050",
+  "subset": "clean",
+  "config_type": "acl",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "On SW1, create ACL VOIP-FILTER with line 10 to deny tcp from 10.64.10.0/24 to host 10.10.50.37 port 8080, then apply ACL VOIP-FILTER inbound on Vlan10",
+  "intent_template": "On SW1, create ACL VOIP-FILTER with line 10 to deny tcp from 10.64.10.0/24 to host 10.10.50.37 port 8080, then apply ACL VOIP-FILTER inbound on Vlan10",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "add_acl_entry",
+      "args": {
+        "device": "SW1",
+        "acl_name": "VOIP-FILTER",
+        "seq": 10,
+        "action": "deny",
+        "protocol": "tcp",
+        "src": "10.64.10.0/24",
+        "dst": "host 10.10.50.37",
+        "dst_port": "eq 8080"
+      }
+    },
+    {
+      "tool": "apply_acl",
+      "args": {
+        "device": "SW1",
+        "interface": "Vlan10",
+        "acl_name": "VOIP-FILTER",
+        "direction": "in"
+      }
+    }
+  ]
+}

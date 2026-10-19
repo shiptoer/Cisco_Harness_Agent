@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-interface-0014",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_state",
+            "args": {
+              "device": "SW2",
+              "interface": "GigabitEthernet0/3",
+              "enabled": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW2\ninterface GigabitEthernet0/3\n shutdown\nexit\nend\n```\n"
+  }
+}

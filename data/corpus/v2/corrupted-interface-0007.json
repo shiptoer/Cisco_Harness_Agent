@@ -1,0 +1,17 @@
+{
+  "case_id": "corrupted-interface-0007",
+  "subset": "corrupted",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Đặt description cho SW1 GigabitEthernet0/3 là 'HR-PC-07'",
+  "intent_template": "Set the description of SW1 GigabitEthernet0/3 to 'HR-PC-07'",
+  "role": "access_operator",
+  "context_ref": {
+    "path": "contexts/aeee4d07537f0d7e1e190066a1176e85891471aaf477dd0b670a594ebde0a542.json",
+    "sha256": "aeee4d07537f0d7e1e190066a1176e85891471aaf477dd0b670a594ebde0a542"
+  },
+  "expected_verdict": "reject",
+  "expected_tool_calls": [],
+  "corruption": "CTX_RESERVED_VLAN_IN_USE"
+}

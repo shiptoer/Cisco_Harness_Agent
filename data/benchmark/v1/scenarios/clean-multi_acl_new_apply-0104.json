@@ -1,0 +1,49 @@
+{
+  "case_id": "clean-multi_acl_new_apply-0104",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "CORE1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "add_acl_entry",
+            "args": {
+              "device": "CORE1",
+              "acl_name": "PRINT-ACL",
+              "seq": 10,
+              "action": "deny",
+              "protocol": "tcp",
+              "src": "10.64.30.0/24",
+              "dst": "host 10.10.50.32",
+              "dst_port": "eq 3389"
+            }
+          },
+          {
+            "tool": "apply_acl",
+            "args": {
+              "device": "CORE1",
+              "interface": "Vlan60",
+              "acl_name": "PRINT-ACL",
+              "direction": "out"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco CORE1\nip access-list extended PRINT-ACL\n 10 deny tcp 10.64.30.0 0.0.0.255 host 10.10.50.32 eq 3389\nexit\ninterface Vlan60\n ip access-group PRINT-ACL out\nexit\nend\n```\n"
+  }
+}

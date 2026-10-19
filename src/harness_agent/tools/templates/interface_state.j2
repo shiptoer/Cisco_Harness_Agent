@@ -1,0 +1,6 @@
+interface {{ a.interface }}
+{% if a.enabled %}
+ no shutdown
+{% else %}
+ shutdown
+{% endif %}

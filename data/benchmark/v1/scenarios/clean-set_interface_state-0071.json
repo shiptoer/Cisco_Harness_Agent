@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-set_interface_state-0071",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "ACC-BR1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_state",
+            "args": {
+              "device": "ACC-BR1",
+              "interface": "Ethernet1/2",
+              "enabled": true
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco ACC-BR1\ninterface Ethernet1/2\n no shutdown\nexit\nend\n```\n"
+  }
+}

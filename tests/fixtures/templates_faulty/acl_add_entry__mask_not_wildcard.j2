@@ -1,0 +1,4 @@
+{# src/dst: "any" | "host A.B.C.D" giữ nguyên; "A.B.C.D/len" -> "A.B.C.D <wildcard>" #}
+{% macro endpoint(ep) %}{% if ep == "any" or ep.startswith("host ") %}{{ ep }}{% else %}{{ ep.split("/")[0] }} {{ netmask(ep.split('/')[1] | int) }}{% endif %}{% endmacro %}
+ip access-list extended {{ a.acl_name }}
+ {{ a.seq }} {{ a.action.value }} {{ a.protocol.value }} {{ endpoint(a.src) }} {{ endpoint(a.dst) }}{% if a.dst_port %} {{ a.dst_port }}{% endif %}

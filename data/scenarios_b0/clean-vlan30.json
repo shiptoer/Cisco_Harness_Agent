@@ -1,0 +1,16 @@
+{
+  "expect": {
+    "status": "ok",
+    "verdict": "accept",
+    "stopped_by": null,
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": [
+      "dsh_home"
+    ]
+  },
+  "b0": {
+    "final": "```cisco SW2\nvlan 30\n name FINANCE\nexit\ninterface GigabitEthernet1/1\n switchport mode access\n switchport access vlan 30\nexit\nend\n```\n"
+  }
+}

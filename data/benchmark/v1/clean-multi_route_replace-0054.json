@@ -1,0 +1,33 @@
+{
+  "case_id": "clean-multi_route_replace-0054",
+  "subset": "clean",
+  "config_type": "static_route",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên R1, xoá route 10.10.0.0/16 qua 10.0.12.2 và thay bằng route 10.184.0.0/16 qua 10.0.12.2",
+  "intent_template": "On R1, remove the route 10.10.0.0/16 via 10.0.12.2 and replace it with a route to 10.184.0.0/16 via 10.0.12.2",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "remove_static_route",
+      "args": {
+        "device": "R1",
+        "prefix": "10.10.0.0/16",
+        "next_hop": "10.0.12.2"
+      }
+    },
+    {
+      "tool": "add_static_route",
+      "args": {
+        "device": "R1",
+        "prefix": "10.184.0.0/16",
+        "next_hop": "10.0.12.2"
+      }
+    }
+  ]
+}

@@ -1,0 +1,43 @@
+{
+  "case_id": "corrupted-vlan-0008",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW1",
+              "vlan_id": 71,
+              "name": "FINANCE"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "SW1",
+              "interface": "GigabitEthernet1/2",
+              "vlan_id": 71
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\nvlan 71\n name FINANCE\nexit\ninterface GigabitEthernet1/2\n switchport mode access\n switchport access vlan 71\nexit\nend\n```\n"
+  }
+}

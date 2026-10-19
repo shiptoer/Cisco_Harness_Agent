@@ -1,0 +1,40 @@
+{
+  "case_id": "clean-aaa-0002",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_aaa_login",
+            "args": {
+              "device": "R1",
+              "list_name": "ADMIN-LOGIN",
+              "methods": [
+                "group tacacs+",
+                "group radius",
+                "local"
+              ],
+              "tacacs_key_ref": "tacacs_key"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R1\naaa new-model\n! TACACS+ key: <SECRET:tacacs_key>\naaa authentication login ADMIN-LOGIN group tacacs+ group radius local\nline vty 0 4\n login authentication ADMIN-LOGIN\nexit\nend\n```\n"
+  }
+}

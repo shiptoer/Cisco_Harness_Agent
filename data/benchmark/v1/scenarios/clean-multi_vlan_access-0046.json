@@ -1,0 +1,43 @@
+{
+  "case_id": "clean-multi_vlan_access-0046",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW1",
+              "vlan_id": 324,
+              "name": "LAB"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "SW1",
+              "interface": "GigabitEthernet1/3",
+              "vlan_id": 324
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\nvlan 324\n name LAB\nexit\ninterface GigabitEthernet1/3\n switchport mode access\n switchport access vlan 324\nexit\nend\n```\n"
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "case_id": "clean-multi_vlan_access_desc-0047",
+  "subset": "clean",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên SW2: tạo VLAN 68 (VOICE), chuyển GigabitEthernet0/3 vào VLAN 68 và đặt description 'Meeting room B'",
+  "intent_template": "On SW2: create VLAN 68 (VOICE), move GigabitEthernet0/3 into VLAN 68 and set its description to 'Meeting room B'",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "create_vlan",
+      "args": {
+        "device": "SW2",
+        "vlan_id": 68,
+        "name": "VOICE"
+      }
+    },
+    {
+      "tool": "set_access_vlan",
+      "args": {
+        "device": "SW2",
+        "interface": "GigabitEthernet0/3",
+        "vlan_id": 68
+      }
+    },
+    {
+      "tool": "set_interface_description",
+      "args": {
+        "device": "SW2",
+        "interface": "GigabitEthernet0/3",
+        "text": "Meeting room B"
+      }
+    }
+  ]
+}

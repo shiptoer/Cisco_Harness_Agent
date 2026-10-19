@@ -1,0 +1,37 @@
+{
+  "case_id": "clean-set_aaa_login-0043",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_aaa_login",
+            "args": {
+              "device": "R1",
+              "list_name": "SSH-LOGIN",
+              "methods": [
+                "local"
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R1\naaa new-model\naaa authentication login SSH-LOGIN local\nline vty 0 4\n login authentication SSH-LOGIN\nexit\nend\n```\n"
+  }
+}

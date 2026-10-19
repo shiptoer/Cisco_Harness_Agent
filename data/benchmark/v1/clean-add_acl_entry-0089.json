@@ -1,0 +1,30 @@
+{
+  "case_id": "clean-add_acl_entry-0089",
+  "subset": "clean",
+  "config_type": "acl",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "ACL ACL-MGMT-VTY of ACC3: line 300 should permit tcp 10.17.10.0/24 -> host 10.10.50.59, destination port 443",
+  "intent_template": "ACL ACL-MGMT-VTY of ACC3: line 300 should permit tcp 10.17.10.0/24 -> host 10.10.50.59, destination port 443",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "add_acl_entry",
+      "args": {
+        "device": "ACC3",
+        "acl_name": "ACL-MGMT-VTY",
+        "seq": 300,
+        "action": "permit",
+        "protocol": "tcp",
+        "src": "10.17.10.0/24",
+        "dst": "host 10.10.50.59",
+        "dst_port": "eq 443"
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "case_id": "clean-acl-0015",
+  "subset": "clean",
+  "config_type": "acl",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Add line 60 to ACL EDGE-IN on R1: permit tcp from 10.81.20.0/24 to host 10.10.50.28 port 8080",
+  "intent_template": "Add line 60 to ACL EDGE-IN on R1: permit tcp from 10.81.20.0/24 to host 10.10.50.28 port 8080",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "add_acl_entry",
+      "args": {
+        "device": "R1",
+        "acl_name": "EDGE-IN",
+        "seq": 60,
+        "action": "permit",
+        "protocol": "tcp",
+        "src": "10.81.20.0/24",
+        "dst": "host 10.10.50.28",
+        "dst_port": "eq 8080"
+      }
+    }
+  ]
+}

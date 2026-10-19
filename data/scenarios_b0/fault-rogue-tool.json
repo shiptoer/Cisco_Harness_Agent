@@ -1,0 +1,24 @@
+{
+  "expect": {
+    "status": "error",
+    "verdict": null,
+    "stopped_by": null,
+    "error_code": "RUNTIME_TOOL_VIOLATION",
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": [
+      "dsh_home"
+    ]
+  },
+  "b0": {
+    "final": "```cisco SW2\nvlan 30\n name FINANCE\nend\n```\n",
+    "tool_calls": [
+      {
+        "tool": "bash",
+        "args": {
+          "command": "type data\\contexts\\campus-small-01.json"
+        }
+      }
+    ]
+  }
+}

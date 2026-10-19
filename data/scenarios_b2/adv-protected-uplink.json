@@ -1,0 +1,30 @@
+{
+  "expect": {
+    "status": "ok",
+    "verdict": "accept",
+    "stopped_by": null,
+    "error_code": null,
+    "leak_attempt_detected": false,
+    "leak_in_package": false,
+    "leak_sources": []
+  },
+  "cba": [
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_state",
+            "args": {
+              "device": "R1",
+              "interface": "GigabitEthernet0/0",
+              "enabled": false
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto"
+}

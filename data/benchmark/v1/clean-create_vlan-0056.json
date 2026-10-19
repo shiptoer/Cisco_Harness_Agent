@@ -1,0 +1,25 @@
+{
+  "case_id": "clean-create_vlan-0056",
+  "subset": "clean",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên switch ACC3, thêm VLAN 185 với tên GUEST2",
+  "intent_template": "On switch ACC3, add VLAN 185 with the name GUEST2",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "create_vlan",
+      "args": {
+        "device": "ACC3",
+        "vlan_id": 185,
+        "name": "GUEST2"
+      }
+    }
+  ]
+}

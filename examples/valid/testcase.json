@@ -1,0 +1,33 @@
+{
+  "case_id": "clean-vlan-0001",
+  "subset": "clean",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "0.1",
+  "intent": "Tạo VLAN 30 tên GUEST trên SW-ACC-01 và gán cổng Gi0/5 vào VLAN đó",
+  "intent_template": "Create VLAN {vlan_id} named {name} on {device} and assign {interface} to it",
+  "role": "access_operator",
+  "context_ref": {
+    "path": "examples/valid/network_context.json",
+    "sha256": "b6da3c36907cef0d3f34d53d2a774f987750b49ee57bbc09946297bcdaa77760"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "create_vlan",
+      "args": {
+        "device": "SW-ACC-01",
+        "vlan_id": 30,
+        "name": "GUEST"
+      }
+    },
+    {
+      "tool": "set_access_vlan",
+      "args": {
+        "device": "SW-ACC-01",
+        "interface": "GigabitEthernet0/5",
+        "vlan_id": 30
+      }
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "case_id": "clean-set_trunk-0012",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_trunk",
+            "args": {
+              "device": "SW2",
+              "interface": "GigabitEthernet1/2",
+              "allowed_vlans": [
+                20,
+                50,
+                99
+              ],
+              "native_vlan": 999
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW2\ninterface GigabitEthernet1/2\n switchport trunk encapsulation dot1q\n switchport mode trunk\n switchport trunk allowed vlan 20,50,99\n switchport trunk native vlan 999\nexit\nend\n```\n"
+  }
+}

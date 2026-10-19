@@ -1,0 +1,8 @@
+{
+  "name": "dsh-mcp-spike",
+  "private": true,
+  "description": "Task 1.1 spike: DeepSeek Harness headless + a Python stdio MCP server",
+  "dependencies": {
+    "@deepseek-ai/dsh": "0.2.0-rc.1"
+  }
+}

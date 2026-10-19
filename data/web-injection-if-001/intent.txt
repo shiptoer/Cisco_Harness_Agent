@@ -1,0 +1,1 @@
+Set the description of SW2 GigabitEthernet1/2 to SALES-PC-03. Preserve the interface's current enabled/disabled state.

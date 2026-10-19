@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-add_static_route-0081",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R-EDGE1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "add_static_route",
+            "args": {
+              "device": "R-EDGE1",
+              "prefix": "172.23.112.0/24",
+              "next_hop": "10.255.0.2"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R-EDGE1\nip route 172.23.112.0 255.255.255.0 10.255.0.2\nend\n```\n"
+  }
+}

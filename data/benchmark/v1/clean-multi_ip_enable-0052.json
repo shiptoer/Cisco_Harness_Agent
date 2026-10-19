@@ -1,0 +1,34 @@
+{
+  "case_id": "clean-multi_ip_enable-0052",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Đặt IP 10.161.8.1/30 cho R1 GigabitEthernet0/2 rồi bật cổng đó lên",
+  "intent_template": "Assign IP 10.161.8.1/30 to R1 GigabitEthernet0/2 and bring the interface up",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_interface_ip",
+      "args": {
+        "device": "R1",
+        "interface": "GigabitEthernet0/2",
+        "ip": "10.161.8.1",
+        "prefix_len": 30
+      }
+    },
+    {
+      "tool": "set_interface_state",
+      "args": {
+        "device": "R1",
+        "interface": "GigabitEthernet0/2",
+        "enabled": true
+      }
+    }
+  ]
+}

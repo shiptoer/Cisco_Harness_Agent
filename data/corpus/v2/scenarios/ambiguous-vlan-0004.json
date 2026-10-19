@@ -1,0 +1,20 @@
+{
+  "case_id": "ambiguous-vlan-0004",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "needs_clarification",
+        "clarification_question": "Tạo VLAN trên thiết bị nào?"
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```clarify\nTạo VLAN trên thiết bị nào?\n```\n"
+  }
+}

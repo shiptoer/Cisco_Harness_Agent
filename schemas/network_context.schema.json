@@ -1,0 +1,711 @@
+{
+  "$defs": {
+    "Aaa": {
+      "additionalProperties": false,
+      "properties": {
+        "new_model": {
+          "title": "New Model",
+          "type": "boolean"
+        },
+        "login_lists": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]{1,32}$": {
+              "items": {
+                "$ref": "#/$defs/AuthMethod"
+              },
+              "type": "array"
+            }
+          },
+          "title": "Login Lists",
+          "type": "object"
+        },
+        "vty_login_list": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9_-]{1,32}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Vty Login List"
+        },
+        "local_users": {
+          "items": {
+            "$ref": "#/$defs/AaaLocalUser"
+          },
+          "title": "Local Users",
+          "type": "array"
+        },
+        "tacacs_servers": {
+          "items": {
+            "$ref": "#/$defs/TacacsServer"
+          },
+          "title": "Tacacs Servers",
+          "type": "array"
+        }
+      },
+      "required": [
+        "new_model"
+      ],
+      "title": "Aaa",
+      "type": "object"
+    },
+    "AaaLocalUser": {
+      "additionalProperties": false,
+      "description": "Có mặt trong context để kiểm tra control (ii): projection KHÔNG BAO GIỜ được lộ trường này.",
+      "properties": {
+        "username": {
+          "pattern": "^[A-Za-z0-9_.-]{1,32}$",
+          "title": "Username",
+          "type": "string"
+        },
+        "privilege": {
+          "maximum": 15,
+          "minimum": 0,
+          "title": "Privilege",
+          "type": "integer"
+        },
+        "secret_ref": {
+          "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+          "title": "Secret Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "username",
+        "privilege",
+        "secret_ref"
+      ],
+      "title": "AaaLocalUser",
+      "type": "object"
+    },
+    "AclAction": {
+      "enum": [
+        "permit",
+        "deny"
+      ],
+      "title": "AclAction",
+      "type": "string"
+    },
+    "AclEntry": {
+      "additionalProperties": false,
+      "properties": {
+        "seq": {
+          "maximum": 2147483647,
+          "minimum": 1,
+          "title": "Seq",
+          "type": "integer"
+        },
+        "action": {
+          "$ref": "#/$defs/AclAction"
+        },
+        "protocol": {
+          "$ref": "#/$defs/AclProtocol"
+        },
+        "src": {
+          "pattern": "^(any|host \\d{1,3}(\\.\\d{1,3}){3}|\\d{1,3}(\\.\\d{1,3}){3} \\d{1,3}(\\.\\d{1,3}){3})$",
+          "title": "Src",
+          "type": "string"
+        },
+        "dst": {
+          "pattern": "^(any|host \\d{1,3}(\\.\\d{1,3}){3}|\\d{1,3}(\\.\\d{1,3}){3} \\d{1,3}(\\.\\d{1,3}){3})$",
+          "title": "Dst",
+          "type": "string"
+        },
+        "dst_port": {
+          "anyOf": [
+            {
+              "maximum": 65535,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Dst Port"
+        },
+        "remark": {
+          "anyOf": [
+            {
+              "pattern": "^[^\\x00-\\x1f\\x7f-\\x9f\\u2028\\u2029]{0,240}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remark"
+        }
+      },
+      "required": [
+        "seq",
+        "action",
+        "protocol",
+        "src",
+        "dst"
+      ],
+      "title": "AclEntry",
+      "type": "object"
+    },
+    "AclProtocol": {
+      "enum": [
+        "ip",
+        "tcp",
+        "udp",
+        "icmp"
+      ],
+      "title": "AclProtocol",
+      "type": "string"
+    },
+    "AuthMethod": {
+      "enum": [
+        "group tacacs+",
+        "group radius",
+        "local"
+      ],
+      "title": "AuthMethod",
+      "type": "string"
+    },
+    "ContextSource": {
+      "enum": [
+        "synthetic",
+        "collector"
+      ],
+      "title": "ContextSource",
+      "type": "string"
+    },
+    "Device": {
+      "additionalProperties": false,
+      "properties": {
+        "hostname": {
+          "pattern": "^[A-Za-z][A-Za-z0-9-]{0,62}$",
+          "title": "Hostname",
+          "type": "string"
+        },
+        "platform": {
+          "$ref": "#/$defs/Platform"
+        },
+        "role": {
+          "$ref": "#/$defs/DeviceRole"
+        },
+        "site": {
+          "pattern": "^[A-Za-z0-9_-]{1,32}$",
+          "title": "Site",
+          "type": "string"
+        },
+        "ip_routing": {
+          "title": "Ip Routing",
+          "type": "boolean"
+        },
+        "default_gateway": {
+          "anyOf": [
+            {
+              "format": "ipv4",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Default Gateway"
+        },
+        "interfaces": {
+          "items": {
+            "$ref": "#/$defs/Interface"
+          },
+          "title": "Interfaces",
+          "type": "array"
+        },
+        "vlans": {
+          "items": {
+            "$ref": "#/$defs/Vlan"
+          },
+          "title": "Vlans",
+          "type": "array"
+        },
+        "static_routes": {
+          "items": {
+            "$ref": "#/$defs/StaticRoute"
+          },
+          "title": "Static Routes",
+          "type": "array"
+        },
+        "acls": {
+          "patternProperties": {
+            "^[A-Za-z0-9_-]{1,32}$": {
+              "items": {
+                "$ref": "#/$defs/AclEntry"
+              },
+              "type": "array"
+            }
+          },
+          "title": "Acls",
+          "type": "object"
+        },
+        "aaa": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Aaa"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "banner_motd": {
+          "default": "",
+          "pattern": "^[^\\x00-\\x1f\\x7f-\\x9f\\u2028\\u2029]{0,240}$",
+          "title": "Banner Motd",
+          "type": "string"
+        },
+        "secrets": {
+          "patternProperties": {
+            "^[A-Za-z0-9_.-]{1,64}$": {
+              "format": "password",
+              "minLength": 1,
+              "type": "string",
+              "writeOnly": true
+            }
+          },
+          "title": "Secrets",
+          "type": "object"
+        }
+      },
+      "required": [
+        "hostname",
+        "platform",
+        "role",
+        "site",
+        "ip_routing"
+      ],
+      "title": "Device",
+      "type": "object"
+    },
+    "DeviceRole": {
+      "description": "Vai trò thiết bị: đúng các giá trị của file context thật (D-042; nhóm chốt ngày 08/10/2026).",
+      "enum": [
+        "router",
+        "distribution_switch",
+        "access_switch"
+      ],
+      "title": "DeviceRole",
+      "type": "string"
+    },
+    "Interface": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "pattern": "^(GigabitEthernet|FastEthernet|Ethernet|Loopback|Vlan)\\d+(/\\d+){0,2}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "mode": {
+          "$ref": "#/$defs/InterfaceMode"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "access_vlan": {
+          "anyOf": [
+            {
+              "maximum": 4094,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Access Vlan"
+        },
+        "trunk_allowed": {
+          "anyOf": [
+            {
+              "items": {
+                "maximum": 4094,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Trunk Allowed"
+        },
+        "native_vlan": {
+          "anyOf": [
+            {
+              "maximum": 4094,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Native Vlan"
+        },
+        "ipv4": {
+          "anyOf": [
+            {
+              "format": "ipv4interface",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ipv4"
+        },
+        "acl_in": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9_-]{1,32}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Acl In"
+        },
+        "acl_out": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9_-]{1,32}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Acl Out"
+        },
+        "description": {
+          "default": "",
+          "pattern": "^[^\\x00-\\x1f\\x7f-\\x9f\\u2028\\u2029]{0,240}$",
+          "title": "Description",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "mode"
+      ],
+      "title": "Interface",
+      "type": "object"
+    },
+    "InterfaceMode": {
+      "enum": [
+        "access",
+        "trunk",
+        "routed",
+        "unused"
+      ],
+      "title": "InterfaceMode",
+      "type": "string"
+    },
+    "Link": {
+      "additionalProperties": false,
+      "properties": {
+        "a_device": {
+          "pattern": "^[A-Za-z][A-Za-z0-9-]{0,62}$",
+          "title": "A Device",
+          "type": "string"
+        },
+        "a_interface": {
+          "pattern": "^(GigabitEthernet|FastEthernet|Ethernet|Loopback|Vlan)\\d+(/\\d+){0,2}$",
+          "title": "A Interface",
+          "type": "string"
+        },
+        "b_device": {
+          "pattern": "^[A-Za-z][A-Za-z0-9-]{0,62}$",
+          "title": "B Device",
+          "type": "string"
+        },
+        "b_interface": {
+          "pattern": "^(GigabitEthernet|FastEthernet|Ethernet|Loopback|Vlan)\\d+(/\\d+){0,2}$",
+          "title": "B Interface",
+          "type": "string"
+        }
+      },
+      "required": [
+        "a_device",
+        "a_interface",
+        "b_device",
+        "b_interface"
+      ],
+      "title": "Link",
+      "type": "object"
+    },
+    "Platform": {
+      "enum": [
+        "ios",
+        "iosv",
+        "iosvl2"
+      ],
+      "title": "Platform",
+      "type": "string"
+    },
+    "Policy": {
+      "additionalProperties": false,
+      "description": "Policy tổ chức đi kèm context. Gate (iii) đọc các giới hạn này.",
+      "properties": {
+        "reserved_vlans": {
+          "items": {
+            "maximum": 4094,
+            "minimum": 1,
+            "type": "integer"
+          },
+          "title": "Reserved Vlans",
+          "type": "array"
+        },
+        "parking_vlan": {
+          "anyOf": [
+            {
+              "maximum": 4094,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parking Vlan"
+        },
+        "protected_interfaces": {
+          "patternProperties": {
+            "^[A-Za-z][A-Za-z0-9-]{0,62}$": {
+              "items": {
+                "pattern": "^(GigabitEthernet|FastEthernet|Ethernet|Loopback|Vlan)\\d+(/\\d+){0,2}$",
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "title": "Protected Interfaces",
+          "type": "object"
+        },
+        "mgmt_prefix": {
+          "anyOf": [
+            {
+              "format": "ipv4network",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mgmt Prefix"
+        },
+        "max_devices_per_change": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Max Devices Per Change",
+          "type": "integer"
+        },
+        "max_interfaces_per_change": {
+          "default": 4,
+          "minimum": 1,
+          "title": "Max Interfaces Per Change",
+          "type": "integer"
+        }
+      },
+      "title": "Policy",
+      "type": "object"
+    },
+    "Provenance": {
+      "additionalProperties": false,
+      "description": "Nguồn gốc của context, cho freshness binding (D-047 (a), D-054). Context không có khối này được coi\nlà synthetic: không kiểm TTL.\n\n- `collector`: bắt buộc có `collected_at` (có múi giờ) và `ttl_seconds`.\n- `synthetic`: cả hai phải để trống; context viết tay không có thời điểm thu thập để so.\n\"now\" để so với `collected_at` KHÔNG nằm ở đây: nó là `evaluated_at` của case, runner nhận qua tham số.",
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/ContextSource"
+        },
+        "collected_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Collected At"
+        },
+        "ttl_seconds": {
+          "anyOf": [
+            {
+              "maximum": 31536000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ttl Seconds"
+        }
+      },
+      "required": [
+        "source"
+      ],
+      "title": "Provenance",
+      "type": "object"
+    },
+    "StaticRoute": {
+      "additionalProperties": false,
+      "properties": {
+        "prefix": {
+          "format": "ipv4network",
+          "title": "Prefix",
+          "type": "string"
+        },
+        "next_hop": {
+          "format": "ipv4",
+          "title": "Next Hop",
+          "type": "string"
+        }
+      },
+      "required": [
+        "prefix",
+        "next_hop"
+      ],
+      "title": "StaticRoute",
+      "type": "object"
+    },
+    "TacacsServer": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "pattern": "^[A-Za-z0-9_-]{1,32}$",
+          "title": "Name",
+          "type": "string"
+        },
+        "address": {
+          "format": "ipv4",
+          "title": "Address",
+          "type": "string"
+        },
+        "key_ref": {
+          "pattern": "^[A-Za-z0-9_.-]{1,64}$",
+          "title": "Key Ref",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "address",
+        "key_ref"
+      ],
+      "title": "TacacsServer",
+      "type": "object"
+    },
+    "Vlan": {
+      "additionalProperties": false,
+      "properties": {
+        "vlan_id": {
+          "maximum": 4094,
+          "minimum": 1,
+          "title": "Vlan Id",
+          "type": "integer"
+        },
+        "name": {
+          "pattern": "^[A-Za-z0-9_-]{1,32}$",
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "vlan_id",
+        "name"
+      ],
+      "title": "Vlan",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "const": "1.0",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "context_id": {
+      "pattern": "^[a-z0-9][a-z0-9-]{0,63}$",
+      "title": "Context Id",
+      "type": "string"
+    },
+    "provenance": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/Provenance"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "domain_name": {
+      "anyOf": [
+        {
+          "pattern": "^[A-Za-z0-9-]{1,63}(\\.[A-Za-z0-9-]{1,63}){0,8}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Domain Name"
+    },
+    "devices": {
+      "items": {
+        "$ref": "#/$defs/Device"
+      },
+      "minItems": 1,
+      "title": "Devices",
+      "type": "array"
+    },
+    "links": {
+      "items": {
+        "$ref": "#/$defs/Link"
+      },
+      "title": "Links",
+      "type": "array"
+    },
+    "policy": {
+      "$ref": "#/$defs/Policy"
+    }
+  },
+  "required": [
+    "schema_version",
+    "context_id",
+    "devices"
+  ],
+  "title": "NetworkContext",
+  "type": "object"
+}

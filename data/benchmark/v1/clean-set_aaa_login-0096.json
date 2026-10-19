@@ -1,0 +1,29 @@
+{
+  "case_id": "clean-set_aaa_login-0096",
+  "subset": "clean",
+  "config_type": "aaa",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên ACC-BR1, method list đăng nhập ADMIN-LOGIN xác thực bằng TACACS+ rồi local, key tham chiếu tacacs_key",
+  "intent_template": "On ACC-BR1, the login method list ADMIN-LOGIN should authenticate with TACACS+ then local, key reference tacacs_key",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_aaa_login",
+      "args": {
+        "device": "ACC-BR1",
+        "list_name": "ADMIN-LOGIN",
+        "methods": [
+          "group tacacs+",
+          "local"
+        ],
+        "tacacs_key_ref": "tacacs_key"
+      }
+    }
+  ]
+}

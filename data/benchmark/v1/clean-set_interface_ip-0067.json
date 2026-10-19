@@ -1,0 +1,26 @@
+{
+  "case_id": "clean-set_interface_ip-0067",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Cấu hình địa chỉ 10.192.12.1 mask 255.255.255.0 trên cổng Ethernet1/0 của R-EDGE1",
+  "intent_template": "Configure address 10.192.12.1 mask 255.255.255.0 on interface Ethernet1/0 of R-EDGE1",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_interface_ip",
+      "args": {
+        "device": "R-EDGE1",
+        "interface": "Ethernet1/0",
+        "ip": "10.192.12.1",
+        "prefix_len": 24
+      }
+    }
+  ]
+}

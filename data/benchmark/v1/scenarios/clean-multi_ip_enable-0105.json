@@ -1,0 +1,44 @@
+{
+  "case_id": "clean-multi_ip_enable-0105",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R-EDGE1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_interface_ip",
+            "args": {
+              "device": "R-EDGE1",
+              "interface": "Ethernet1/0",
+              "ip": "10.184.0.1",
+              "prefix_len": 24
+            }
+          },
+          {
+            "tool": "set_interface_state",
+            "args": {
+              "device": "R-EDGE1",
+              "interface": "Ethernet1/0",
+              "enabled": true
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R-EDGE1\ninterface Ethernet1/0\n ip address 10.184.0.1 255.255.255.0\nexit\ninterface Ethernet1/0\n no shutdown\nexit\nend\n```\n"
+  }
+}

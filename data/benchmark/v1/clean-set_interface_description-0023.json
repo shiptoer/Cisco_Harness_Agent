@@ -1,0 +1,25 @@
+{
+  "case_id": "clean-set_interface_description-0023",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "On SW1, the description of interface GigabitEthernet1/1 should read 'Printer floor 2'",
+  "intent_template": "On SW1, the description of interface GigabitEthernet1/1 should read 'Printer floor 2'",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_interface_description",
+      "args": {
+        "device": "SW1",
+        "interface": "GigabitEthernet1/1",
+        "text": "Printer floor 2"
+      }
+    }
+  ]
+}

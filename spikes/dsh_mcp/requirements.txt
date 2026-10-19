@@ -1,0 +1,6 @@
+mcp==2.2.0
+zstandard==0.25.0
+pytest==9.1.1
+ruff==0.16.9
+# cisco_server.py also imports harness_agent: from the repo root run
+#   spikes/dsh_mcp/.venv/Scripts/python.exe -m pip install -e .

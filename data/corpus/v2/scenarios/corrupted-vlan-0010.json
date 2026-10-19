@@ -1,0 +1,43 @@
+{
+  "case_id": "corrupted-vlan-0010",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW2",
+              "vlan_id": 364,
+              "name": "LAB"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "SW2",
+              "interface": "GigabitEthernet1/2",
+              "vlan_id": 364
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW2\nvlan 364\n name LAB\nexit\ninterface GigabitEthernet1/2\n switchport mode access\n switchport access vlan 364\nexit\nend\n```\n"
+  }
+}

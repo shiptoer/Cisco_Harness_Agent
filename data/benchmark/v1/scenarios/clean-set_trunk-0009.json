@@ -1,0 +1,40 @@
+{
+  "case_id": "clean-set_trunk-0009",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "set_trunk",
+            "args": {
+              "device": "SW1",
+              "interface": "GigabitEthernet1/1",
+              "allowed_vlans": [
+                10,
+                20,
+                50
+              ],
+              "native_vlan": 999
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW1\ninterface GigabitEthernet1/1\n switchport trunk encapsulation dot1q\n switchport mode trunk\n switchport trunk allowed vlan 10,20,50\n switchport trunk native vlan 999\nexit\nend\n```\n"
+  }
+}

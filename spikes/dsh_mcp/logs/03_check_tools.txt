@@ -1,0 +1,39 @@
+## check_tools.py config logs/00_config_default.txt
+expected (from hello_server.py): ['mcp__hello__echo']
+seen by agent:  ['row:mcp-resources [@deepseek-ai/dsh-mcp-resources]', 'row:plan-mode [@deepseek-ai/dsh-plan-mode]', "row:tool-bash [@deepseek-ai/dsh-tool-bash] (disabled: !!js process.platform === 'win32')", 'row:tool-fs [@deepseek-ai/dsh-tool-fs]', 'row:tool-fs-search [@deepseek-ai/dsh-tool-fs-search]', 'row:tool-goal [@deepseek-ai/dsh-tool-goal]', 'row:tool-jobs [@deepseek-ai/dsh-tool-jobs]', "row:tool-pwsh [@deepseek-ai/dsh-tool-pwsh] (disabled: !!js process.platform !== 'win32')", 'row:tool-skill [@deepseek-ai/dsh-tool-skill]', 'row:tool-subagent [@deepseek-ai/dsh-tool-subagent]', 'row:tool-subagent-control [@deepseek-ai/dsh-tool-subagent-control]', 'row:tool-subagent-fork [@deepseek-ai/dsh-tool-subagent]', 'row:tool-subagent-list-agents [@deepseek-ai/dsh-tool-subagent-control/list-agents]', 'row:tool-todo [@deepseek-ai/dsh-tool-todo]', 'row:tool-web [@deepseek-ai/dsh-tool-web]', 'row:tool-workflow [@deepseek-ai/dsh-tool-workflow]']
+EXTRA: row:mcp-resources [@deepseek-ai/dsh-mcp-resources]
+EXTRA: row:plan-mode [@deepseek-ai/dsh-plan-mode]
+EXTRA: row:tool-bash [@deepseek-ai/dsh-tool-bash] (disabled: !!js process.platform === 'win32')
+EXTRA: row:tool-fs [@deepseek-ai/dsh-tool-fs]
+EXTRA: row:tool-fs-search [@deepseek-ai/dsh-tool-fs-search]
+EXTRA: row:tool-goal [@deepseek-ai/dsh-tool-goal]
+EXTRA: row:tool-jobs [@deepseek-ai/dsh-tool-jobs]
+EXTRA: row:tool-pwsh [@deepseek-ai/dsh-tool-pwsh] (disabled: !!js process.platform !== 'win32')
+EXTRA: row:tool-skill [@deepseek-ai/dsh-tool-skill]
+EXTRA: row:tool-subagent [@deepseek-ai/dsh-tool-subagent]
+EXTRA: row:tool-subagent-control [@deepseek-ai/dsh-tool-subagent-control]
+EXTRA: row:tool-subagent-fork [@deepseek-ai/dsh-tool-subagent]
+EXTRA: row:tool-subagent-list-agents [@deepseek-ai/dsh-tool-subagent-control/list-agents]
+EXTRA: row:tool-todo [@deepseek-ai/dsh-tool-todo]
+EXTRA: row:tool-web [@deepseek-ai/dsh-tool-web]
+EXTRA: row:tool-workflow [@deepseek-ai/dsh-tool-workflow]
+MISSING: mcp__hello__*
+RESULT: FAIL
+exit=1
+
+## check_tools.py config logs/01b_config_patched_v2.txt
+expected (from hello_server.py): ['mcp__hello__echo']
+seen by agent:  ['mcp__hello__*']
+RESULT: PASS
+exit=0
+
+## check_tools.py ndjson logs/02_echo.ndjson
+expected (from hello_server.py): ['mcp__hello__echo']
+ndjson session: session-164e3d1d-f108-413e-a640-adfc659aebf0
+session log: D:\FPT\KLTN\Cisco-Harness-Agent\cisco-harness-agent\spikes\dsh_mcp\.dsh_home\sessions\--D-FPT-KLTN-Cisco-Harness-Agent-Cisco-Harness-Agent-spikes-dsh_mcp--\session-164e3d1d-f108-413e-a640-adfc659aebf0\session.v4.jsonl.zstd
+request/header events: 1
+seen by agent:  ['mcp__hello__echo']
+tool_call events: ['mcp__hello__echo']
+RESULT: PASS
+exit=0
+

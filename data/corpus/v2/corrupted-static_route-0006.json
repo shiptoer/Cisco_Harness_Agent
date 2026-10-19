@@ -1,0 +1,17 @@
+{
+  "case_id": "corrupted-static_route-0006",
+  "subset": "corrupted",
+  "config_type": "static_route",
+  "seed": 42,
+  "generator_version": "0.5-v2",
+  "intent": "Xoá static route 10.10.0.0/16 qua 10.0.12.2 trên R1",
+  "intent_template": "Remove the static route 10.10.0.0/16 via 10.0.12.2 on R1",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/31397755434b7ec3a4dc527099b488ff97a4b0b496e9b234643b1f5a848689ce.json",
+    "sha256": "31397755434b7ec3a4dc527099b488ff97a4b0b496e9b234643b1f5a848689ce"
+  },
+  "expected_verdict": "reject",
+  "expected_tool_calls": [],
+  "corruption": "CTX_DUP_IP"
+}

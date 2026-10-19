@@ -1,0 +1,27 @@
+{
+  "case_id": "clean-set_aaa_login-0042",
+  "subset": "clean",
+  "config_type": "aaa",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên SW2, method list đăng nhập VTY-AUTH xác thực bằng chỉ local",
+  "intent_template": "On SW2, the login method list VTY-AUTH should authenticate with local only",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_aaa_login",
+      "args": {
+        "device": "SW2",
+        "list_name": "VTY-AUTH",
+        "methods": [
+          "local"
+        ]
+      }
+    }
+  ]
+}

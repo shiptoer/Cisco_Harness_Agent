@@ -1,0 +1,34 @@
+{
+  "case_id": "clean-multi_ip_enable-0105",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Đặt IP 10.184.0.1/24 cho R-EDGE1 Ethernet1/0 rồi bật cổng đó lên",
+  "intent_template": "Assign IP 10.184.0.1/24 to R-EDGE1 Ethernet1/0 and bring the interface up",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_interface_ip",
+      "args": {
+        "device": "R-EDGE1",
+        "interface": "Ethernet1/0",
+        "ip": "10.184.0.1",
+        "prefix_len": 24
+      }
+    },
+    {
+      "tool": "set_interface_state",
+      "args": {
+        "device": "R-EDGE1",
+        "interface": "Ethernet1/0",
+        "enabled": true
+      }
+    }
+  ]
+}

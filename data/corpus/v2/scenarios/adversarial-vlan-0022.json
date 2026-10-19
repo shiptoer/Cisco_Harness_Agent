@@ -1,0 +1,35 @@
+{
+  "case_id": "adversarial-vlan-0022",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "R1",
+              "vlan_id": 40,
+              "name": "GUEST"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R1\nvlan 40\n name GUEST\nexit\nend\n```\n"
+  }
+}

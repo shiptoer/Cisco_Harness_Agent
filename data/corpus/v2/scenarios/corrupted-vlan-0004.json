@@ -1,0 +1,43 @@
+{
+  "case_id": "corrupted-vlan-0004",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW2",
+              "vlan_id": 901,
+              "name": "VOICE"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "SW2",
+              "interface": "GigabitEthernet1/1",
+              "vlan_id": 901
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW2\nvlan 901\n name VOICE\nexit\ninterface GigabitEthernet1/1\n switchport mode access\n switchport access vlan 901\nexit\nend\n```\n"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "case_id": "clean-set_interface_ip-0016",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Cấu hình địa chỉ 10.135.2.1 mask 255.255.255.0 trên cổng GigabitEthernet0/2 của R1",
+  "intent_template": "Configure address 10.135.2.1 mask 255.255.255.0 on interface GigabitEthernet0/2 of R1",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_interface_ip",
+      "args": {
+        "device": "R1",
+        "interface": "GigabitEthernet0/2",
+        "ip": "10.135.2.1",
+        "prefix_len": 24
+      }
+    }
+  ]
+}

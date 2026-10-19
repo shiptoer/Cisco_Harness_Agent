@@ -1,0 +1,5 @@
+interface {{ a.interface }}
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ switchport trunk allowed vlan {{ a.allowed_vlans | join(",") }}
+ switchport trunk native vlan 1

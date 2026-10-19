@@ -1,0 +1,51 @@
+{
+  "case_id": "clean-multi_vlan_access_desc-0047",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "SW2"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "create_vlan",
+            "args": {
+              "device": "SW2",
+              "vlan_id": 68,
+              "name": "VOICE"
+            }
+          },
+          {
+            "tool": "set_access_vlan",
+            "args": {
+              "device": "SW2",
+              "interface": "GigabitEthernet0/3",
+              "vlan_id": 68
+            }
+          },
+          {
+            "tool": "set_interface_description",
+            "args": {
+              "device": "SW2",
+              "interface": "GigabitEthernet0/3",
+              "text": "Meeting room B"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco SW2\nvlan 68\n name VOICE\nexit\ninterface GigabitEthernet0/3\n switchport mode access\n switchport access vlan 68\nexit\ninterface GigabitEthernet0/3\n description Meeting room B\nexit\nend\n```\n"
+  }
+}

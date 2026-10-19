@@ -1,0 +1,25 @@
+{
+  "case_id": "clean-set_interface_description-0075",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Set the description of ACC1 Ethernet1/2 to 'Spare port, rack 4'",
+  "intent_template": "Set the description of ACC1 Ethernet1/2 to 'Spare port, rack 4'",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_interface_description",
+      "args": {
+        "device": "ACC1",
+        "interface": "Ethernet1/2",
+        "text": "Spare port, rack 4"
+      }
+    }
+  ]
+}

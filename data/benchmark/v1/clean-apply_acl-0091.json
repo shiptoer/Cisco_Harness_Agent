@@ -1,0 +1,26 @@
+{
+  "case_id": "clean-apply_acl-0091",
+  "subset": "clean",
+  "config_type": "acl",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên CORE1, gắn access-list ACL-SERVERS-OUT vào interface Vlan30, chiều ra (out)",
+  "intent_template": "On CORE1, attach access-list ACL-SERVERS-OUT to interface Vlan30, outbound",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "apply_acl",
+      "args": {
+        "device": "CORE1",
+        "interface": "Vlan30",
+        "acl_name": "ACL-SERVERS-OUT",
+        "direction": "out"
+      }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "case_id": "clean-set_aaa_login-0097",
+  "subset": "clean",
+  "config_type": "aaa",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "VTY logins on ACC-BR1 use list ADMIN-LOGIN: RADIUS then local",
+  "intent_template": "VTY logins on ACC-BR1 use list ADMIN-LOGIN: RADIUS then local",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_aaa_login",
+      "args": {
+        "device": "ACC-BR1",
+        "list_name": "ADMIN-LOGIN",
+        "methods": [
+          "group radius",
+          "local"
+        ]
+      }
+    }
+  ]
+}

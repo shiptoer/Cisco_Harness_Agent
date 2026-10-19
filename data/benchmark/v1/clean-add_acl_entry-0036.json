@@ -1,0 +1,30 @@
+{
+  "case_id": "clean-add_acl_entry-0036",
+  "subset": "clean",
+  "config_type": "acl",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Thêm vào ACL EDGE-IN trên R1 dòng 500: deny udp từ 10.69.0.0/24 tới host 10.10.50.20 cổng 53",
+  "intent_template": "Add line 500 to ACL EDGE-IN on R1: deny udp from 10.69.0.0/24 to host 10.10.50.20 port 53",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745.json",
+    "sha256": "5374bf41a9e2ed9cdbd2020a5fd7fcda1393f324ee021baf8e2aaca6e7a66745"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "add_acl_entry",
+      "args": {
+        "device": "R1",
+        "acl_name": "EDGE-IN",
+        "seq": 500,
+        "action": "deny",
+        "protocol": "udp",
+        "src": "10.69.0.0/24",
+        "dst": "host 10.10.50.20",
+        "dst_port": "eq 53"
+      }
+    }
+  ]
+}

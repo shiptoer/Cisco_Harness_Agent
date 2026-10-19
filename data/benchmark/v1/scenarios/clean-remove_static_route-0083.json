@@ -1,0 +1,35 @@
+{
+  "case_id": "clean-remove_static_route-0083",
+  "cba": [
+    {
+      "tool": "list_devices",
+      "args": {}
+    },
+    {
+      "tool": "get_device",
+      "args": {
+        "hostname": "R-EDGE1"
+      }
+    },
+    {
+      "tool": "submit_change_request",
+      "args": {
+        "status": "ready",
+        "changes": [
+          {
+            "tool": "remove_static_route",
+            "args": {
+              "device": "R-EDGE1",
+              "prefix": "10.255.0.8/30",
+              "next_hop": "10.255.0.6"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "tsa": "auto",
+  "b0": {
+    "final": "```cisco R-EDGE1\nno ip route 10.255.0.8 255.255.255.252 10.255.0.6\nend\n```\n"
+  }
+}

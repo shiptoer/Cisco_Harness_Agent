@@ -1,0 +1,25 @@
+{
+  "case_id": "clean-set_access_vlan-0062",
+  "subset": "clean",
+  "config_type": "interface",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Chuyển ACC-BR1 Ethernet1/1 sang chế độ access, VLAN 110",
+  "intent_template": "Put ACC-BR1 Ethernet1/1 in access mode on VLAN 110",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "set_access_vlan",
+      "args": {
+        "device": "ACC-BR1",
+        "interface": "Ethernet1/1",
+        "vlan_id": 110
+      }
+    }
+  ]
+}

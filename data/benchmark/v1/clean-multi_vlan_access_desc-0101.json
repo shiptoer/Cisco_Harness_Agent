@@ -1,0 +1,41 @@
+{
+  "case_id": "clean-multi_vlan_access_desc-0101",
+  "subset": "clean",
+  "config_type": "vlan",
+  "seed": 42,
+  "generator_version": "bm-1.0",
+  "intent": "Trên ACC1: tạo VLAN 177 (WIFI), chuyển Ethernet0/2 vào VLAN 177 và đặt description 'HR-PC-07'",
+  "intent_template": "On ACC1: create VLAN 177 (WIFI), move Ethernet0/2 into VLAN 177 and set its description to 'HR-PC-07'",
+  "role": "security_admin",
+  "context_ref": {
+    "path": "contexts/76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a.json",
+    "sha256": "76b1ec782f40eb5d2e98a7765b61df8c366659e3b8d3fb3848aa3f729a2a5c3a"
+  },
+  "expected_verdict": "accept",
+  "expected_tool_calls": [
+    {
+      "tool": "create_vlan",
+      "args": {
+        "device": "ACC1",
+        "vlan_id": 177,
+        "name": "WIFI"
+      }
+    },
+    {
+      "tool": "set_access_vlan",
+      "args": {
+        "device": "ACC1",
+        "interface": "Ethernet0/2",
+        "vlan_id": 177
+      }
+    },
+    {
+      "tool": "set_interface_description",
+      "args": {
+        "device": "ACC1",
+        "interface": "Ethernet0/2",
+        "text": "HR-PC-07"
+      }
+    }
+  ]
+}
