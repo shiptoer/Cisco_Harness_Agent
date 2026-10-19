@@ -275,8 +275,8 @@ def test_del_and_c1_are_escaped_in_json_output(tmp_path, capsys):
 
 
 def test_control_characters_are_escaped_on_stderr(tmp_path, capsys):
-    cfg = _cfg(tmp_path, "CORE\x07.cfg", CLEAN)
-    assert main([str(cfg), "--context", str(CAMPUS)]) == 2
+    cfg = _cfg(tmp_path, "CORE.cfg", CLEAN)
+    assert main([str(cfg), "--context", str(CAMPUS), "--device", "CORE\x07"]) == 2
     err = capsys.readouterr().err
     assert "\x07" not in err and "CORE\\x07" in err
 
