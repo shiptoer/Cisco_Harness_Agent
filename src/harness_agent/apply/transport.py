@@ -1,8 +1,8 @@
 """Kênh tới thiết bị cho `apply`: Protocol `Transport` và hiện thực SSH `NetmikoTransport`.
 
 `NetmikoTransport` dùng lại tham số kết nối của collector (`collector.fetch._connect`: Netmiko
-`cisco_ios`, thuật toán SSH cũ của image IOL bật cho riêng kết nối này, không kiểm host key vì lab dựng lại
-sau mỗi lần Wipe), và thông tin đăng nhập CHỈ từ biến môi trường `COLLECTOR_USER` / `COLLECTOR_PASSWORD`.
+`cisco_ios`, host key được kiểm nghiêm ngặt; thuật toán cũ chỉ bật khi inventory có legacy_ssh=true).
+Thông tin đăng nhập CHỈ từ biến môi trường `COLLECTOR_USER` / `COLLECTOR_PASSWORD`.
 Netmiko được import trễ, trong `connect()`: bộ test và chế độ dry-run không cần gói này (extras `[demo]`).
 
 Tài khoản phải vào thẳng privileged EXEC (privilege 15): transport không gửi `enable` và không đọc enable
@@ -63,7 +63,8 @@ class NetmikoTransport:
         try:
             self._conn = _connect(self.device, user, password)
             privileged = self._conn.check_enable_mode()
-        except self._errors as exc:
+        except (CollectorError, *self._errors) as exc:
+            self.close()
             raise self._fail(exc) from None
         if not privileged:
             self.close()

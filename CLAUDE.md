@@ -264,3 +264,11 @@ nào có GVHD duyệt)
   trước render, trace HMAC): dsh khởi động harness nên có thể đổi argv; D-061 grounding tất định: gate kiểm tool
   call với change request, không kiểm change request với intent gốc; D-064 apply chỉ qua `cha-apply`, mặc định
   dry-run, cần bản duyệt trong trace, không bao giờ trong lô đo.
+
+
+### Bổ sung 20/10/2026 — D-067 (ĐỀ XUẤT)
+
+Có bản sửa collector/sensor/SSH trên nhánh `tv1/collector-sensor-hardening`; chưa push/merge.
+Command contract mới bắt 27/27 đột biến cố định; syntax/CIS riêng vẫn 22/27.
+Batfish backend và lab thật chưa xác minh; context security là quan sát có guard, chưa mô hình
+forwarding đầy đủ. Chi tiết: `docs/HARDENING_2026-10-20.md`.

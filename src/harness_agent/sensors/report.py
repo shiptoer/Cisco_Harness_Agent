@@ -45,10 +45,10 @@ class SensorReport:
     @property
     def blocking_sensor(self) -> str | None:
         """Tên sensor đầu tiên (theo thứ tự chạy) có finding `fail`; None nếu không có."""
-        for name, status in self.sensors.items():
-            if status == "ran" and any(f.sensor == name for f in self.failures):
+        for name in self.sensors:
+            if any(f.sensor == name for f in self.failures):
                 return name
-        return None
+        return self.failures[0].sensor if self.failures else None
 
     def as_dict(self) -> dict[str, Any]:
         return {

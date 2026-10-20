@@ -1,4 +1,4 @@
-"""Thu thập network context của một lab. CHỈ ĐỌC: năm lệnh `show` trong allowlist, không lệnh nào khác.
+"""Thu thập network context của một lab. CHỈ ĐỌC: sáu lệnh `show` trong allowlist, không lệnh nào khác.
 
     # Offline, từ output đã lưu (không cần thiết bị, không cần mật khẩu). Mốc thu thập lấy từ tên thư mục
     # (<mốc UTC> do --save-raw đặt, vd 20261013T083915Z) hoặc từ --collected-at; thiếu cả hai là lỗi:

@@ -3,8 +3,8 @@
 Policy KHÔNG lấy từ thiết bị: nó là quyết định của tổ chức (interface nào được bảo vệ, mạng quản trị, VLAN
 dành riêng), nằm ở một file riêng do người viết, và được trộn vào context ở đây.
 
-Collector không sửa contract. Thứ contract chưa mô tả được (VRF, nhiều hơn một mạng quản trị, banner
-login, ACL standard...) không vào context; chúng được ghi ở `.meta.json`, mục `contract_gaps`.
+Các phần chưa mô hình hóa đầy đủ được ghi ở `.meta.json`, mục `contract_gaps`, và quan sát
+security được giữ trong context (`collected_security`) để gate/apply chặn thay đổi thiếu căn cứ.
 
 Freshness (D-054): context do collector đọc từ thiết bị mang khối `provenance` (`source: collector`,
 `collected_at`, `ttl_seconds`), nằm ngay sau `context_id` và thuộc phần được hash. Runner so `collected_at`
@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -31,6 +32,7 @@ from .fetch import ALLOWED_COMMANDS, STAMP_FORMAT, CollectorError, Inventory
 from .parse import (
     REDACTED,
     DeviceNotes,
+    identify_platform,
     parse_cdp_neighbors,
     parse_interfaces_trunk,
     parse_ip_interface_brief,
@@ -68,11 +70,28 @@ def build_context(
     notes: dict[str, DeviceNotes] = {}
     crosscheck: dict[str, dict[str, Any]] = {}
     neighbors: dict[str, list[tuple[str, str, str]]] = {}
+    enrichment: dict[str, list[int]] = {}
+    identity: dict[str, Any] = {}
     for inv in inventory.devices:
         if inv.hostname not in outputs or "show running-config" not in outputs[inv.hostname]:
             raise CollectorError(f"không có `show running-config` của {inv.hostname}")
         by_command = outputs[inv.hostname]
-        device, device_notes = parse_running_config(by_command["show running-config"], inv.role)
+        if not re.search(r"(?m)^end\s*$", by_command["show running-config"]):
+            raise CollectorError(f"{inv.hostname}: incomplete running-config (missing end)")
+        version = by_command.get("show version", "")
+        family = identify_platform(version) if version else "not_collected"
+        identity[inv.hostname] = {
+            "os_family": family,
+            "platform": inv.platform,
+            "platform_source": "inventory",
+            "verified_ios": family == "cisco_ios",
+        }
+        if version and family != "cisco_ios":
+            raise CollectorError(f"{inv.hostname}: show version did not verify supported Cisco IOS")
+        try:
+            device, device_notes = parse_running_config(by_command["show running-config"], inv.role)
+        except (ValueError, IndexError, OverflowError):
+            raise CollectorError(f"{inv.hostname}: malformed running-config") from None
         if device["hostname"] != inv.hostname:
             raise CollectorError(
                 f"{inv.hostname}: hostname trong running-config không khớp inventory (kết nối nhầm thiết bị?)"
@@ -81,6 +100,14 @@ def build_context(
         devices.append(device)
         notes[inv.hostname] = device_notes
         crosscheck[inv.hostname] = _crosscheck(device, by_command)
+        known = {v["vlan_id"] for v in device["vlans"]}
+        added = []
+        for vid, name in parse_vlan_brief(by_command.get("show vlan brief", "")).items():
+            if vid not in known:
+                device["vlans"].append({"vlan_id": vid, "name": name})
+                added.append(vid)
+        device["vlans"].sort(key=lambda v: v["vlan_id"])
+        enrichment[inv.hostname] = sorted(added)
         neighbors[inv.hostname] = parse_cdp_neighbors(by_command.get("show cdp neighbors detail", ""))
 
     links, dropped = _links(inventory, devices, neighbors)
@@ -97,6 +124,8 @@ def build_context(
     meta_notes = {
         "devices": {name: n.as_dict() for name, n in notes.items()},
         "crosscheck": crosscheck,
+        "vlans_added_from_show": enrichment,
+        "device_identity": identity,
         "links_dropped": dropped,
         "contract_gaps": _contract_gaps(notes, extra_policy),
         "policy_not_in_contract": extra_policy,

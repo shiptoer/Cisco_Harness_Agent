@@ -951,11 +951,14 @@ def _run_case(
     platforms = {h: store.device(h)["platform"] for h in configs if store.device(h) is not None}
     if spec.sensors:
         try:
-            blocking, report = _sensors(run_dir, configs, platforms, store_secrets, spec, trace)
+            blocking, report = _sensors(run_dir, configs, platforms, store_secrets, spec, trace, staged)
         except Exception as exc:  # noqa: BLE001 — sensor là code của nhóm; mọi lỗi của nó là ERROR ở B4
             return error(ErrorCode.SENSOR_ERROR, type(exc).__name__)
     else:
-        blocking, report = None, _shadow_sensors(run_dir, configs, platforms, store_secrets, spec, trace)
+        blocking, report = (
+            None,
+            _shadow_sensors(run_dir, configs, platforms, store_secrets, spec, trace, staged),
+        )
     if blocking:
         held = run_dir / "sensor_rejected"
         held.mkdir(exist_ok=True)
@@ -1702,6 +1705,7 @@ def _sensors(
     secrets: set[str],
     spec: LevelSpec,
     trace: Trace,
+    approved: list[ToolCall] | None = None,
 ) -> tuple[str | None, SensorReport]:
     """Chạy sensors, ghi `sensors.json` và event `sensors`. Trả về (sensor chặn, report); sensor chặn chỉ có
     khi mức này cưỡng chế sensors (B4).
@@ -1710,6 +1714,11 @@ def _sensors(
     trace dùng bản ĐÃ CHE secret (D-018): rò rỉ thật vẫn lộ ở `candidate/`, và file của runner không
     thành một nguồn rò rỉ mới."""
     report = run_sensors(configs, platforms, secrets)
+    if approved is not None:
+        from harness_agent.sensors.intent import check_intent
+
+        report.sensors["intent"] = "ran"
+        report.findings += check_intent(configs, approved)
     data = redact_value({"enforced": spec.sensors, **report.as_dict()}, secrets)
     (run_dir / "sensors.json").write_text(
         json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8", newline="\n"
@@ -1725,11 +1734,12 @@ def _shadow_sensors(
     secrets: set[str],
     spec: LevelSpec,
     trace: Trace,
+    approved: list[ToolCall] | None = None,
 ) -> SensorReport:
     """Sensors ở mức KHÔNG cưỡng chế (B0–B3): chỉ ghi lại, không bao giờ đổi kết cục, kể cả khi sensor lỗi.
     Lỗi được ghi vào `sensors.json` và trace (`sensors_failed`); trả về report rỗng."""
     try:
-        return _sensors(run_dir, configs, platforms, secrets, spec, trace)[1]
+        return _sensors(run_dir, configs, platforms, secrets, spec, trace, approved)[1]
     except Exception as exc:  # noqa: BLE001 — shadow: không lỗi nào của sensor được đổi kết cục
         failed = {"enforced": False, "error": type(exc).__name__}
         with contextlib.suppress(OSError):
