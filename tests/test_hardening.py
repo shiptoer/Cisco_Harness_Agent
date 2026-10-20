@@ -80,6 +80,7 @@ def test_inventory_path_traversal_rejected(tmp_path, host):
 
 
 def test_ssh_strict_defaults(monkeypatch):
+    pytest.importorskip("netmiko", reason="Requires optional SSH dependencies ([demo])")
     from netmiko.cisco import CiscoIosSSH
 
     options = {}
