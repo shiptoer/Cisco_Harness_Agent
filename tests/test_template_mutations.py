@@ -117,3 +117,20 @@ def test_mutation_score_and_survivors(monkeypatch, capsys):
 def test_each_mutant(path: Path, monkeypatch):
     dead, codes, error = _outcome(path, monkeypatch)
     assert dead is (path.stem not in EXPECTED_SURVIVORS), (codes, error)
+
+
+def test_independent_command_contract_kills_all_mutants(monkeypatch):
+    from harness_agent.sensors.intent import check_intent
+
+    for path in MUTANTS:
+        template = path.name.split("__")[0] + ".j2"
+        tool = TOOL_OF_TEMPLATE[template]
+        call = parse_tool_call({"tool": tool, "args": VALID_ARGS[tool]})
+        assert not check_intent(render.render_by_device([(call.tool, call.parsed)]), [call])
+        with monkeypatch.context() as patch:
+            patch.setattr(render, "_env", _env_with(template, path.read_text(encoding="utf-8")))
+            try:
+                configs = render.render_by_device([(call.tool, call.parsed)])
+            except Exception:  # noqa: S112 — render exception is a killed mutant
+                continue
+            assert check_intent(configs, [call]), path.stem

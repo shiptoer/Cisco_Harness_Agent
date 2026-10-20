@@ -10,6 +10,7 @@ cả để đo (trong ablation B4) lẫn để bắt lỗi template.
 
 from __future__ import annotations
 
+import os
 from collections.abc import Iterable, Mapping
 
 from . import batfish, cis, syntax
@@ -44,4 +45,15 @@ def run_sensors(
             report.sensors["cis"] = "ran"
         else:
             raise ValueError(f"sensor không xác định: {name!r}")
+    if os.environ.get("CHA_REQUIRE_BATFISH") == "1" and report.sensors.get("batfish") != "ran":
+        report.findings.append(
+            Finding(
+                "batfish",
+                "BF_REQUIRED_UNAVAILABLE",
+                "fail",
+                "-",
+                None,
+                "Batfish is required but no operational backend is available.",
+            )
+        )
     return report

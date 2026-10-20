@@ -186,6 +186,7 @@ def synthesize(
                 device.hostname, links, inventory.domain_name, noise
             ),
             "show interfaces trunk": interfaces_trunk(baseline),
+            "show version": "Cisco IOS Software (SYNTHETIC FIXTURE)\n",
         }
     return outputs
 

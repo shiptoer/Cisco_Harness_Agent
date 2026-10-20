@@ -154,7 +154,15 @@ def test_match_rate_per_kind_is_complete_with_nothing_extra(context: dict):
         "aaa": set(DEVICES),
         "link": LINKS,
     }
-    assert (len(expected["interface"]), len(expected["vlan"])) == (64, 23)
+    builtin = {
+        1: "default",
+        1002: "fddi-default",
+        1003: "token-ring-default",
+        1004: "fddinet-default",
+        1005: "trnet-default",
+    }
+    expected["vlan"] |= {(dev, vid, name) for dev in VLANS for vid, name in builtin.items()}
+    assert (len(expected["interface"]), len(expected["vlan"])) == (64, 48)
     report = {kind: _rate(found[kind], expected[kind]) for kind in expected}
     assert {kind: rate for kind, (rate, _, _) in report.items()} == dict.fromkeys(expected, 1.0), report
     assert all(not missing and not extra for _, missing, extra in report.values()), report
@@ -267,12 +275,12 @@ def test_crosscheck_against_the_other_show_commands_finds_no_difference(notes: d
     assert notes["crosscheck"]["R-EDGE1"]["vlan_brief"] is None  # router không có `show vlan brief`
 
 
-def test_crosscheck_reports_a_difference_without_changing_the_context(inventory, outputs):
+def test_crosscheck_reports_difference_and_enriches_missing_vlan(inventory, outputs):
     changed = {name: dict(by_command) for name, by_command in outputs.items()}
     changed["ACC1"]["show vlan brief"] += "70   EXTRA                            active    \n"
     context, notes = build_context(inventory, changed, load_policy(POLICY))
     assert notes["crosscheck"]["ACC1"]["vlan_brief"]["only_in_show_vlan"] == [70]
-    assert 70 not in [v["vlan_id"] for v in _device(context, "ACC1")["vlans"]]
+    assert 70 in [v["vlan_id"] for v in _device(context, "ACC1")["vlans"]]
 
 
 # ------------------------------------------------------------ 2a. allowlist lệnh
@@ -283,6 +291,7 @@ def test_the_allowlist_is_exactly_five_show_commands():
         "show ip interface brief",
         "show cdp neighbors detail",
         "show interfaces trunk",
+        "show version",
     )
     assert [check_command(c) for c in ALLOWED_COMMANDS] == list(ALLOWED_COMMANDS)
 
@@ -294,7 +303,7 @@ def test_the_allowlist_is_exactly_five_show_commands():
         "write memory",
         "reload",
         "show run",
-        "show version",
+        "show users",
         "show running-config | include secret",
         "show running-config\nconfigure terminal",
         "show vlan brief; reload",
@@ -459,7 +468,7 @@ def test_the_collected_context_passes_the_contract_and_the_invariants(built, tmp
     assert meta["counts"] == {
         "devices": 7,
         "interfaces": 64,
-        "vlans": 23,
+        "vlans": 48,
         "static_routes": 8,
         "acls": 9,
         "acl_entries": 34,
@@ -561,7 +570,7 @@ def test_cli_offline_from_a_synthetic_directory(tmp_path: Path, capsys):
     )
     out = capsys.readouterr().out
     assert code == 0 and "contract + invariants: 0 vi phạm" in out
-    assert "7 thiết bị, 64 interface, 23 VLAN, 8 static route, 9 ACL, 6 link" in out
+    assert "7 thiết bị, 64 interface, 48 VLAN, 8 static route, 9 ACL, 6 link" in out
     assert len(list(tmp_path.glob("smb-01-*Z.json"))) == 1 and len(list(tmp_path.glob("*.meta.json"))) == 1
     assert not [value for value in synth.FAKE_SECRET_VALUES if value in out + _all_text(tmp_path)]
 

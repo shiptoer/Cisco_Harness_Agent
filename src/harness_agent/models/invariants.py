@@ -91,7 +91,7 @@ def _device(ctx: NetworkContext, d_idx: int, device: Device, first_ip: dict[str,
                 "CTX_DANGLING_VLAN", host, f"{at}.access_vlan", f"VLAN {itf.access_vlan} không có trên {host}"
             )
         for k, vlan in enumerate(itf.trunk_allowed or []):
-            if vlan not in vlans:
+            if vlan not in vlans and itf.trunk_allowed_scope != "ios":
                 yield _v(
                     "CTX_TRUNK_MISMATCH",
                     host,

@@ -85,6 +85,12 @@ class ApplyLauncher(FakeLauncher):
         raw = self.cfg if isinstance(self.cfg, bytes) else self.cfg.encode("utf-8")
         (run_dir / "candidate" / "SW2.cfg").write_bytes(raw)
         (run_dir / "change_package.md").write_bytes(b"# Change package\n" + raw)
+        from harness_agent.eval.cli_parse import parse_config
+
+        ops = parse_config("SW2", raw.decode("utf-8", errors="replace")).ops
+        (run_dir / "staged_ops.jsonl").write_text(
+            "".join(json.dumps(op) + "\n" for op in ops), encoding="utf-8"
+        )
         (run_dir / "change_request.json").write_text(json.dumps({"status": "ready", "changes": []}))
         result = {
             "status": "ok", "verdict": "accept", "stopped_by": None, "error_code": None,
@@ -402,7 +408,7 @@ def test_rollback_keeps_preexisting_block(tmp_path, monkeypatch):
 
 
 def test_interface_check_is_per_block_and_rollback_restores(tmp_path, monkeypatch):
-    cfg = "interface GigabitEthernet0/2\n switchport access vlan 10\nexit\nend\n"
+    cfg = "interface GigabitEthernet0/2\n switchport mode access\n switchport access vlan 10\nexit\nend\n"
     run_dir, _ = make_run(tmp_path, monkeypatch, cfg=cfg)
     plan = ApplyPlan.from_run(run_dir, "SW2", inventory(tmp_path))
     # `switchport access vlan 10` có trong running-config, nhưng dưới Gi0/1 chứ không dưới Gi0/2.
@@ -502,6 +508,7 @@ SECRET_CFG += "interface GigabitEthernet0/2\n description <SECRET:tac_key>\nexit
 def placeholder_carrier(monkeypatch):
     from harness_agent.apply.execute import SECRET_RE
 
+    monkeypatch.setattr(plan_mod, "check_preapply", lambda *args: None)
     real = plan_mod.check_lines
     monkeypatch.setattr(
         plan_mod,
@@ -644,8 +651,21 @@ def test_cli_transport_failure_after_start_exit_1(tmp_path, monkeypatch, capsys)
 
 
 # ------------------------------------------------------------------ cô lập
+@pytest.mark.slow
 def test_netmiko_imported_lazily_and_credentials_from_env(monkeypatch):
-    assert "netmiko" not in sys.modules and "paramiko" not in sys.modules
+    import subprocess
+
+    probe = subprocess.run(
+        [
+            sys.executable,
+            "-c",
+            "import sys; import harness_agent.apply.transport; "
+            "assert 'netmiko' not in sys.modules and 'paramiko' not in sys.modules",
+        ],
+        capture_output=True,
+        check=False,
+    )
+    assert probe.returncode == 0, probe.stderr
     from harness_agent.collector.fetch import InventoryDevice
 
     device = InventoryDevice("SW2", "10.0.0.2", "access_switch", "HQ", "iosvl2", "GigabitEthernet1/3")
@@ -870,6 +890,7 @@ def test_control_and_non_ascii_characters_refused(tmp_path, monkeypatch, cfg):
 
 def test_control_character_negative_control(tmp_path, monkeypatch):
     """Gỡ phép kiểm ký tự → dòng có Ctrl-Z được gửi nguyên văn tới thiết bị: test trên bắt đúng control."""
+    monkeypatch.setattr(plan_mod, "check_preapply", lambda *args: None)
     monkeypatch.setattr(plan_mod, "_PRINTABLE_LINE", re.compile(r"(?s).*"))
     monkeypatch.setattr(
         plan_mod, "ALLOWED_CHILD", {**plan_mod.ALLOWED_CHILD, "interface": (re.compile(r"(?s).+"),)}
@@ -1042,7 +1063,9 @@ def test_netmiko_transport_allows_show_vlan_brief_only():
 
 
 # ------------------------------------------------------------------ `aaa new-model` không có username
-AAA_CFG = "aaa new-model\nend\n"
+AAA_CFG = (
+    "aaa new-model\naaa authentication login VTY local\nline vty 0 4\n login authentication VTY\nexit\nend\n"
+)
 
 
 def test_dry_run_warns_aaa_new_model_without_username_in_context(tmp_path, monkeypatch):
@@ -1061,7 +1084,7 @@ def test_dry_run_warns_aaa_new_model_without_username_in_context(tmp_path, monke
 def test_commit_warns_aaa_new_model_without_username_in_running_config(tmp_path, monkeypatch):
     run_dir, _ = make_run(tmp_path, monkeypatch, cfg=AAA_CFG)
     plan = ApplyPlan.from_run(run_dir, "SW2", inventory(tmp_path))
-    post = PRE.replace("hostname SW2\n", "hostname SW2\naaa new-model\n")
+    post = PRE.replace("hostname SW2\n", "hostname SW2\n" + AAA_CFG.removesuffix("end\n"))
     report = apply(plan, FakeTransport(post=post), commit=True, confirm_token=plan.run_id)
     assert report.ok and len(report.warnings) == 1 and "username" in report.warnings[0]
     assert last_data(run_dir, "apply_start")["warnings"] == list(report.warnings)
@@ -1071,7 +1094,7 @@ def test_commit_no_warning_when_running_config_has_username(tmp_path, monkeypatc
     run_dir, _ = make_run(tmp_path, monkeypatch, cfg=AAA_CFG)
     plan = ApplyPlan.from_run(run_dir, "SW2", inventory(tmp_path))
     pre = PRE.replace("hostname SW2\n", "hostname SW2\nusername netadmin privilege 15 secret 9 $9$abc\n")
-    post = pre.replace("hostname SW2\n", "hostname SW2\naaa new-model\n")
+    post = pre.replace("hostname SW2\n", "hostname SW2\n" + AAA_CFG.removesuffix("end\n"))
     report = apply(plan, FakeTransport(pre=pre, post=post), commit=True, confirm_token=plan.run_id)
     assert report.ok and report.warnings == ()
 

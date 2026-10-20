@@ -266,7 +266,9 @@ def test_sensors_enforced_only_at_b4(tmp_path, monkeypatch, level, verdict):
     r = _run(tmp_path, monkeypatch, {"cba": [_submit(VLAN)], "tsa": "auto"}, level)
     assert (r.status, r.verdict) == ("ok", verdict), r.reason
     report = json.loads((tmp_path / "runs" / f"case-{level}" / "sensors.json").read_text(encoding="utf-8"))
-    assert report["enforced"] is (level == "B4") and report["n_fail"] == 1  # shadow vẫn ghi ở B3
+    assert (
+        report["enforced"] is (level == "B4") and report["n_fail"] == 2
+    )  # CIS + independent intent contract; shadow still records both
 
 
 # ------------------------------------------------------------------ B0 (D-044)

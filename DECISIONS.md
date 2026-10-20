@@ -2548,3 +2548,17 @@ là chưa biết; không đoán.
 - Hệ quả: <ảnh hưởng tới code, corpus, ablation, Ch3>
 - Việc cần làm: <việc>. Người: <TVn>. Hạn: <dd/mm/yyyy>
 ```
+
+## D-067 · Collector/sensor/SSH hardening · ĐỀ XUẤT
+
+GVHD: cần duyệt (sensor bổ sung thay đổi định nghĩa control iv và số đo ablation).
+Hiện thực: một phần; collector, observations, command contract, apply guards và SSH có code;
+Batfish backend chưa hoạt động, chưa kiểm trên thiết bị thật.
+
+Theo yêu cầu người dùng ngày 20/10/2026 về chính xác, độ bền và bảo mật: sửa phép toán trunk,
+bổ sung VLAN database; giữ quan sát security trong context được hash và chặn các ngữ nghĩa
+chưa hỗ trợ; command contract sau render độc lập Jinja; strict SSH host keys mặc định;
+legacy chỉ opt-in từng host; discovery giới hạn phạm vi; missing required Batfish chặn thay vì pass.
+Chi tiết migration, bằng chứng và giới hạn: `docs/HARDENING_2026-10-20.md`.
+Không tuyên bố 27/27 mutation score là độ chính xác ngoài thực tế; không gọi quan sát VRF là
+mô hình forwarding VRF đầy đủ. Không push/merge/deploy trong lượt này.

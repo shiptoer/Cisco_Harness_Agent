@@ -204,6 +204,11 @@ def _blast_radius(
     if store.device(tc.device) is None:
         return f"thiết bị {tc.device} không có trong context"
 
+    from .observations import observation_problem
+
+    problem = observation_problem(store.device(tc.device), tc.tool, tc.args)
+    if problem:
+        return problem
     blast = spec.blast(tc.parsed)
     total = blast
     for s in staged:

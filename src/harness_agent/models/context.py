@@ -85,6 +85,8 @@ class Interface(StrictModel):
     enabled: bool = True
     access_vlan: AnyVlanId | None = None
     trunk_allowed: list[AnyVlanId] | None = None
+    # IOS allowed VLAN membership need not exist in the local VLAN database.
+    trunk_allowed_scope: Literal["configured", "ios"] = "configured"
     native_vlan: AnyVlanId | None = None
     ipv4: IPv4Interface | None = None
     acl_in: AclName | None = None
@@ -183,8 +185,19 @@ class Aaa(StrictModel):
         return self
 
 
+class CollectedSecurity(StrictModel):
+    """Sanitized observations; not projected to the LLM or treated as executable commands."""
+
+    vrf_interfaces: dict[InterfaceName, FreeText] = Field(default_factory=dict)
+    vrf_definitions: list[FreeText] = Field(default_factory=list)
+    vty: list[FreeText] = Field(default_factory=list)
+    aaa: list[FreeText] = Field(default_factory=list)
+    unsupported: list[FreeText] = Field(default_factory=list)
+
+
 class Device(StrictModel):
     hostname: Hostname
+    collected_security: CollectedSecurity | None = None
     platform: Platform
     role: DeviceRole
     site: SiteName

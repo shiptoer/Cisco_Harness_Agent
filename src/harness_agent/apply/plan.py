@@ -211,6 +211,7 @@ class ApplyPlan:
         check_lines(lines, target)
         ctx = run_context(records, context)
         secrets = ctx.secret_values()
+        check_preapply(run_dir, device, text, ctx)
         ctx_device = ctx.get_device(device)
         local_users = None
         if ctx_device is not None:
@@ -342,3 +343,30 @@ def run_context(records: list[dict[str, Any]], context: Path | None) -> NetworkC
         return NetworkContext.model_validate_json(raw.removeprefix(_BOM))
     except ValidationError:
         raise ApplyError("file context không đúng contract") from None
+
+
+def check_preapply(run_dir: Path, device: str, text: str, ctx: NetworkContext) -> None:
+    from harness_agent.models import parse_tool_call
+    from harness_agent.sensors import run_sensors
+    from harness_agent.sensors.intent import check_intent
+
+    observed = ctx.get_device(device)
+    if observed is None:
+        raise ApplyError("device missing from bound context")
+    staged_path = run_dir / "staged_ops.jsonl"
+    try:
+        calls = [
+            parse_tool_call(json.loads(line))
+            for line in staged_path.read_text(encoding="utf-8").splitlines()
+            if line.strip()
+        ]
+    except (OSError, ValueError, ValidationError):
+        raise ApplyError("cannot validate staged operations before apply") from None
+    from harness_agent.harness.observations import observation_problem
+
+    selected = [c for c in calls if c.device == device]
+    if any(observation_problem(observed.model_dump(mode="json"), c.tool, c.args) for c in selected):
+        raise ApplyError("collector context has unsupported semantics for this operation")
+    report = run_sensors({device: text}, {device: str(observed.platform)}, ctx.secret_values())
+    if report.failures or check_intent({device: text}, [c for c in calls if c.device == device]):
+        raise ApplyError("configuration failed pre-apply syntax/security/intent checks")

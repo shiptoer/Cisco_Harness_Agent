@@ -188,7 +188,8 @@ def test_runner_writes_sensor_report_on_accept(tmp_path: Path, monkeypatch):
     assert (r.status, r.verdict) == ("ok", "accept"), r.reason
     report = json.loads((tmp_path / "runs" / "case" / "sensors.json").read_text(encoding="utf-8"))
     assert (
-        report["sensors"] == {"syntax": "ran", "batfish": "skipped", "cis": "ran"} and report["n_fail"] == 0
+        report["sensors"] == {"syntax": "ran", "batfish": "skipped", "cis": "ran", "intent": "ran"}
+        and report["n_fail"] == 0
     )
     assert "Sensors: syntax=ran, batfish=skipped, cis=ran" in (
         tmp_path / "runs" / "case" / "change_package.md"

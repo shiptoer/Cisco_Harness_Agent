@@ -135,6 +135,8 @@ def parse_running_config(text: str, role: str) -> tuple[dict[str, Any], DeviceNo
     `role` (từ inventory) quyết định mặc định của cổng: trên router mọi cổng là routed. Kết quả CHƯA có
     `platform`, `role`, `site`: ba trường đó lấy từ inventory, không lấy từ thiết bị.
     """
+    if len(text) > 4 * 1024 * 1024 or any(len(line) > 24000 for line in text.splitlines()):
+        raise ValueError("running-config exceeds parser bounds")
     clean, removed = sanitize(text)
     notes = DeviceNotes(secret_lines_removed=removed)
     is_router = role == "router"
@@ -227,6 +229,27 @@ def parse_running_config(text: str, role: str) -> tuple[dict[str, Any], DeviceNo
             notes.unparsed[key] += 1
 
     device["vlans"] = [{"vlan_id": vid, "name": name} for vid, name in sorted(vlans.items())]
+    security = {
+        "vrf_interfaces": dict(notes.vrf_interfaces),
+        "vrf_definitions": [],
+        "vty": [],
+        "aaa": [],
+        "unsupported": sorted(notes.not_represented),
+    }
+    for head, body in blocks:
+        if head.startswith(("vrf definition ", "ip vrf ")):
+            security["vrf_definitions"].append(head[:240])
+        elif head.startswith("line vty "):
+            security["vty"].append(head[:240])
+            security["vty"].extend(
+                line[:240]
+                for line in body
+                if line.startswith(("access-class ", "login ", "transport input "))
+            )
+        elif head.startswith("aaa "):
+            security["aaa"].append(head[:240])
+    if any(security.values()):
+        device["collected_security"] = security
     if saw_aaa:
         # VTY không khai `login authentication` thì dùng list `default` (hành vi của IOS khi có
         # aaa new-model).
@@ -313,21 +336,22 @@ def _tacacs_server(
 
 def _vlan_list(text: str) -> list[int]:
     """`10,20,30-32` → [10, 20, 30, 31, 32]. Raise ValueError nếu không phải danh sách số."""
-    out: list[int] = []
+    out: set[int] = set()
+    if len(text) > 24000:
+        raise ValueError("VLAN list too long")
     for part in text.split(","):
-        if "-" in part:
-            low, high = part.split("-", 1)
-            out.extend(range(int(low), int(high) + 1))
-        else:
-            out.append(int(part))
-    return out
+        if not re.fullmatch(r"[0-9]{1,4}(?:-[0-9]{1,4})?", part):
+            raise ValueError("invalid VLAN list")
+        low, _, high = part.partition("-")
+        first, last = int(low), int(high or low)
+        if not 1 <= first <= last <= 4094:
+            raise ValueError("invalid VLAN range")
+        out.update(range(first, last + 1))
+    return sorted(out)
 
 
 def _vlan_block(spec: str, body: list[str], vlans: dict[int, str]) -> None:
-    try:
-        ids = _vlan_list(spec)
-    except ValueError:
-        return
+    ids = _vlan_list(spec)
     name = next((line.split(None, 1)[1] for line in body if line.startswith("name ")), None)
     for vid in ids:
         # Tên mặc định của IOS cho VLAN không đặt tên.
@@ -363,14 +387,30 @@ def _interface(
         elif parts[:4] == ["switchport", "trunk", "native", "vlan"] and len(parts) == 5:
             itf["native_vlan"] = int(parts[4])
         elif parts[:4] == ["switchport", "trunk", "allowed", "vlan"] and len(parts) >= 5:
-            try:
-                extra = _vlan_list(parts[-1])
-            except ValueError:
-                notes.not_represented["trunk_allowed_keyword"] += 1  # `all`, `none`, `except`...
-                continue
-            itf["trunk_allowed"] = sorted(
-                set(itf.get("trunk_allowed", []) if "add" in parts else []) | set(extra)
-            )
+            universe = set(range(1, 4095))
+            tokens = parts[4:]
+            current = set(itf.get("trunk_allowed", universe))
+            if tokens == ["all"]:
+                current = universe
+            elif tokens == ["none"]:
+                current = set()
+            elif len(tokens) == 1:
+                current = set(_vlan_list(tokens[0]))
+            elif len(tokens) == 2 and tokens[0] in {"add", "remove", "except"}:
+                extra = set(_vlan_list(tokens[1]))
+                if tokens[0] == "add":
+                    current |= extra
+                elif tokens[0] == "remove":
+                    current -= extra
+                else:
+                    current = universe - extra
+            else:
+                raise ValueError("unsupported trunk VLAN expression")
+            itf["trunk_allowed"] = sorted(current)
+            itf["trunk_allowed_scope"] = "ios"
+        elif line == "no switchport trunk allowed vlan":
+            itf["trunk_allowed"] = list(range(1, 4095))
+            itf["trunk_allowed_scope"] = "ios"
         elif parts[:2] == ["ip", "address"] and len(parts) == 4:
             itf["ipv4"] = str(ipaddress.IPv4Interface(f"{parts[2]}/{parts[3]}"))
         elif parts[:2] == ["ip", "address"] and len(parts) > 4:
@@ -392,8 +432,12 @@ def _interface(
         itf.setdefault("access_vlan", 1)  # mặc định của IOS
     itf["mode"] = mode
     itf["enabled"] = not shutdown
+    if mode == "trunk":
+        itf.setdefault("trunk_allowed", list(range(1, 4095)))
+        itf.setdefault("trunk_allowed_scope", "ios")
     if mode != "trunk":
         itf.pop("trunk_allowed", None)
+        itf.pop("trunk_allowed_scope", None)
         itf.pop("native_vlan", None)
     if mode in ("trunk", "routed"):
         itf.pop("access_vlan", None)
@@ -417,6 +461,8 @@ def _static_route(words: list[str], device: dict[str, Any], notes: DeviceNotes) 
         return
     if "name" in words[5:]:
         notes.not_represented["route_name"] += 1
+    if words[5:] and not (len(words[5:]) == 2 and words[5] == "name"):
+        notes.not_represented["route_option"] += 1
     device["static_routes"].append({"prefix": str(prefix), "next_hop": str(next_hop)})
 
 
@@ -575,3 +621,14 @@ def parse_interfaces_trunk(text: str) -> dict[str, dict[str, Any]]:
             except ValueError:
                 continue
     return out
+
+
+def identify_platform(text: str) -> str:
+    """Identify OS family from show version; never infer IOSv/L2 capability from an SSH banner."""
+    if re.search(r"Cisco.*(?:NX-OS|Nexus Operating System)", text, re.I):
+        return "cisco_nxos"
+    if re.search(r"Cisco (?:IOS(?: XE)? Software|Internetwork Operating System)", text, re.I):
+        return "cisco_ios"
+    if re.search(r"JUNOS", text, re.I):
+        return "juniper_junos"
+    return "unknown"

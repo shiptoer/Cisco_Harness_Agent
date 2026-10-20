@@ -34,6 +34,7 @@ ALLOWED_COMMANDS: tuple[str, ...] = (
     "show ip interface brief",
     "show cdp neighbors detail",
     "show interfaces trunk",
+    "show version",
 )
 
 USER_ENV = "COLLECTOR_USER"
@@ -64,6 +65,7 @@ class InventoryDevice:
     site: str
     platform: str
     mgmt_interface: str
+    legacy_ssh: bool = False
 
 
 @dataclass(frozen=True)
@@ -90,12 +92,23 @@ def load_inventory(path: Path) -> Inventory:
                 site=str(d["site"]),
                 platform=str(d["platform"]),
                 mgmt_interface=str(d["mgmt_interface"]),
+                legacy_ssh=d.get("legacy_ssh", False),
             )
             for d in data["devices"]
         )
         inventory = Inventory(str(data["context_id"]), data.get("domain_name"), devices)
     except (OSError, ValueError, KeyError, TypeError) as exc:
-        raise CollectorError(f"inventory {path.name} không dùng được: {type(exc).__name__}: {exc}") from exc
+        raise CollectorError(f"inventory {path.name} không dùng được: {type(exc).__name__}") from None
+    if not _SAFE_NAME.fullmatch(inventory.context_id):
+        raise CollectorError("invalid inventory context_id")
+    for device in inventory.devices:
+        if (
+            not _SAFE_NAME.fullmatch(device.hostname)
+            or device.hostname in {".", ".."}
+            or device.platform not in {"ios", "iosv", "iosvl2"}
+            or type(device.legacy_ssh) is not bool
+        ):
+            raise CollectorError("invalid inventory device identity/platform/legacy_ssh")
     names = [d.hostname for d in inventory.devices]
     if not names or len(set(names)) != len(names) or len({d.host for d in inventory.devices}) != len(names):
         raise CollectorError(f"inventory {path.name}: rỗng, hoặc hostname / host bị trùng")
@@ -154,12 +167,13 @@ def save_outputs(directory: Path, outputs: dict[str, dict[str, str]]) -> int:
     (`parse.sanitize`). Trả về số dòng đã xoá."""
     removed = 0
     for hostname, by_command in outputs.items():
+        if not _SAFE_NAME.fullmatch(hostname) or hostname in {".", ".."}:
+            raise CollectorError("invalid output hostname")
         folder = directory / hostname
         folder.mkdir(parents=True, exist_ok=True)
         for command, text in by_command.items():
-            if command == "show running-config":
-                text, count = sanitize(text)
-                removed += count
+            text, count = sanitize(text)
+            removed += count
             (folder / command_file(command)).write_text(text, encoding="utf-8", newline="\n")
     return removed
 
@@ -215,7 +229,8 @@ def _connect(device: InventoryDevice, user: str, password: str) -> Any:
 
         def _connect_params_dict(self) -> dict[str, Any]:
             params = super()._connect_params_dict()
-            params["transport_factory"] = _lab_transport
+            if device.legacy_ssh:
+                params["transport_factory"] = _lab_transport
             return params
 
     return LabIosSSH(
@@ -225,10 +240,13 @@ def _connect(device: InventoryDevice, user: str, password: str) -> Any:
         device_type="cisco_ios",
         use_keys=False,
         allow_agent=False,
-        # Lab cô lập, thiết bị dựng lại sau mỗi lần Wipe nên host key đổi: không kiểm host key.
-        ssh_strict=False,
-        system_host_keys=False,
+        ssh_strict=True,
+        system_host_keys=True,
+        alt_host_keys=bool(os.environ.get("COLLECTOR_KNOWN_HOSTS")),
+        alt_key_file=os.environ.get("COLLECTOR_KNOWN_HOSTS", ""),
         conn_timeout=15,
+        auth_timeout=15,
+        banner_timeout=15,
         session_log=None,
     )
 

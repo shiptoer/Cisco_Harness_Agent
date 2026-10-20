@@ -3,6 +3,13 @@
 Ghi các thay đổi lớn theo đợt. Chi tiết và trạng thái từng quyết định: `DECISIONS.md`. Hướng dẫn sử dụng:
 `docs/HUONG_DAN_SU_DUNG.md` (bản Word: `docs/HUONG_DAN_SU_DUNG.docx`).
 
+## 2026-10-20 — hardening (đề xuất D-067)
+
+Sửa collector VLAN/trunk; bổ sung quan sát security, guard cho context thiếu ngữ nghĩa;
+command contract sau render, kiểm lại trước apply; SSH strict host key và legacy opt-in;
+discovery giới hạn và xác minh họ OS qua show version; missing required Batfish fail-closed.
+Chưa có Batfish backend hoặc kiểm nghiệm lab thật. Xem `docs/HARDENING_2026-10-20.md`.
+
 ## 2026-10-17 — bản hoàn thiện (nhánh feat/complete-2026-10-16)
 
 Nền: `master` tại `aa0ea49` (bản upload 15/10/2026 + sửa UI 16/10, U1–U4: nhận `localhost`, traceback lỗi 500 ra
